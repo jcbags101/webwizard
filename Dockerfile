@@ -22,10 +22,6 @@ RUN docker-php-ext-install gd pdo pdo_mysql sockets
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
 
 WORKDIR /var/www
 
@@ -33,8 +29,6 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . .
-
-RUN chown -R $uid:$uid /var/www
 
 # copy supervisor configuration
 COPY ./supervisord.conf /supervisord.conf
