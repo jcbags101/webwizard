@@ -1,41 +1,46 @@
-# Use the official PHP image with FPM
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-# Set working directory
-WORKDIR /var/www/html
+ARG user
+ARG uid
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    supervisor \
+    nginx \
+    build-essential \
+    openssl
 
-# Install Composer
+RUN docker-php-ext-install gd pdo pdo_mysql sockets
+
+# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
+WORKDIR /var/www
+
+# If you need to fix ssl
+COPY ./openssl.cnf /etc/ssl/openssl.cnf
+
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 COPY . .
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . .
+RUN chown -R $uid:$uid /var/www
 
-# Change current user to www
-USER www-data
+# copy supervisor configuration
+COPY ./supervisord.conf /supervisord.conf
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
-
-# Nginx setup
-FROM nginx:alpine
-COPY --from=0 /var/www/html /var/www/html
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# run supervisor
+CMD ["/usr/bin/supervisord", "-n", "-c", "/supervisord.conf"]
