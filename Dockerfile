@@ -1,4 +1,22 @@
-FROM richarvey/nginx-php-fpm:1.7.2
+FROM php:8.2-fpm
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    supervisor \
+    nginx \
+    build-essential \
+    openssl
+
+RUN docker-php-ext-install gd pdo pdo_mysql sockets
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
