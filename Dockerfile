@@ -1,38 +1,41 @@
-FROM php:8.2-fpm
+# Use the official PHP image with FPM
+FROM php:8.1-fpm
 
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
-    libonig-dev \
-    libxml2-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
     unzip \
-    supervisor \
-    nginx \
-    build-essential \
-    openssl
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
 
-RUN docker-php-ext-install gd pdo pdo_mysql sockets
-
-# Get latest Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Copy existing application directory contents
 COPY . .
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . .
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+# Change current user to www
+USER www-data
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
 
-CMD ["/start.sh"]
+# Nginx setup
+FROM nginx:alpine
+COPY --from=0 /var/www/html /var/www/html
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
