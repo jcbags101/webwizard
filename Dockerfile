@@ -33,5 +33,7 @@ COPY . .
 # copy supervisor configuration
 COPY ./supervisord.conf /supervisord.conf
 
+EXPOSE 80
+
 # run supervisor
 CMD ["/usr/bin/supervisord", "-n", "-c", "/supervisord.conf"]
