@@ -1,43 +1,3 @@
-# FROM php:8.2-fpm
-
-# ARG user
-# ARG uid
-
-# # Install system dependencies
-# RUN apt-get update && apt-get install -y \
-#     git \
-#     curl \
-#     libpng-dev \
-#     libonig-dev \
-#     libxml2-dev \
-#     zip \
-#     unzip \
-#     supervisor \
-#     nginx \
-#     build-essential \
-#     openssl
-
-# RUN docker-php-ext-install gd pdo pdo_mysql sockets
-
-# # Get latest Composer
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-
-# WORKDIR /var/www
-
-# COPY composer.json composer.lock ./
-# RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-# COPY . .
-
-# # copy supervisor configuration
-# COPY ./supervisord.conf /supervisord.conf
-
-# EXPOSE 80
-
-# # run supervisor
-# CMD ["/usr/bin/supervisord", "-n", "-c", "/supervisord.conf"]
-
 FROM php:8.2.7-fpm-alpine3.18
 
 LABEL maintainer="Ric Harvey <ric@squarecows.com>"
@@ -183,8 +143,12 @@ ADD scripts/letsencrypt-setup /usr/bin/letsencrypt-setup
 ADD scripts/letsencrypt-renew /usr/bin/letsencrypt-renew
 RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/letsencrypt-setup && chmod 755 /usr/bin/letsencrypt-renew && chmod 755 /start.sh
 
+# copy in code
+ADD src/ /var/www/html/
+ADD errors/ /var/www/errors
+
 
 EXPOSE 443 80
 
-WORKDIR "/var/www"
+WORKDIR "/var/www/html"
 CMD ["/start.sh"]
