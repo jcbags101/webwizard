@@ -9,6 +9,10 @@ ENV PHP_ERRORS_STDERR 1
 ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
 ENV GIT_EMAIL jude@symph.co
+ENV GIT_NAME Jude Bags
+ENV GIT_USERNAME jcbags101
+ENV GIT_REPO https://github.com/jcbags101/webwizard
+
 # Laravel config
 ENV APP_ENV production
 ENV APP_DEBUG false
