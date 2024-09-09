@@ -1,5 +1,7 @@
 FROM richarvey/nginx-php-fpm:latest
 
+RUN rm -rf /var/www/html/*
+
 COPY . .
 
 # Image config
