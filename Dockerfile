@@ -1,7 +1,5 @@
 FROM richarvey/nginx-php-fpm:latest
 
-RUN rm -rf /var/www/html/*
-
 COPY . .
 
 # Image config
@@ -10,9 +8,6 @@ ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
 ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
-ENV GIT_EMAIL jude@symph.co
-ENV GIT_NAME Jude Bags
-ENV GIT_USERNAME jcbags101
 
 # Laravel config
 ENV APP_ENV production
