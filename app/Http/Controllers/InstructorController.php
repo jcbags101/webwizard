@@ -42,6 +42,14 @@ class InstructorController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
+        \App\Models\User::create([
+            'name' => $instructor->full_name,
+            'email' => $instructor->email,
+            'username' => $instructor->username,
+            'password' => $instructor->password,
+            'role' => 'instructor',
+        ]);
+
         return redirect()->route('admin.instructors.create')->with('success', 'Instructor added successfully.');
     }
 
