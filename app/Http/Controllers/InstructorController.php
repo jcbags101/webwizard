@@ -7,17 +7,16 @@ use Illuminate\Http\Request;
 
 class InstructorController extends Controller
 {
-    //
     public function dashboard()
     {
-        return view('admin.instructor');
+        return view('instructor.dashboard');
     }
 
     public function index()
-   {
+    {
        $instructors = Instructor::all();
        return view('admin.instructor.index', compact('instructors'));
-   }
+    }
 
     public function create()
     {

@@ -913,7 +913,7 @@
                 @if (Route::has('login'))
                     <nav class="-mx-3 flex flex-1 justify-end">
                         @auth
-                            <a href="{{ url('/dashboard') }}"
+                            <a href="{{ auth()->user()->role == 'admin' ? url('/admin/dashboard') : url('/instructor/dashboard') }}"
                                 class="rounded-md px-3 py-2  ring-1 ring-transparent transition">
                                 Dashboard
                             </a>

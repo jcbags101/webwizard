@@ -18,6 +18,13 @@ class SchoolClassController extends Controller
         return view('admin.classes.index', compact('schoolClasses'));
     }
 
+    public function instructorClasses()
+    {
+        $instructorId = auth()->user()->id;
+        $schoolClasses = SchoolClass::where('instructor_id', $instructorId)->get();
+        return view('instructor.classes.index', compact('schoolClasses'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

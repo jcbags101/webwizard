@@ -14,10 +14,14 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle($request, Closure $next)
-{
-    if (auth()->user() && auth()->user()->role == 'admin') {
-        return $next($request);
+    {
+        if(auth()->user()) {
+            if (auth()->user() && auth()->user()->role == 'admin') {
+                return $next($request);
+            } else {
+                return redirect('/');
+            }
+        }
+        return redirect('/login');
     }
-    return redirect('/');
-}
 }
