@@ -4,6 +4,9 @@
             <a class="nav-link active" href="{{ route('admin.dashboard') }}">{{ __('Dashboard') }}</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.rates.index') }}">{{ __('Manage Grading Rates') }}</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.instructors.index') }}">{{ __('Manage Instructor') }}</a>
         </li>
         <li class="nav-item">

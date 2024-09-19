@@ -6,6 +6,7 @@ use App\Http\Controllers\InstructorController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\InstructorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\SubmittedRequirementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,11 +48,26 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/classes/{id}/edit', [App\Http\Controllers\SchoolClassController::class, 'edit'])->name('admin.classes.edit');
         Route::put('/admin/classes/{id}', [App\Http\Controllers\SchoolClassController::class, 'update'])->name('admin.classes.update');
         Route::delete('/admin/classes/{id}', [App\Http\Controllers\SchoolClassController::class, 'destroy'])->name('admin.classes.destroy');
+
+        Route::get('/admin/rates', [App\Http\Controllers\RateController::class, 'index'])->name('admin.rates.index');
+        Route::get('/admin/rates/create', [App\Http\Controllers\RateController::class, 'create'])->name('admin.rates.create');
+        Route::post('/admin/rates', [App\Http\Controllers\RateController::class, 'store'])->name('admin.rates.store');
+        Route::get('/admin/rates/{id}', [App\Http\Controllers\RateController::class, 'show'])->name('admin.rates.show');
+        Route::get('/admin/rates/{id}/edit', [App\Http\Controllers\RateController::class, 'edit'])->name('admin.rates.edit');
+        Route::put('/admin/rates/{id}', [App\Http\Controllers\RateController::class, 'update'])->name('admin.rates.update');
+        Route::delete('/admin/rates/{id}', [App\Http\Controllers\RateController::class, 'destroy'])->name('admin.rates.destroy');
     });
 
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {
         Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard')->middleware(RedirectIfAuthenticated::class);
         Route::get('/instructor/classes', [App\Http\Controllers\SchoolClassController::class, 'instructorClasses'])->name('instructor.classes.index');
+
+        Route::get('/instructor/requirements', [SubmittedRequirementController::class, 'index'])->name('instructor.requirements.index');
+        Route::get('/instructor/requirements/create', [SubmittedRequirementController::class, 'create'])->name('instructor.requirements.create');
+        Route::post('/instructor/requirements', [SubmittedRequirementController::class, 'store'])->name('instructor.requirements.store');
+        Route::get('/instructor/requirements/{id}/edit', [SubmittedRequirementController::class, 'edit'])->name('instructor.requirements.edit');
+        Route::put('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'update'])->name('instructor.requirements.update');
+        Route::delete('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'destroy'])->name('instructor.requirements.destroy');
     });
 });
 
