@@ -17,6 +17,8 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
+ENV DOMAIN localhost
+
 # Expose HTTP port
 EXPOSE 9191
 
