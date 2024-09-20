@@ -19,7 +19,7 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-ENV DOMAIN https://webwizard-e45c.onrender.com
+ENV DOMAIN webwizard-e45c.onrender.com
 
 # Expose HTTP port
 EXPOSE 9191
