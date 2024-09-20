@@ -3,7 +3,9 @@
 @section('admin-content')
     <div class="container">
         <h1>All Rates</h1>
-        <a href="{{ route('admin.rates.create') }}" class="btn btn-success mb-3">Create Rate</a>
+        <div class="text-end">
+            <a href="{{ route('admin.rates.create') }}" class="btn btn-success mb-3">Create Rate</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>

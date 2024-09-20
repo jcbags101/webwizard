@@ -3,7 +3,9 @@
 @section('admin-content')
     <div class="container">
         <h1>All Instructors</h1>
-        <a href="{{ route('admin.instructors.create') }}" class="btn btn-success mb-3">Create Instructor</a>
+        <div class="text-end">
+            <a href="{{ route('admin.instructors.create') }}" class="btn btn-success mb-3">Create Instructor</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>

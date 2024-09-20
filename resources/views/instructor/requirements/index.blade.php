@@ -3,8 +3,10 @@
 @section('instructor-content')
     <div class="container">
         <h1>All Submitted Requirements</h1>
-        <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit
+        <div class="text-end">
+            <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit
             Requirement</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>

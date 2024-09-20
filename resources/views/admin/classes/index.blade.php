@@ -3,7 +3,9 @@
 @section('admin-content')
     <div class="container">
         <h1>All Classes</h1>
-        <a href="{{ route('admin.classes.create') }}" class="btn btn-success mb-3">Create Class</a>
+        <div class="text-end">
+            <a href="{{ route('admin.classes.create') }}" class="btn btn-success mb-3">Create Class</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
