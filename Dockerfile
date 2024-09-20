@@ -10,7 +10,7 @@ ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
 ENV GIT_EMAIL jude@symph.co
 ENV GIT_NAME Jude Bags
-ENV GIT_REPO github.com/jcbags101/webwizard.git
+# ENV GIT_REPO github.com/jcbags101/webwizard.git
 
 # Laravel config
 ENV APP_ENV production
