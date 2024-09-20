@@ -12,7 +12,7 @@
                     <th>Email</th>
                     <th>Position</th>
                     <th>Department</th>
-                    <th>Username</th>
+                    {{-- <th>Username</th> --}}
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -24,7 +24,7 @@
                         <td>{{ $instructor->email }}</td>
                         <td>{{ $instructor->position }}</td>
                         <td>{{ $instructor->department }}</td>
-                        <td>{{ $instructor->username }}</td>
+                        {{-- <td>{{ $instructor->username +}}</td> --}}
                         <td>
                             <a href="{{ route('instructors.edit', $instructor->id) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('instructors.destroy', $instructor->id) }}" method="POST"

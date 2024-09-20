@@ -4,14 +4,17 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+            <div class="card shadow-lg p-4 mb-5 bg-white rounded">
+                <div class="card-header bg-gradient-primary text-white text-center">
+                    <img src="{{ asset('images/ctu_logo.png') }}" alt="CTU Logo" class="mb-3" style="max-width: 100px;">
+                    <h3>{{ __('Login') }}</h3>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
+                        <div class="form-group row mb-4">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
@@ -25,7 +28,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="form-group row mb-4">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
@@ -39,7 +42,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="form-group row mb-4">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -51,9 +54,9 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
+                        <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary btn-lg">
                                     {{ __('Login') }}
                                 </button>
 
@@ -70,4 +73,39 @@
         </div>
     </div>
 </div>
+
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+        }
+        .form-control {
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-link {
+            font-size: 1rem;
+            color: #007bff;
+        }
+        .btn-link:hover {
+            color: #0056b3;
+        }
+
+        label {
+            font-family: 'Nunito', sans-serif; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            color: #495057; 
+        }
+    </style>
 @endsection

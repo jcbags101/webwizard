@@ -899,6 +899,45 @@
                 --tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity))
             }
         }
+
+        body {
+        font-family: 'Nunito', sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+    }
+
+    main {
+        padding: 0px 20px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    main h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    main p {
+        font-size: 1.25rem;
+    }
+
+    main img {
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+        background-color: #0056b3;
+        color: #fff;
+        text-align: center;
+        width: 100vw
+    }
+
+    footer p {
+        margin: 0;
+    }
     </style>
 </head>
 
@@ -906,12 +945,12 @@
     <div class="flex items-start justify-center selection:bg-[#FF2D20] selection:text-white min-h-screen">
         <div class="flex flex-col items-center justify-between w-full max-w-2xl px-6 lg:max-w-7xl min-h-screen"
             style="justify-content: space-between;">
-            <header class="grid grid-cols-2 items-center  gap-2 py-10 lg:grid-cols-3 w-full">
-                <div class="flex lg:justify-center lg:col-start-2">
+            <header class="grid grid-cols-2 items-center py-10 lg:grid-cols-2 w-full mb-4">
+                <div class="flex lg:justify-start mx-3 lg:col-start-1">
                     <h2 class="text-xl font-semibold">WebWizard</h2>
                 </div>
                 @if (Route::has('login'))
-                    <nav class="-mx-3 flex flex-1 justify-end">
+                    <nav class="-mx-3 flex flex-1 justify-end lg:col-start-3" >
                         @auth
                             <a href="{{ auth()->user()->role == 'admin' ? url('/admin/dashboard') : url('/instructor/dashboard') }}"
                                 class="rounded-md px-3 py-2  ring-1 ring-transparent transition">
@@ -922,19 +961,23 @@
                                 Log in
                             </a>
 
-                            @if (Route::has('register'))
+                            {{-- @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
                                     class="rounded-md px-3 py-2  ring-1 ring-transparent transition">
                                     Register
                                 </a>
-                            @endif
+                            @endif --}}
                         @endauth
                     </nav>
                 @endif
             </header>
 
             <main class="mt-6 h-[2000px]">
-                <h1 class="text-center text-xl font-bold">Welcome to WebWizard!</h1>
+                <h1 class="text-center">Welcome to the School Portal</h1>
+                <p class="text-center text-md mt-2">Your gateway to managing classes and requirements.</p>
+                <div class="flex justify-center mt-4">
+                    <img src="{{ asset('images/ctu_logo.png') }}" alt="CTU Logo" class="h-24 w-auto">
+                </div>
             </main>
 
             <footer class="py-16 text-center text-sm ">
