@@ -18,7 +18,7 @@
 # ENV LOG_CHANNEL stderr
 
 # # Allow composer to run as root
-# ENV COMPOSER_ALLOW_SUPERUSER 1
+# ENV COMPOSER_ALLOW_SUPERUSER 1\
 
 # ENV DOMAIN webwizard-e45c.onrender.com
 
@@ -28,7 +28,7 @@
 # CMD ["/start.sh"]
 
 
-FROM richarvey/nginx-php-fpm:1.7.2
+FROM richarvey/nginx-php-fpm:3.0.0
 COPY . .
 # Image config
 ENV SKIP_COMPOSER 1
