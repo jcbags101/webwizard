@@ -1,4 +1,4 @@
-# FROM richarvey/nginx-php-fpm:latest
+FROM richarvey/nginx-php-fpm:latest
 
 # COPY . .
 
@@ -28,7 +28,7 @@
 # CMD ["/start.sh"]
 
 
-FROM richarvey/nginx-php-fpm:3.0.0
+# FROM richarvey/nginx-php-fpm:3.0.0
 COPY . .
 # Image config
 ENV SKIP_COMPOSER 1
