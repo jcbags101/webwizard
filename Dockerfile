@@ -9,6 +9,7 @@ ENV PHP_ERRORS_STDERR 1
 ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
 ENV GIT_EMAIL jude@symph.co
+ENV GIT_NAME Jude Bags
 
 # Laravel config
 ENV APP_ENV production
@@ -18,7 +19,7 @@ ENV LOG_CHANNEL stderr
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-ENV DOMAIN localhost
+ENV DOMAIN https://webwizard-e45c.onrender.com
 
 # Expose HTTP port
 EXPOSE 9191
