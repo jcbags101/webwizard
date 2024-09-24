@@ -18,13 +18,15 @@ class RedirectIfAuthenticated
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $adminDashboard = route('admin.dashboard');
-            $instructorDashboard = route('instructor.dashboard');
+            $currentRouteName = $request->route()->getName(); // Get the current route name
 
-            if ($user->role == 'admin' && $request->url() !== $adminDashboard) {
-                return redirect($adminDashboard);
-            } elseif ($user->role == 'instructor' && $request->url() !== $instructorDashboard) {
-                return redirect($instructorDashboard);
+            $adminDashboard = 'admin.dashboard';
+            $instructorDashboard = 'instructor.dashboard';
+
+            if ($user->role == 'admin' && $currentRouteName !== $adminDashboard) {
+                return redirect()->route($adminDashboard);
+            } elseif ($user->role == 'instructor' && $currentRouteName !== $instructorDashboard) {
+                return redirect()->route($instructorDashboard);
             }
         }
 
