@@ -44,9 +44,4 @@
         </li>
         <!-- Add more sidebar items here -->
     </ul>
-    <div class="sidebar-footer">
-        <a class="nav-link" href="{{ route('logout') }}">
-            <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
-        </a>
-    </div>
 </div>
