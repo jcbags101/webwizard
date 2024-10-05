@@ -76,9 +76,12 @@ class SchoolClassController extends Controller
      * @param  \App\Models\SchoolClass  $schoolClass
      * @return \Illuminate\Http\Response
      */
-    public function edit(SchoolClass $schoolClass)
+    public function edit(string $id)
     {
-        return view('admin.classes.edit', compact('schoolClass'));
+        $schoolClass = SchoolClass::findOrFail($id);
+        $subjects = \App\Models\Subject::all();
+        $instructors = \App\Models\Instructor::all();
+        return view('admin.classes.update', compact('schoolClass', 'subjects', 'instructors'));
     }
 
     /**
@@ -88,16 +91,17 @@ class SchoolClassController extends Controller
      * @param  \App\Models\SchoolClass  $schoolClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SchoolClass $schoolClass)
+    public function update(Request $request, string $id)
     {
-        $request->validate([
+        $schoolClass = SchoolClass::findOrFail($id);
+        $validatedData = $request->validate([
             'section' => 'required|string|max:255',
             'schedule' => 'required|string|max:255',
             'subject_id' => 'required|exists:subjects,id',
             'instructor_id' => 'required|exists:instructors,id',
         ]);
 
-        $schoolClass->update($request->all());
+        $schoolClass->update($validatedData);
 
         return redirect()->route('admin.classes.index')
                          ->with('success', 'SchoolClass updated successfully.');

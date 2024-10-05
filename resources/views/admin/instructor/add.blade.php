@@ -49,8 +49,11 @@
 
                 <div class="form-group">
                     <label for="department">{{ __('Department') }}</label>
-                    <input id="department" type="text" class="form-control @error('department') is-invalid @enderror"
-                        name="department" value="{{ old('department') }}" required>
+                    <select id="department" class="form-control @error('department') is-invalid @enderror" name="department" required>
+                        <option value="">{{ __('Select Department') }}</option>
+                        <option value="Education" {{ old('department') == 'Education' ? 'selected' : '' }}>{{ __('Education') }}</option>
+                        <option value="Technology" {{ old('department') == 'Technology' ? 'selected' : '' }}>{{ __('Technology') }}</option>
+                    </select>
                     @error('department')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

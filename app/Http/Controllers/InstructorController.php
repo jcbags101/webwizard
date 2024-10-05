@@ -86,7 +86,12 @@ class InstructorController extends Controller
     {
         $instructor = Instructor::findOrFail($id);
         $instructor->delete();
+
+        $user = \App\Models\User::where('email', $instructor->email)->first();
+        if ($user) {
+            $user->delete();
+        }
  
-        return redirect()->route('instructors.index')->with('success', 'Instructor deleted successfully.');
+        return redirect()->route('admin.instructors.index')->with('success', 'Instructor deleted successfully.');
     }
 }

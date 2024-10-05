@@ -40,32 +40,28 @@ class SubjectController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'position' => 'required|string|max:255',
-            'department' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'code' => 'required|string|max:50',
+            'units' => 'required|integer|min:1',
         ]);
  
-        $instructor = Instructor::findOrFail($id);
-        $instructor->update([
-            'full_name' => $request->input('full_name'),
-            'email' => $request->input('email'),
-            'position' => $request->input('position'),
-            'department' => $request->input('department'),
-            'username' => $request->input('username'),
-            'password' => $request->input('password') ? bcrypt($request->input('password')) : $instructor->password,
+        $subject = Subject::findOrFail($id);
+        $subject->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'code' => $request->input('code'),
+            'units' => $request->input('units'),
         ]);
  
-        return redirect()->route('admin.instructors.index')->with('success', 'Instructor updated successfully.');
+        return redirect()->route('admin.subjects.index')->with('success', 'Subject updated successfully.');
     }
  
     public function destroy($id)
     {
-        $instructor = Instructor::findOrFail($id);
-        $instructor->delete();
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
  
-        return redirect()->route('instructors.index')->with('success', 'Instructor deleted successfully.');
+        return redirect()->route('admin.subjects.index')->with('success', 'Subject deleted successfully.');
     }
 }

@@ -26,8 +26,10 @@
                    </div>
                    <div class="form-group">
                        <label for="department">Department</label>
-                       <input type="text" name="department" id="department" class="form-control"
-                           value="{{ $instructor->department }}" required>
+                       <select name="department" id="department" class="form-control" required>
+                           <option value="Education" {{ $instructor->department == 'Education' ? 'selected' : '' }}>Education</option>
+                           <option value="Technology" {{ $instructor->department == 'Technology' ? 'selected' : '' }}>Technology</option>
+                       </select>
                    </div>
                    <div class="form-group">
                        <label for="username">Username</label>

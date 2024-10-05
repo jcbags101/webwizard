@@ -59,7 +59,7 @@ class RequirementController extends Controller
     public function edit(string $id)
     {
         $requirement = Requirement::findOrFail($id);
-        return view('admin.requirements.edit', compact('requirement'));
+        return view('admin.requirements.update', compact('requirement'));
     }
 
     /**
