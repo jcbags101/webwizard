@@ -25,8 +25,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.classes.index') ? 'active' : '' }}"
-                href="{{ route('admin.classes.index') }}">
+            <a class="nav-link {{ request()->routeIs('instructor.grades.index') ? 'active' : '' }}"
+                href="{{ route('instructor.grades.index') }}">
                 <i class="fas fa-graduation-cap"></i> {{ __('Grades') }}
             </a>
         </li>

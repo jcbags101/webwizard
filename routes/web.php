@@ -9,6 +9,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\SubmittedRequirementController;
 use App\Http\Controllers\AdminSubmittedRequirementController;
 use App\Http\Controllers\ClassRecordController;
+use App\Http\Controllers\GradeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/requirements/{id}/edit', [SubmittedRequirementController::class, 'edit'])->name('instructor.requirements.edit');
         Route::put('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'update'])->name('instructor.requirements.update');
         Route::delete('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'destroy'])->name('instructor.requirements.destroy');
+
+        Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
     });
 });
 
