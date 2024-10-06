@@ -13,8 +13,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.subjects.index') ? 'active' : '' }}"
-                href="{{ route('admin.subjects.index') }}">
+            <a class="nav-link {{ request()->routeIs('instructor.class_records.index') ? 'active' : '' }}"
+                href="{{ route('instructor.class_records.index') }}">
                 <i class="fas fa-book"></i> {{ __('Class Record') }}
             </a>
         </li>

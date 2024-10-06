@@ -8,6 +8,7 @@ use App\Http\Middleware\InstructorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\SubmittedRequirementController;
 use App\Http\Controllers\AdminSubmittedRequirementController;
+use App\Http\Controllers\ClassRecordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -67,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard')->middleware(RedirectIfAuthenticated::class);
         Route::get('/instructor/classes', [App\Http\Controllers\SchoolClassController::class, 'instructorClasses'])->name('instructor.classes.index');
 
+        Route::get('/instructor/class-records', [ClassRecordController::class, 'index'])->name('instructor.class_records.index');
+
         Route::get('/instructor/requirements', [SubmittedRequirementController::class, 'index'])->name('instructor.requirements.index');
         Route::get('/instructor/requirements/create', [SubmittedRequirementController::class, 'create'])->name('instructor.requirements.create');
         Route::post('/instructor/requirements', [SubmittedRequirementController::class, 'store'])->name('instructor.requirements.store');
@@ -79,4 +82,7 @@ Route::middleware(['auth'])->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/import-class-records', [ClassRecordController::class, 'import'])->name('class-records.import');
+
 
