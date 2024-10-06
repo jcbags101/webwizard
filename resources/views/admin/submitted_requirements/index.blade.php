@@ -1,12 +1,8 @@
-@extends('instructor.layout')
+@extends('admin.layout')
 
-@section('instructor-content')
+@section('admin-content')
     <div class="container">
         <h1>All Submitted Requirements</h1>
-        <div class="text-end">
-            <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit
-            Requirement</a>
-        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -37,9 +33,16 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
-                                class="btn btn-primary">Edit</a>
-                            <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
+                            <form action="{{ route('admin.submitted_requirements.update', $submittedRequirement->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('PUT')
+                                <select name="status" class="form-select" onchange="this.form.submit()">
+                                    <option value="pending" {{ $submittedRequirement->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="accepted" {{ $submittedRequirement->status === 'accepted' ? 'selected' : '' }}>Accepted</option>
+                                    <option value="rejected" {{ $submittedRequirement->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                            </form>
+                            <form action="{{ route('admin.submitted_requirements.destroy', $submittedRequirement->id) }}"
                                 method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')

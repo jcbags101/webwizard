@@ -16,7 +16,8 @@ class SubmittedRequirementController extends Controller
 
     public function index()
     {
-       $requirements = SubmittedRequirement::all();
+       $instructor = \App\Models\Instructor::where('email', auth()->user()->email)->first();
+       $requirements = SubmittedRequirement::where('instructor_id', $instructor->id)->get();
        return view('instructor.requirements.index', compact('requirements'));
     }
     

@@ -36,6 +36,12 @@
                 <i class="fas fa-chalkboard"></i> {{ __('Manage Classes') }}
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.submitted_requirements.index') ? 'active' : '' }}"
+                href="{{ route('admin.submitted_requirements.index') }}">
+                <i class="fas fa-file-alt"></i> {{ __('Manage Submitted Requirements') }}
+            </a>
+        </li>
         <!-- Add more sidebar items here -->
     </ul>
 </div>

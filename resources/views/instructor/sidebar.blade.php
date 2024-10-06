@@ -27,19 +27,7 @@
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.classes.index') ? 'active' : '' }}"
                 href="{{ route('admin.classes.index') }}">
-                <i class="fas fa-file-alt"></i> {{ __('Submissions') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.classes.index') ? 'active' : '' }}"
-                href="{{ route('admin.classes.index') }}">
                 <i class="fas fa-graduation-cap"></i> {{ __('Grades') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.classes.index') ? 'active' : '' }}"
-                href="{{ route('admin.classes.index') }}">
-                <i class="fas fa-upload"></i> {{ __('Uploaded Files') }}
             </a>
         </li>
         <!-- Add more sidebar items here -->

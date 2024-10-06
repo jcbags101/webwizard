@@ -7,6 +7,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\InstructorMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\SubmittedRequirementController;
+use App\Http\Controllers\AdminSubmittedRequirementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/requirements/{id}/edit', [App\Http\Controllers\RequirementController::class, 'edit'])->name('admin.requirements.edit');
         Route::put('/admin/requirements/{id}', [App\Http\Controllers\RequirementController::class, 'update'])->name('admin.requirements.update');
         Route::delete('/admin/requirements/{id}', [App\Http\Controllers\RequirementController::class, 'destroy'])->name('admin.requirements.destroy');
+
+        Route::get('/admin/submitted_requirements', [AdminSubmittedRequirementController::class, 'index'])->name('admin.submitted_requirements.index');
+        Route::put('/admin/submitted_requirements/{id}', [AdminSubmittedRequirementController::class, 'update'])->name('admin.submitted_requirements.update');
+        Route::delete('/admin/submitted_requirements/{id}', [AdminSubmittedRequirementController::class, 'destroy'])->name('admin.submitted_requirements.destroy');
 
         Route::get('/admin/classes', [App\Http\Controllers\SchoolClassController::class, 'index'])->name('admin.classes.index');
         Route::get('/admin/classes/create', [App\Http\Controllers\SchoolClassController::class, 'create'])->name('admin.classes.create');
