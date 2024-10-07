@@ -114,8 +114,9 @@ class SchoolClassController extends Controller
      * @param  \App\Models\SchoolClass  $schoolClass
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SchoolClass $schoolClass)
+    public function destroy(string $id)
     {
+        $schoolClass = SchoolClass::findOrFail($id);
         $schoolClass->delete();
 
         return redirect()->route('admin.classes.index')
