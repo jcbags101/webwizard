@@ -9,11 +9,29 @@
             <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+                
+                <div class="form-group">
+                    <label for="requirement_id">{{ __('Requirement') }}</label>
+                    <select id="requirement_id" class="form-control @error('requirement_id') is-invalid @enderror" name="requirement_id" required>
+                        <option value="">{{ __('Select Requirement') }}</option>
+                        @foreach ($requirements as $requirement)
+                            <option value="{{ $requirement->id }}" {{ $submittedRequirement->requirement_id == $requirement->id ? 'selected' : '' }}>
+                                {{ $requirement->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('requirement_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 <div class="form-group">
                     <label for="file">{{ __('File') }}</label>
                     <div class="custom-file">
                         <input id="file" type="file" class="custom-file-input @error('file') is-invalid @enderror"
-                            name="file" required>
+                            name="file">
                         <label class="custom-file-label" for="file">{{ $submittedRequirement->file ? basename($submittedRequirement->file) : __('Choose file') }}</label>
                     </div>
                     @error('file')
@@ -24,23 +42,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="status">{{ __('Status') }}</label>
-                    <select id="status" class="form-control @error('status') is-invalid @enderror" name="status" required>
-                        <option value="pending" {{ $submittedRequirement->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="accepted" {{ $submittedRequirement->status === 'accepted' ? 'selected' : '' }}>Accepted</option>
-                        <option value="rejected" {{ $submittedRequirement->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    <label for="class_id">{{ __('Class') }}</label>
+                    <select id="class_id" class="form-control @error('class_id') is-invalid @enderror" name="class_id" required>
+                        <option value="">{{ __('Select Class') }}</option>
+                        @foreach ($classes as $class)
+                            <option value="{{ $class->id }}" {{ $submittedRequirement->class_id == $class->id ? 'selected' : '' }}>
+                                {{ $class->section }}
+                            </option>
+                        @endforeach
                     </select>
-                    @error('status')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="remarks">{{ __('Remarks') }}</label>
-                    <textarea id="remarks" class="form-control @error('remarks') is-invalid @enderror" name="remarks">{{ $submittedRequirement->remarks }}</textarea>
-                    @error('remarks')
+                    @error('class_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

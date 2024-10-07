@@ -60,23 +60,22 @@ class SubmittedRequirementController extends Controller
     public function edit($id)
     {
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
-        return view('instructor.requirements.update', compact('submittedRequirement'));
+        $requirements = Requirement::all();
+        $classes = SchoolClass::all();
+        return view('instructor.requirements.update', compact('submittedRequirement', 'requirements', 'classes'));
     }
  
     public function update(Request $request, $id)
     {
         $request->validate([
             'requirement_id' => 'required|exists:requirements,id',
-            'file' => 'required|string|max:255',
-            'instructor_id' => 'required|exists:instructors,id',
             'class_id' => 'required|exists:classes,id',
         ]);
  
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
         $submittedRequirement->update([
             'requirement_id' => $request->input('requirement_id'),
-            'file' => $request->input('file'),
-            'instructor_id' => $request->input('instructor_id'),
+            'file' => $request->input('file') ?? $submittedRequirement->file,
             'class_id' => $request->input('class_id'),
         ]);
  
