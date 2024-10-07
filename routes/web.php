@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/submitted_requirements', [AdminSubmittedRequirementController::class, 'index'])->name('admin.submitted_requirements.index');
         Route::put('/admin/submitted_requirements/{id}', [AdminSubmittedRequirementController::class, 'update'])->name('admin.submitted_requirements.update');
         Route::delete('/admin/submitted_requirements/{id}', [AdminSubmittedRequirementController::class, 'destroy'])->name('admin.submitted_requirements.destroy');
+        Route::get('/admin/submitted_requirements/{id}/edit', [AdminSubmittedRequirementController::class, 'edit'])->name('admin.submitted_requirements.edit');
 
         Route::get('/admin/classes', [App\Http\Controllers\SchoolClassController::class, 'index'])->name('admin.classes.index');
         Route::get('/admin/classes/create', [App\Http\Controllers\SchoolClassController::class, 'create'])->name('admin.classes.create');

@@ -11,6 +11,7 @@
                     <th>File</th>
                     <th>Class</th>
                     <th>Status</th>
+                    <th>Remarks</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -32,16 +33,9 @@
                                 <span class="badge bg-secondary">Unknown</span>
                             @endif
                         </td>
+                        <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
                         <td>
-                            <form action="{{ route('admin.submitted_requirements.update', $submittedRequirement->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('PUT')
-                                <select name="status" class="form-select" onchange="this.form.submit()">
-                                    <option value="pending" {{ $submittedRequirement->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="accepted" {{ $submittedRequirement->status === 'accepted' ? 'selected' : '' }}>Accepted</option>
-                                    <option value="rejected" {{ $submittedRequirement->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
-                                </select>
-                            </form>
+                            <a href="{{ route('admin.submitted_requirements.edit', $submittedRequirement->id) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('admin.submitted_requirements.destroy', $submittedRequirement->id) }}"
                                 method="POST" style="display:inline-block;">
                                 @csrf

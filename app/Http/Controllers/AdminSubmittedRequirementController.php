@@ -19,21 +19,31 @@ class AdminSubmittedRequirementController extends Controller
        $requirements = SubmittedRequirement::all();
        return view('admin.submitted_requirements.index', compact('requirements'));
     }
+
+    public function edit(string $id)
+    {
+        $submittedRequirement = SubmittedRequirement::findOrFail($id);
+        $requirements = Requirement::all();
+        $schoolClasses = SchoolClass::all();
+        return view('admin.submitted_requirements.update', compact('submittedRequirement', 'requirements', 'schoolClasses'));
+    }
  
     public function update(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|string|in:pending,accepted,rejected',
+            'remarks' => 'nullable|string|max:255',
         ]);
  
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
         $submittedRequirement->update([
             'status' => $request->input('status'),
+            'remarks' => $request->input('remarks'),
         ]);
  
-        return redirect()->route('admin.submitted_requirements.index')->with('success', 'Submitted Requirement status updated successfully.');
+        return redirect()->route('admin.submitted_requirements.index')->with('success', 'Submitted Requirement status and remarks updated successfully.');
     }
-
+.
     public function destroy($id)
     {
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
