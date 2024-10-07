@@ -15,6 +15,7 @@
                     <th>File</th>
                     <th>Class</th>
                     <th>Status</th>
+                    <th>Remarks</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                                 <span class="badge bg-secondary">Unknown</span>
                             @endif
                         </td>
+                        <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
                         <td>
                             <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
                                 class="btn btn-primary">Edit</a>

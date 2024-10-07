@@ -43,7 +43,7 @@ class AdminSubmittedRequirementController extends Controller
  
         return redirect()->route('admin.submitted_requirements.index')->with('success', 'Submitted Requirement status and remarks updated successfully.');
     }
-.
+
     public function destroy($id)
     {
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
