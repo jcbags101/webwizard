@@ -20,7 +20,8 @@ class SchoolClassController extends Controller
 
     public function instructorClasses()
     {
-        $instructorId = auth()->user()->id;
+        $userEmail = auth()->user()->email;
+        $instructorId = \App\Models\Instructor::where('email', $userEmail)->value('id');
         $schoolClasses = SchoolClass::where('instructor_id', $instructorId)->get();
         return view('instructor.classes.index', compact('schoolClasses'));
     }
