@@ -64,6 +64,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/rates/{id}/edit', [App\Http\Controllers\RateController::class, 'edit'])->name('admin.rates.edit');
         Route::put('/admin/rates/{id}', [App\Http\Controllers\RateController::class, 'update'])->name('admin.rates.update');
         Route::delete('/admin/rates/{id}', [App\Http\Controllers\RateController::class, 'destroy'])->name('admin.rates.destroy');
+
+        Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/admin/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('admin.users.create');
+        Route::post('/admin/users', [App\Http\Controllers\UserController::class, 'store'])->name('admin.users.store');
+        Route::get('/admin/users/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
+        Route::put('/admin/users/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('/admin/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
     });
 
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {
