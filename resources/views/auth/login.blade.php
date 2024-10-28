@@ -83,8 +83,8 @@
             padding: 1rem;
         }
         .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #F9A602;
+            border-color: #F9A602;
             padding: 0.75rem 1.5rem;
             font-size: 1.25rem;
             border-radius: 0.5rem;
@@ -95,7 +95,7 @@
         }
         .btn-link {
             font-size: 1rem;
-            color: #007bff;
+            color: #F9A602;
         }
         .btn-link:hover {
             color: #0056b3;

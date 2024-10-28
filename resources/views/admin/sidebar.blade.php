@@ -71,10 +71,10 @@
 
 <style>
     .sidebar {
-        /* background-color: #f8f9fa; */
+        background-color: rgba(255, 255, 255, 0.8);
         color: #343a40;
         padding: 15px;
-        height: 100vh;
+        height: auto;
     }
 
     .sidebar-header {
@@ -83,19 +83,19 @@
     }
 
     .nav-link {
-        color: #495057;
+        color: black;
         margin: 5px 0;
     }
 
     .nav-link.active {
         color: #fff;
-        background-color: #007bff;
+        background-color: #F9A602;
         border-radius: 5px;
     }
 
     .nav-link:hover {
         color: #fff;
-        background-color: #007bff;
+        background-color: #F9A602;
         border-radius: 5px;
     }
 

@@ -929,7 +929,7 @@
     }
 
     footer {
-        background-color: #0056b3;
+        background-color: #F9A602;
         color: #fff;
         text-align: center;
         width: 100vw

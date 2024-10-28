@@ -60,8 +60,8 @@
         }
         .btn-primary {
             color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
+            background-color: #F9A602;
+            border-color: #F9A602;
         }
         .btn-primary:hover {
             color: #fff;
@@ -119,13 +119,13 @@
 
         .nav-link.active {
             color: #fff;
-            background-color: #007bff;
+            background-color: #F9A602;
             border-radius: 5px;
         }
 
         .nav-link:hover {
             color: #fff;
-            background-color: #007bff;
+            background-color: #F9A602;
             border-radius: 5px;
         }
 
@@ -150,15 +150,20 @@
             min-height: 100vh;
             margin: 0;
         }
+
+        nav {
+            background-color: #F9A602;
+        }
     </style>
 
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="background-color: #F9A602!important;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
+                    <img src="{{ asset('images/ctu_logo.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="m-2">
                     WebWizard
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
