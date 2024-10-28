@@ -100,7 +100,7 @@
         }
 
         .sidebar {
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
             color: #343a40;
             padding: 15px;
             height: 100vh;
@@ -139,6 +139,17 @@
         /* Advanced H1 Styles */
         h1 { font-size: 1.2rem; line-height: 1.2; color: #1a1a1a; margin-bottom: 0.5rem; font-family: 'Roboto', sans-serif; text-transform: uppercase; letter-spacing: 0.05rem; text-align: left; }
 
+  
+        body {
+            background-image: url('{{ asset('images/nagacampus.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.5);
+            background-blend-mode: lighten;
+            min-height: 100vh;
+            margin: 0;
+        }
     </style>
 
 </head>

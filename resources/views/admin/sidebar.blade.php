@@ -71,7 +71,7 @@
 
 <style>
     .sidebar {
-        background-color: #f8f9fa;
+        /* background-color: #f8f9fa; */
         color: #343a40;
         padding: 15px;
         height: 100vh;

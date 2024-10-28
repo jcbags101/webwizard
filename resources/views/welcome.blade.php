@@ -938,6 +938,16 @@
     footer p {
         margin: 0;
     }
+
+          /* Background Image */
+    body {
+        background-image: url('{{ asset('images/nagacampus.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: rgba(255, 255, 255, 0.5);
+        background-blend-mode: lighten;
+    }
     </style>
 </head>
 
