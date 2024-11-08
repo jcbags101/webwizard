@@ -36,7 +36,8 @@ class SchoolClassController extends Controller
         
         $subjects = \App\Models\Subject::all();
         $instructors = \App\Models\Instructor::all();
-        return view('admin.classes.add', compact('subjects', 'instructors'));
+        $sections = \App\Models\Section::all();
+        return view('admin.classes.add', compact('subjects', 'instructors', 'sections'));
     }
 
     /**
@@ -82,7 +83,8 @@ class SchoolClassController extends Controller
         $schoolClass = SchoolClass::findOrFail($id);
         $subjects = \App\Models\Subject::all();
         $instructors = \App\Models\Instructor::all();
-        return view('admin.classes.update', compact('schoolClass', 'subjects', 'instructors'));
+        $sections = \App\Models\Section::all();
+        return view('admin.classes.update', compact('schoolClass', 'subjects', 'instructors', 'sections'));
     }
 
     /**

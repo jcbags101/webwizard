@@ -71,6 +71,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/users/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
         Route::put('/admin/users/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
         Route::delete('/admin/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('admin.users.destroy');
+
+        Route::get('/admin/sections', [App\Http\Controllers\SectionController::class, 'index'])->name('admin.sections.index');
+        Route::get('/admin/sections/create', [App\Http\Controllers\SectionController::class, 'create'])->name('admin.sections.create');
+        Route::post('/admin/sections', [App\Http\Controllers\SectionController::class, 'store'])->name('admin.sections.store');
+        Route::get('/admin/sections/{id}/edit', [App\Http\Controllers\SectionController::class, 'edit'])->name('admin.sections.edit');
+        Route::put('/admin/sections/{id}', [App\Http\Controllers\SectionController::class, 'update'])->name('admin.sections.update');
+        Route::delete('/admin/sections/{id}', [App\Http\Controllers\SectionController::class, 'destroy'])->name('admin.sections.destroy');
+        Route::get('/admin/sections/{id}/students', [App\Http\Controllers\SectionController::class, 'showStudents'])->name('admin.sections.showStudents');
+        Route::delete('/admin/sections/{sectionId}/students/{studentId}', [App\Http\Controllers\SectionController::class, 'removeStudent'])->name('admin.sections.removeStudent');
+
     });
 
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {

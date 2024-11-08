@@ -65,6 +65,14 @@
                 </a>
             @endif
         </li>
+        <li class="nav-item">
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'MIS')
+                <a class="nav-link {{ request()->routeIs('admin.sections.index') ? 'active' : '' }}"
+                    href="{{ route('admin.sections.index') }}">
+                    <i class="fas fa-school"></i> {{ __('Manage Sections') }}
+                </a>
+            @endif
+        </li>
         <!-- Add more sidebar items here -->
     </ul>
 </div>

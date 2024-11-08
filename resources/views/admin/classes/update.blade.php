@@ -11,9 +11,15 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="section">{{ __('Section') }}</label>
-                    <input id="section" type="text" class="form-control @error('section') is-invalid @enderror"
-                        name="section" value="{{ $schoolClass->section }}" required autofocus>
-                    @error('section')
+                    <select id="section_id" class="form-control @error('section_id') is-invalid @enderror" name="section_id" required>
+                        <option value="">{{ __('Select Section') }}</option>
+                        @foreach ($sections as $section)
+                            <option value="{{ $section->id }}" {{ $schoolClass->section_id == $section->id ? 'selected' : '' }}>
+                                {{ $section->name }} ({{ $section->school_year }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('section_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

@@ -1,7 +1,9 @@
 @extends('admin.layout')
 
 @section('admin-content')
+    <a href="{{ route('admin.classes.index') }}" class="btn btn-secondary mb-3">Back</a>
     <div class="card">
+        
         <div class="card-header">{{ __('Add Class') }}</div>
 
         <div class="card-body">
@@ -15,10 +17,16 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="section">{{ __('Section') }}</label>
-                    <input id="section" type="text" class="form-control @error('section') is-invalid @enderror"
-                        name="section" value="{{ old('section') }}" required autofocus>
-                    @error('section')
+                    <label for="section_id">{{ __('Section') }}</label>
+                    <select id="section_id" class="form-control @error('section_id') is-invalid @enderror" name="section_id" required>
+                        <option value="">{{ __('Select Section') }}</option>
+                        @foreach ($sections as $section)
+                            <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
+                                {{ $section->name }} ({{ $section->school_year }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('section_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
