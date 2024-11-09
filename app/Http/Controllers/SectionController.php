@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\Student;
+use App\Imports\StudentsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SectionController extends Controller
 {
@@ -145,6 +147,32 @@ class SectionController extends Controller
             'contact_number' => $request->contact_number,
             'gender' => $request->gender
         ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function importStudents(Request $request)
+    {
+        $request->validate([
+            'student_file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            // Import students using StudentsImport class
+            Excel::import(new StudentsImport, $request->file('student_file'));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Students imported successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Error importing students: ' . $e->getMessage()
+            ], 500);
+        }
+
 
         return response()->json(['success' => true]);
     }

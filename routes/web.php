@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/sections/{id}/students', [App\Http\Controllers\SectionController::class, 'showStudents'])->name('admin.sections.showStudents');
         Route::delete('/admin/sections/{sectionId}/students/{studentId}', [App\Http\Controllers\SectionController::class, 'removeStudent'])->name('admin.sections.removeStudent');
         Route::post('/admin/sections/students/{studentId}', [App\Http\Controllers\SectionController::class, 'updateStudent'])->name('admin.sections.updateStudent');
+        Route::post('/admin/sections/import-students', [App\Http\Controllers\SectionController::class, 'importStudents'])->name('admin.sections.importStudents');
 
     });
 

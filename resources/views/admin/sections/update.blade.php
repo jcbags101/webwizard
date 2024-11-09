@@ -37,6 +37,21 @@
                     @enderror
                 </div>
 
+                <div class="form-group mb-4">
+                    <label>{{ __('Import Students from Excel/CSV') }}</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control @error('student_file') is-invalid @enderror" 
+                               id="student_file" name="student_file" 
+                               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                        <button class="btn btn-outline-secondary" type="button" id="upload-btn">
+                            <i class="fas fa-upload"></i> Upload
+                        </button>
+                    </div>
+                    <small class="form-text text-muted">
+                        Upload Excel/CSV file with columns: Student ID/LRN, First Name, Last Name, Email, Contact Number, Gender
+                    </small>
+                </div>
+
                 <div class="form-group">
                     <label>{{ __('Current Students') }}</label>
                     <div class="table-responsive mb-4">
@@ -313,6 +328,173 @@
                                 confirmButtonColor: '#F9A602'
                             });
                         });
+                    }
+
+                    document.getElementById('upload-btn').addEventListener('click', async function() {
+                        const fileInput = document.getElementById('student_file');
+                        const file = fileInput.files[0];
+                        
+                        if (!file) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Please select a file first',
+                                confirmButtonColor: '#F9A602'
+                            });
+                            return;
+                        }
+
+                        // Check file extension
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+                        
+                        try {
+                            let data;
+                            if (['xls', 'xlsx'].includes(fileExtension)) {
+                                // Handle Excel files
+                                const workbook = await readExcelFile(file);
+                                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                                data = XLSX.utils.sheet_to_json(worksheet);
+                            } else if (fileExtension === 'csv') {
+                                // Handle CSV files
+                                const text = await readFileAsText(file);
+                                data = parseCSV(text);
+                            } else {
+                                throw new Error('Unsupported file format');
+                            }
+
+                            // Clear existing students
+                            const container = document.getElementById('students-container');
+                            container.innerHTML = '';
+
+                            data.forEach((row, index) => {
+                                const studentData = {
+                                    student_id: row['Student ID/LRN'] || row['student_id'] || '',
+                                    first_name: row['First Name'] || row['first_name'] || '',
+                                    last_name: row['Last Name'] || row['last_name'] || '',
+                                    email: row['Email'] || row['email'] || '',
+                                    contact_number: row['Contact Number'] || row['contact_number'] || '',
+                                    gender: row['Gender'] || row['gender'] || ''
+                                };
+
+                                const studentHtml = `
+                                    <div class="student-entry border p-3 mb-3">
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="button" class="btn btn-danger btn-sm remove-student" onclick="removeStudent(this)">
+                                                <i class="fas fa-times"></i> Remove
+                                            </button>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Student ID/LRN</label>
+                                                    <input type="text" name="students[${index}][student_id]" class="form-control" value="${studentData.student_id}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>First Name</label>
+                                                    <input type="text" name="students[${index}][first_name]" class="form-control" value="${studentData.first_name}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Last Name</label>
+                                                    <input type="text" name="students[${index}][last_name]" class="form-control" value="${studentData.last_name}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="email" name="students[${index}][email]" class="form-control" value="${studentData.email}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Contact Number</label>
+                                                    <input type="text" name="students[${index}][contact_number]" class="form-control" value="${studentData.contact_number}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Gender</label>
+                                                    <select name="students[${index}][gender]" class="form-control" required>
+                                                        <option value="">Select Gender</option>
+                                                        <option value="Male" ${studentData.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                                        <option value="Female" ${studentData.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                                container.insertAdjacentHTML('beforeend', studentHtml);
+                            });
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Students imported successfully',
+                                confirmButtonColor: '#F9A602'
+                            });
+                        
+                        } catch (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: error.message || 'Failed to process file',
+                                confirmButtonColor: '#F9A602'
+                            });
+                        }
+                    });
+
+                    // Helper functions
+                    async function readFileAsText(file) {
+                        return new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = e => resolve(e.target.result);
+                            reader.onerror = e => reject(e);
+                            reader.readAsText(file);
+                        });
+                    }
+
+                    async function readExcelFile(file) {
+                        return new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = e => {
+                                try {
+                                    const data = new Uint8Array(e.target.result);
+                                    const workbook = XLSX.read(data, { type: 'array' });
+                                    resolve(workbook);
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            };
+                            reader.onerror = e => reject(e);
+                            reader.readAsArrayBuffer(file);
+                        });
+                    }
+
+                    function parseCSV(text) {
+                        const lines = text.split('\n');
+                        const headers = lines[0].split(',').map(header => header.trim());
+                        const result = [];
+
+                        for (let i = 1; i < lines.length; i++) {
+                            if (!lines[i].trim()) continue;
+                            
+                            const values = lines[i].split(',').map(value => value.trim());
+                            const row = {};
+                            
+                            headers.forEach((header, index) => {
+                                row[header] = values[index] || '';
+                            });
+                            
+                            result.push(row);
+                        }
+
+                        return result;
                     }
                 </script>
 
