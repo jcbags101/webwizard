@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Section;
+use App\Models\Student;
 
 class SectionController extends Controller
 {
@@ -128,5 +129,23 @@ class SectionController extends Controller
         $section = Section::findOrFail($sectionId);
         $section->students()->detach($studentId);
         return redirect()->route('admin.sections.showStudents', $sectionId)->with('success', 'Student removed from section successfully');
+    }
+
+    public function updateStudent(Request $request, string $studentId)
+    {
+        \Log::info('Updating student with ID: ' . $studentId);
+        \Log::info('Request payload:', $request->all());
+        $student = Student::findOrFail($studentId);
+
+        $student->update([
+            'student_id' => $request->student_id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'contact_number' => $request->contact_number,
+            'gender' => $request->gender
+        ]);
+
+        return response()->json(['success' => true]);
     }
 }
