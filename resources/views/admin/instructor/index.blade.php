@@ -28,13 +28,22 @@
                         <td>{{ $instructor->department }}</td>
                         {{-- <td>{{ $instructor->username +}}</td> --}}
                         <td>
-                            <a href="{{ route('instructors.edit', $instructor->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('instructors.destroy', $instructor->id) }}" method="POST"
-                                style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $instructor->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $instructor->id }}">
+                                    <li><a class="dropdown-item" href="{{ route('instructors.edit', $instructor->id) }}">Edit</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.submitted_requirements.index', ['instructor_id' => $instructor->id]) }}">View Requirements</a></li>
+                                    <li>
+                                        <form action="{{ route('instructors.destroy', $instructor->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

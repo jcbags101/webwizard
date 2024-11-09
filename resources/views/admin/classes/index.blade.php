@@ -26,13 +26,21 @@
                         <td>{{ $schoolClass->subject->name }}</td>
                         <td>{{ $schoolClass->instructor->full_name }}</td>
                         <td>
-                            <a href="{{ route('admin.classes.edit', $schoolClass->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('admin.classes.destroy', $schoolClass->id) }}" method="POST"
-                                style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $schoolClass->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $schoolClass->id }}">
+                                    <li><a class="dropdown-item" href="{{ route('admin.classes.edit', $schoolClass->id) }}">Edit</a></li>
+                                    <li>
+                                        <form action="{{ route('admin.classes.destroy', $schoolClass->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

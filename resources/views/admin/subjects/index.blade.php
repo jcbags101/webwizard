@@ -24,13 +24,21 @@
                         <td>{{ $subject->code }}</td>
                         <td>{{ $subject->units }}</td>
                         <td>
-                            <a href="{{ route('admin.subjects.edit', $subject->id) }}" class="btn btn-primary">Edit</a>
-                            <form action="{{ route('admin.subjects.destroy', $subject->id) }}" method="POST"
-                                style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $subject->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $subject->id }}">
+                                    <li><a class="dropdown-item" href="{{ route('admin.subjects.edit', $subject->id) }}">Edit</a></li>
+                                    <li>
+                                        <form action="{{ route('admin.subjects.destroy', $subject->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

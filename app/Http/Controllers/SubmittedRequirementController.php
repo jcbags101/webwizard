@@ -44,7 +44,7 @@ class SubmittedRequirementController extends Controller
                 $filePath = $request->file('file')->store('submitted_requirements', 'public');
             }
     
-            $submittedRequirement = SubmittedRequirement::create([
+            SubmittedRequirement::create([
                 'requirement_id' => $request->input('requirement_id'),
                 'file' => $filePath,
                 'instructor_id' => \App\Models\Instructor::where('email', auth()->user()->email)->first()->id,

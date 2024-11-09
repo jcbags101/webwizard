@@ -18,7 +18,7 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type))
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI')
                 <a class="nav-link {{ request()->routeIs('admin.instructors.index') ? 'active' : '' }}"
                     href="{{ route('admin.instructors.index') }}">
                     <i class="fas fa-chalkboard-teacher"></i> {{ __('Manage Instructor') }}
@@ -50,7 +50,7 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'Registrar' || auth()->user()->user_type === 'Chairman')
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'Registrar' || auth()->user()->user_type === 'Chairman' || auth()->user()->user_type === 'DOI')
                 <a class="nav-link {{ request()->routeIs('admin.submitted_requirements.index') ? 'active' : '' }}"
                     href="{{ route('admin.submitted_requirements.index') }}">
                     <i class="fas fa-file-alt"></i> {{ __('Manage Submitted Requirements') }}

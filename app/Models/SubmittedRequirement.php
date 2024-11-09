@@ -20,4 +20,9 @@ class SubmittedRequirement extends Model
     {
         return $this->belongsTo(SchoolClass::class, 'class_id');
     }
+
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class, 'instructor_id');
+    }
 }

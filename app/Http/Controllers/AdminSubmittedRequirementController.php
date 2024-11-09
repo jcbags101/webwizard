@@ -14,10 +14,28 @@ class AdminSubmittedRequirementController extends Controller
         return view('admin.dashboard');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-       $requirements = SubmittedRequirement::all();
-       return view('admin.submitted_requirements.index', compact('requirements'));
+        $instructor_id = $request->query('instructor_id');
+
+        \Log::info('Instructor ID: ' . $instructor_id);
+        if ($instructor_id) {
+            if (auth()->user()->user_type === 'DOI') {
+                $requirements = SubmittedRequirement::where('instructor_id', $instructor_id)
+                    ->whereIn('status', ['chairman_approved', 'accepted'])
+                    ->get();
+            } else {
+                $requirements = SubmittedRequirement::where('instructor_id', $instructor_id)->get();
+            }
+        } else {
+            if (auth()->user()->user_type === 'DOI') {
+                $requirements = SubmittedRequirement::whereIn('status', ['chairman_approved', 'accepted'])->get();
+            } else {
+                $requirements = SubmittedRequirement::all();
+            }
+        }
+
+        return view('admin.submitted_requirements.index', compact('requirements'));
     }
 
     public function edit(string $id)
@@ -31,7 +49,7 @@ class AdminSubmittedRequirementController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,accepted,rejected',
+            'status' => 'required|string|in:pending,accepted,rejected,chairman_approved',
             'remarks' => 'nullable|string|max:255',
         ]);
  

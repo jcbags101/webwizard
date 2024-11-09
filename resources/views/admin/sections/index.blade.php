@@ -23,14 +23,22 @@
                             <td>{{ $section->name }}</td>
                             <td>{{ $section->school_year }}</td>
                             <td>
-                                <a href="{{ route('admin.sections.edit', $section->id) }}" class="btn btn-primary">Edit</a>
-                                <a href="{{ route('admin.sections.showStudents', $section->id) }}" class="btn btn-info">View Students</a>
-                                <form action="{{ route('admin.sections.destroy', $section->id) }}" method="POST"
-                                    style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $section->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $section->id }}">
+                                        <li><a class="dropdown-item" href="{{ route('admin.sections.edit', $section->id) }}">Edit</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.sections.showStudents', $section->id) }}">View Students</a></li>
+                                        <li>
+                                            <form action="{{ route('admin.sections.destroy', $section->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

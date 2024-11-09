@@ -12,9 +12,18 @@
                 <div class="form-group">
                     <label for="status">{{ __('Status') }}</label>
                     <select id="status" class="form-control @error('status') is-invalid @enderror" name="status" required>
-                        <option value="pending" {{ $submittedRequirement->status == 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
-                        <option value="accepted" {{ $submittedRequirement->status == 'accepted' ? 'selected' : '' }}>{{ __('Accepted') }}</option>
-                        <option value="rejected" {{ $submittedRequirement->status == 'rejected' ? 'selected' : '' }}>{{ __('Rejected') }}</option>
+                        @if(auth()->user()->user_type === 'Chairman')
+                            <option value="rejected" {{ $submittedRequirement->status == 'rejected' ? 'selected' : '' }}>{{ __('Rejected') }}</option>
+                            <option value="chairman_approved" {{ $submittedRequirement->status == 'chairman_approved' ? 'selected' : '' }}>{{ __('Chairman Approved') }}</option>
+                        @elseif(auth()->user()->user_type === 'DOI')
+                            <option value="rejected" {{ $submittedRequirement->status == 'rejected' ? 'selected' : '' }}>{{ __('Rejected') }}</option>
+                            <option value="accepted" {{ $submittedRequirement->status == 'accepted' ? 'selected' : '' }}>{{ __('Accepted') }}</option>
+                        @else
+                            <option value="pending" {{ $submittedRequirement->status == 'pending' ? 'selected' : '' }}>{{ __('Pending') }}</option>
+                            <option value="accepted" {{ $submittedRequirement->status == 'accepted' ? 'selected' : '' }}>{{ __('Accepted') }}</option>
+                            <option value="rejected" {{ $submittedRequirement->status == 'rejected' ? 'selected' : '' }}>{{ __('Rejected') }}</option>
+                            <option value="chairman_approved" {{ $submittedRequirement->status == 'chairman_approved' ? 'selected' : '' }}>{{ __('Chairman Approved') }}</option>
+                        @endif
                     </select>
                     @error('status')
                         <span class="invalid-feedback" role="alert">

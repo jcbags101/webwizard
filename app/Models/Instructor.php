@@ -10,4 +10,9 @@ class Instructor extends Model
     use HasFactory;
 
     protected $fillable = ['full_name', 'email', 'position', 'department', 'username', 'password'];
+
+    public function submittedRequirements()
+    {
+        return $this->hasMany(SubmittedRequirement::class, 'instructor_id');
+    }
 }
