@@ -113,46 +113,28 @@
                                             </button>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Student ID/LRN</label>
                                                     <input type="text" name="students[${index}][student_id]" class="form-control" value="${studentData.student_id}" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>First Name</label>
                                                     <input type="text" name="students[${index}][first_name]" class="form-control" value="${studentData.first_name}" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Last Name</label>
                                                     <input type="text" name="students[${index}][last_name]" class="form-control" value="${studentData.last_name}" required>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Email</label>
                                                     <input type="email" name="students[${index}][email]" class="form-control" value="${studentData.email}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Contact Number</label>
-                                                    <input type="text" name="students[${index}][contact_number]" class="form-control" value="${studentData.contact_number}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Gender</label>
-                                                    <select name="students[${index}][gender]" class="form-control" required>
-                                                        <option value="">Select Gender</option>
-                                                        <option value="Male" ${studentData.gender === 'Male' ? 'selected' : ''}>Male</option>
-                                                        <option value="Female" ${studentData.gender === 'Female' ? 'selected' : ''}>Female</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -231,7 +213,7 @@
                                 </button>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Student ID/LRN</label>
                                         <input type="text" name="students[0][student_id]" class="form-control @error('students.0.student_id') is-invalid @enderror" placeholder="Enter student ID" required>
@@ -242,7 +224,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>First Name</label>
                                         <input type="text" name="students[0][first_name]" class="form-control @error('students.0.first_name') is-invalid @enderror" placeholder="Enter first name" required>
@@ -253,7 +235,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Last Name</label>
                                         <input type="text" name="students[0][last_name]" class="form-control @error('students.0.last_name') is-invalid @enderror" placeholder="Enter last name" required>
@@ -264,9 +246,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email" name="students[0][email]" class="form-control @error('students.0.email') is-invalid @enderror" placeholder="Enter email" required>
@@ -277,35 +257,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Contact Number</label>
-                                        <input type="text" name="students[0][contact_number]" class="form-control @error('students.0.contact_number') is-invalid @enderror" placeholder="Enter contact number" required>
-                                        @error('students.0.contact_number')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Gender</label>
-                                        <select name="students[0][gender]" class="form-control @error('students.0.gender') is-invalid @enderror" required>
-                                            <option value="">Select Gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        @error('students.0.gender')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
                             </div>
-                        </div>
                     </div>
                     <button type="button" class="btn btn-secondary" id="add-student">
                         {{ __('Add Another Student') }}

@@ -19,8 +19,6 @@ class StudentsImport implements ToModel
             'last_name' => $row[1],  // Excel/CSV column 2
             'student_id' => $row[2],  // Excel/CSV column 3
             'email' => $row[3],  // Excel/CSV column 4
-            'contact_number' => $row[4],  // Excel/CSV column 5
-            'gender' => $row[5],  // Excel/CSV column 6
         ]);
     }
 }

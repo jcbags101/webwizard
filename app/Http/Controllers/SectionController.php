@@ -51,8 +51,6 @@ class SectionController extends Controller
                 'first_name' => $studentData['first_name'],
                 'last_name' => $studentData['last_name'],
                 'email' => $studentData['email'],
-                'contact_number' => $studentData['contact_number'],
-                'gender' => $studentData['gender'],
             ]);
         }
 
@@ -101,8 +99,6 @@ class SectionController extends Controller
                     'first_name' => $studentData['first_name'], 
                     'last_name' => $studentData['last_name'],
                     'email' => $studentData['email'],
-                    'contact_number' => $studentData['contact_number'],
-                    'gender' => $studentData['gender']
                 ]);
             }
         }
@@ -144,8 +140,6 @@ class SectionController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'contact_number' => $request->contact_number,
-            'gender' => $request->gender
         ]);
 
         return response()->json(['success' => true]);

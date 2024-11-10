@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\ClassRecord;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ClassRecordsImport implements ToModel
+class ClassRecordsImport implements ToModel, WithStartRow
 {
     /**
     * @param array $row
@@ -19,5 +20,13 @@ class ClassRecordsImport implements ToModel
             'student_id'   => (int) $row[1],  // Excel/CSV column 2
             'grade'        => (int) $row[2],  // Excel/CSV column 3
         ]);
+    }
+
+    /**
+     * @return int
+     */
+    public function startRow(): int
+    {
+        return 2;
     }
 }
