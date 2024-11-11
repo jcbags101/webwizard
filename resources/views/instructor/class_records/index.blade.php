@@ -2,7 +2,7 @@
 
 @section('instructor-content')
     <div class="container">
-        <h1 class="mb-4">All Submitted Requirements</h1>
+        {{-- <h1 class="mb-4">All Submitted Requirements</h1>
 
         <div class="card">
             <div class="card-header">Import Records</div>
@@ -29,6 +29,6 @@
                     </div>
                 @endif
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

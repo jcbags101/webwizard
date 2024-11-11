@@ -20,36 +20,50 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($requirements as $submittedRequirement)
+                @if($requirements->isEmpty())
                     <tr>
-                        <td>{{ $submittedRequirement->id }}</td>
-                        <td>{{ $submittedRequirement->requirement->name }}</td>
-                        <td><a href="{{ asset('storage/' . $submittedRequirement->file) }}" target="_blank">View File</a></td>
-                        <td>{{ $submittedRequirement->class->section }}</td>
-                        <td>
-                            @if ($submittedRequirement->status === 'pending')
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            @elseif ($submittedRequirement->status === 'rejected')
-                                <span class="badge bg-danger">Rejected</span>
-                            @elseif ($submittedRequirement->status === 'accepted')
-                                <span class="badge bg-success">Accepted</span>
-                            @else
-                                <span class="badge bg-secondary">Unknown</span>
-                            @endif
-                        </td>
-                        <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
-                        <td>
-                            <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
-                                class="btn btn-primary">Edit</a>
-                            <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
-                                method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
+                        <td colspan="7" class="text-center">No submitted requirements found</td>
                     </tr>
-                @endforeach
+                @else
+                    @foreach ($requirements as $submittedRequirement)
+                        <tr>
+                            <td>{{ $submittedRequirement->id }}</td>
+                            <td>{{ $submittedRequirement->requirement->name }}</td>
+                            <td><a href="{{ asset('storage/' . $submittedRequirement->file) }}" target="_blank">View File</a></td>
+                            <td>
+                                @if($submittedRequirement->class->section)
+                                    {{ $submittedRequirement->class->section->name }}
+                                @else
+                                    <span class="text-muted">No Section</span>
+                                @endif
+                                -
+                                {{ $submittedRequirement->class->subject ? $submittedRequirement->class->subject->name : 'N/A' }}
+                            </td>
+                            <td>
+                                @if ($submittedRequirement->status === 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif ($submittedRequirement->status === 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
+                                @elseif ($submittedRequirement->status === 'accepted')
+                                    <span class="badge bg-success">Accepted</span>
+                                @else
+                                    <span class="badge bg-secondary">Unknown</span>
+                                @endif
+                            </td>
+                            <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
+                            <td>
+                                <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
+                                    class="btn btn-primary">Edit</a>
+                                <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
+                                    method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>

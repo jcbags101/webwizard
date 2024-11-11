@@ -14,11 +14,20 @@ class SubmittedRequirementController extends Controller
         return view('instructor.dashboard');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-       $instructor = \App\Models\Instructor::where('email', auth()->user()->email)->first();
-       $requirements = SubmittedRequirement::where('instructor_id', $instructor->id)->get();
-       return view('instructor.requirements.index', compact('requirements'));
+        $instructor = \App\Models\Instructor::where('email', auth()->user()->email)->first();
+        $query = SubmittedRequirement::where('instructor_id', $instructor->id)
+            ->whereHas('class', function($query) use ($instructor) {
+                $query->where('instructor_id', $instructor->id);
+            });
+
+        if ($request->has('class_id')) {
+            $query->where('class_id', $request->class_id);
+        }
+
+        $requirements = $query->get();
+        return view('instructor.requirements.index', compact('requirements'));
     }
     
     public function create()

@@ -15,21 +15,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($schoolClasses as $schoolClass)
+                @if($schoolClasses->isEmpty())
                     <tr>
-                        <td>{{ $schoolClass->id }}</td>
-                        <td>{{ $schoolClass->section }}</td>
-                        <td>{{ $schoolClass->schedule }}</td>
-                        <td>{{ $schoolClass->subject->name }}</td>
-                        <td>{{ $schoolClass->instructor->full_name }}</td>
-                        <td>
-                            <a href="{{ route('instructor.requirements.index', ['class_id' => $schoolClass->id]) }}" 
-                               class="btn btn-primary btn-sm">
-                                <i class="fas fa-file-alt"></i> View Requirements
-                            </a>
-                        </td>
+                        <td colspan="6" class="text-center">No classes found</td>
                     </tr>
-                @endforeach
+                @else
+                    @foreach ($schoolClasses as $schoolClass)
+                        <tr>
+                            <td>{{ $schoolClass->id }}</td>
+                            <td>{{ $schoolClass->section ? $schoolClass->section->name : 'N/A' }}</td>
+                            <td>{{ $schoolClass->schedule }}</td>
+                            <td>{{ $schoolClass->subject->name }}</td>
+                            <td>{{ $schoolClass->instructor->full_name }}</td>
+                            <td>
+                                <a href="{{ route('instructor.requirements.index', ['class_id' => $schoolClass->id]) }}" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-file-alt"></i> View Requirements
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>

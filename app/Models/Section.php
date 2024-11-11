@@ -35,4 +35,9 @@ class Section extends Model
     {
         return $this->belongsToMany(Student::class);
     }
+
+    public function classes()
+    {
+        return $this->hasMany(SchoolClass::class);
+    }
 }

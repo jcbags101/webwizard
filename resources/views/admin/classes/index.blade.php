@@ -21,7 +21,7 @@
                 @foreach ($schoolClasses as $schoolClass)
                     <tr>
                         <td>{{ $schoolClass->id }}</td>
-                        <td>{{ $schoolClass->section }}</td>
+                        <td>{{ $schoolClass->section ? $schoolClass->section->name : 'N/A' }}</td>
                         <td>{{ $schoolClass->schedule }}</td>
                         <td>{{ $schoolClass->subject->name }}</td>
                         <td>{{ $schoolClass->instructor->full_name }}</td>

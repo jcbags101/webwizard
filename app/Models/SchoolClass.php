@@ -12,7 +12,7 @@ class SchoolClass extends Model
     protected $table = 'classes';
 
     protected $fillable = [
-        'section',
+        'section_id',
         'schedule',
         'subject_id',
         'instructor_id',
@@ -24,8 +24,18 @@ class SchoolClass extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
     public function instructor()
     {
         return $this->belongsTo(Instructor::class);
+    }
+
+    public function requirements()
+    {
+        return $this->hasMany(Requirement::class);
     }
 }

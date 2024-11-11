@@ -14,7 +14,7 @@ class SchoolClassController extends Controller
      */
     public function index()
     {
-        $schoolClasses = SchoolClass::all();
+        $schoolClasses = SchoolClass::with('section')->get();
         return view('admin.classes.index', compact('schoolClasses'));
     }
 
@@ -22,7 +22,9 @@ class SchoolClassController extends Controller
     {
         $userEmail = auth()->user()->email;
         $instructorId = \App\Models\Instructor::where('email', $userEmail)->value('id');
-        $schoolClasses = SchoolClass::where('instructor_id', $instructorId)->get();
+        $schoolClasses = SchoolClass::where('instructor_id', $instructorId)
+            ->with('section')
+            ->get();
         return view('instructor.classes.index', compact('schoolClasses'));
     }
     
@@ -49,7 +51,7 @@ class SchoolClassController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'section' => 'required|string|max:255',
+            'section_id' => 'required|exists:sections,id',
             'schedule' => 'required|string|max:255',
             'subject_id' => 'required|exists:subjects,id',
             'instructor_id' => 'required|exists:instructors,id',
@@ -98,7 +100,7 @@ class SchoolClassController extends Controller
     {
         $schoolClass = SchoolClass::findOrFail($id);
         $validatedData = $request->validate([
-            'section' => 'required|string|max:255',
+            'section_id' => 'required|exists:sections,id',
             'schedule' => 'required|string|max:255',
             'subject_id' => 'required|exists:subjects,id',
             'instructor_id' => 'required|exists:instructors,id',

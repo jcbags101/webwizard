@@ -47,7 +47,7 @@
                         <option value="">{{ __('Select Class') }}</option>
                         @foreach ($classes as $class)
                             <option value="{{ $class->id }}" {{ $submittedRequirement->class_id == $class->id ? 'selected' : '' }}>
-                                {{ $class->section }}
+                                {{ $class->section ? $class->section->name : 'N/A' }} - {{ $class->subject ? $class->subject->name : 'N/A' }}
                             </option>
                         @endforeach
                     </select>
