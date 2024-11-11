@@ -21,7 +21,7 @@
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('instructor.requirements.index') ? 'active' : '' }}"
                 href="{{ route('instructor.requirements.index') }}">
-                <i class="fas fa-tasks"></i> {{ __('Requirements') }}
+                <i class="fas fa-tasks"></i> {{ __('Manage Requirements') }}
             </a>
         </li>
         <li class="nav-item">
@@ -33,3 +33,41 @@
         <!-- Add more sidebar items here -->
     </ul>
 </div>
+
+<style>
+    .sidebar {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #343a40;
+        padding: 15px;
+        height: auto;
+    }
+
+    .sidebar-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .nav-link {
+        color: black;
+        margin: 5px 0;
+    }
+
+    .nav-link.active {
+        color: #fff;
+        background-color: #F9A602;
+        border-radius: 5px;
+    }
+
+    .nav-link:hover {
+        color: #fff;
+        background-color: #F9A602;
+        border-radius: 5px;
+    }
+
+    .sidebar-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+    }
+</style>
