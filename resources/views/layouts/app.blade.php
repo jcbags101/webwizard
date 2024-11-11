@@ -13,6 +13,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- In the head section -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -158,6 +159,20 @@
         nav {
             background-color: #F9A602;
         }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: 0;
+            font-size: 0.75rem;
+            padding: 0.25em 0.6em;
+        }
+        
+        .notification-icon-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 0 10px;
+        }
     </style>
 
 </head>
@@ -214,6 +229,34 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="notificationsDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="notification-icon-wrapper">
+                                        <i class="fa-solid fa-bell"></i>
+                                        <span class="badge bg-danger notification-badge" id="notification-count">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                    </div>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" id="notifications-menu" style="max-height: 300px; overflow-y: auto; min-width: 300px;">
+                                    <div class="dropdown-header d-flex justify-content-between align-items-center px-3">
+                                        <span>Notifications</span>
+                                        <a href="#" class="text-decoration-none" id="mark-all-read">Mark all as read</a>
+                                    </div>
+                                    <div id="notifications-list">
+                                        @forelse(Auth::user()->notifications as $notification)
+                                            <a href="{{ $notification->data['link'] ?? '#' }}" class="dropdown-item notification-item {{ $notification->read_at ? '' : 'bg-light' }}" data-notification-id="{{ $notification->id }}">
+                                                <small class="text-muted float-end">{{ $notification->created_at->diffForHumans() }}</small>
+                                                <div>{{ $notification->data['message'] }}</div>
+                                            </a>
+                                            @if(!$loop->last)
+                                                <div class="dropdown-divider"></div>
+                                            @endif
+                                        @empty
+                                            <div class="dropdown-item text-center">No notifications</div>
+                                        @endforelse
+                                    </div>
                                 </div>
                             </li>
                         @endguest

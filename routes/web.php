@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/sections/students/{studentId}', [App\Http\Controllers\SectionController::class, 'updateStudent'])->name('admin.sections.updateStudent');
         Route::post('/admin/sections/import-students', [App\Http\Controllers\SectionController::class, 'importStudents'])->name('admin.sections.importStudents');
 
+        Route::post('/admin/notify/instructors', [App\Http\Controllers\AdminController::class, 'notifyInstructors'])->name('admin.notify.instructors');
     });
 
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {
@@ -101,6 +102,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
     });
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::post('/notifications/send', [NotificationController::class, 'send']);
+});
+
 
 Auth::routes();
 

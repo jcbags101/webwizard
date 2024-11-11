@@ -11,4 +11,23 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
+
+    public function notifyInstructors(Request $request)
+    {
+        // Get all instructors
+        $instructors = \App\Models\User::where('role', 'instructor')->get();
+
+        
+        // Send notification to each instructor
+        foreach ($instructors as $instructor) {
+            $instructor->notify(new \App\Notifications\GeneralNotification([
+                'title' => 'Requirements Update',
+                'message' => $request->message,
+                'type' => 'warning',
+                'link' => route('instructor.requirements.index')
+            ]));
+        }
+
+        return redirect()->back()->with('success', 'Notification sent to all instructors successfully');
+    }
 }

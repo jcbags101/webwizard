@@ -12,9 +12,15 @@ class RequirementController extends Controller
      * Display a listing of the resource.
      */
     
-    public function index()
+    public function index(Request $request)
     {
-        $requirements = Requirement::all();
+        $query = Requirement::query();
+        
+        if ($request->has('class_id')) {
+            $query->where('class_id', $request->class_id);
+        }
+
+        $requirements = $query->get();
         return view('admin.requirements.index', compact('requirements'));
     }
     

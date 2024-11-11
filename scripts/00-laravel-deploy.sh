@@ -21,3 +21,6 @@ php artisan db:seed --force
 
 echo "Linking storage..."
 php artisan storage:link
+
+echo "Running queue..."
+php artisan queue:work --daemon --sleep=3 --tries=3

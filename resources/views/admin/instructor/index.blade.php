@@ -3,8 +3,42 @@
 @section('admin-content')
     <div class="container">
         <h1>All Instructors</h1>
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="text-end">
             <a href="{{ route('admin.instructors.create') }}" class="btn btn-success mb-3">Create Instructor</a>
+            <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal" data-bs-target="#notifyModal">
+                Notify Requirements
+            </button>
+
+            <!-- Notify Modal -->
+            <div class="modal fade" id="notifyModal" tabindex="-1" aria-labelledby="notifyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="notifyModalLabel">Notify Instructors</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('admin.notify.instructors') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Notification Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Send Notification</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
         <table class="table table-striped">
             <thead>
