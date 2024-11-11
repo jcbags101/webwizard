@@ -15,4 +15,12 @@ class Instructor extends Model
     {
         return $this->hasMany(SubmittedRequirement::class, 'instructor_id');
     }
+
+    /**
+     * Get the user associated with the instructor.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
 }

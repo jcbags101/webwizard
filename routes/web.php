@@ -10,6 +10,7 @@ use App\Http\Controllers\SubmittedRequirementController;
 use App\Http\Controllers\AdminSubmittedRequirementController;
 use App\Http\Controllers\ClassRecordController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -84,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/sections/import-students', [App\Http\Controllers\SectionController::class, 'importStudents'])->name('admin.sections.importStudents');
 
         Route::post('/admin/notify/instructors', [App\Http\Controllers\AdminController::class, 'notifyInstructors'])->name('admin.notify.instructors');
+        Route::post('/admin/notify/instructor', [App\Http\Controllers\AdminController::class, 'notifyInstructor'])->name('admin.notify.instructor');
     });
 
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {

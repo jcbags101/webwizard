@@ -30,4 +30,17 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Notification sent to all instructors successfully');
     }
+
+    public function notifyInstructor(Request $request)
+    {
+        $instructor = \App\Models\Instructor::find($request->instructor_id);
+        $instructor->user->notify(new \App\Notifications\GeneralNotification([
+            'title' => 'Requirements Update',
+            'message' => $request->message,
+            'type' => 'warning',
+            'link' => route('instructor.requirements.index')
+        ]));
+
+        return redirect()->back()->with('success', 'Notification sent to instructor successfully');
+    }
 }

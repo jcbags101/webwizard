@@ -173,7 +173,65 @@
             display: inline-block;
             padding: 0 10px;
         }
+
+        .notification-item.unread {
+            background-color: #e3f2fd !important;
+        }
+
+        .notification-item.read {
+            background-color: #ffffff !important;
+        }
     </style>
+
+    <script>
+        function markAsRead(element, notificationId) {
+            console.log(notificationId);
+            fetch(`/notifications/${notificationId}/read`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    element.classList.remove('unread');
+                    element.classList.add('read');
+                    updateNotificationCount();
+                }
+            });
+        }
+
+        function updateNotificationCount() {
+            const count = document.querySelectorAll('.notification-item.unread').length;
+            document.getElementById('notification-count').textContent = count;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('mark-all-read').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                fetch('/notifications/mark-all-read', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelectorAll('.notification-item.unread').forEach(item => {
+                            item.classList.remove('unread');
+                            item.classList.add('read');
+                        });
+                        document.getElementById('notification-count').textContent = '0';
+                    }
+                });
+            });
+        });
+    </script>
 
 </head>
 
@@ -246,13 +304,14 @@
                                     </div>
                                     <div id="notifications-list">
                                         @forelse(Auth::user()->notifications as $notification)
-                                            <a href="{{ $notification->data['link'] ?? '#' }}" class="dropdown-item notification-item {{ $notification->read_at ? '' : 'bg-light' }}" data-notification-id="{{ $notification->id }}">
+                                            <a  
+                                               href="{{ $notification->data['link'] ?? '#' }}"
+                                               class="dropdown-item notification-item {{ $notification->read_at ? 'read' : 'unread' }} p-3 border-bottom" 
+                                               data-notification-id="{{ $notification->id }}"
+                                               onclick="markAsRead(this, '{{ $notification->id }}')">
                                                 <small class="text-muted float-end">{{ $notification->created_at->diffForHumans() }}</small>
                                                 <div>{{ $notification->data['message'] }}</div>
                                             </a>
-                                            @if(!$loop->last)
-                                                <div class="dropdown-divider"></div>
-                                            @endif
                                         @empty
                                             <div class="dropdown-item text-center">No notifications</div>
                                         @endforelse
