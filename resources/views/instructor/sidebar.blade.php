@@ -12,12 +12,12 @@
                 <i class="fas fa-chalkboard-teacher"></i> {{ __('Class') }}
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('instructor.class_records.index') ? 'active' : '' }}"
                 href="{{ route('instructor.class_records.index') }}">
                 <i class="fas fa-book"></i> {{ __('Class Record') }}
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('instructor.requirements.index') ? 'active' : '' }}"
                 href="{{ route('instructor.requirements.index') }}">
