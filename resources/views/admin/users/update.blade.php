@@ -24,7 +24,9 @@
                        <select name="user_type" id="user_type" class="form-control" required>
                            <option value="MIS" {{ $user->user_type == 'MIS' ? 'selected' : '' }}>MIS</option>
                            <option value="Chairman" {{ $user->user_type == 'Chairman' ? 'selected' : '' }}>Chairman</option>
-                           <option value="Registrar DOI" {{ $user->user_type == 'Registrar DOI' ? 'selected' : '' }}>Registrar DOI</option>
+                           <option value="Registrar" {{ $user->user_type == 'Registrar' ? 'selected' : '' }}>Registrar</option>
+                           <option value="DOI" {{ $user->user_type == 'DOI' ? 'selected' : '' }}>DOI</option>
+
                        </select>
                    </div>
                    <div class="form-group">

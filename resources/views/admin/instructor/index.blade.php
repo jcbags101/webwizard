@@ -10,10 +10,12 @@
             </div>
         @endif
         <div class="text-end">
-            <a href="{{ route('admin.instructors.create') }}" class="btn btn-success mb-3">Create Instructor</a>
-            <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal" data-bs-target="#notifyAllModal">
-                Notify All Requirements
-            </button>
+            @if(auth()->user()->user_type !== 'Chairman')
+                <a href="{{ route('admin.instructors.create') }}" class="btn btn-success mb-3">Create Instructor</a>
+            @endif
+                <button type="button" class="btn btn-primary mb-3 ms-2" data-bs-toggle="modal" data-bs-target="#notifyAllModal">
+                    Notify All Requirements
+                </button>
 
             <!-- Notify All Modal -->
             <div class="modal fade" id="notifyAllModal" tabindex="-1" aria-labelledby="notifyAllModalLabel" aria-hidden="true">
@@ -93,13 +95,16 @@
                                     Actions
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $instructor->id }}">
-                                    <li><a class="dropdown-item" href="{{ route('instructors.edit', $instructor->id) }}">Edit</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.submitted_requirements.index', ['instructor_id' => $instructor->id]) }}">View Requirements</a></li>
+                                    @if(auth()->user()->user_type !== 'Chairman')
+                                        <li><a class="dropdown-item" href="{{ route('instructors.edit', $instructor->id) }}">Edit</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.submitted_requirements.index', ['instructor_id' => $instructor->id]) }}">View Requirements</a></li>
+                                    @endif
                                     <li>
                                         <button class="dropdown-item notify-instructor" data-bs-toggle="modal" data-bs-target="#notifyInstructorModal" data-instructor-id="{{ $instructor->id }}" data-instructor-name="{{ $instructor->full_name }}">
                                             Notify Instructor
                                         </button>
                                     </li>
+                                    @if(auth()->user()->user_type !== 'Chairman')
                                     <li>
                                         <form action="{{ route('instructors.destroy', $instructor->id) }}" method="POST">
                                             @csrf
@@ -107,6 +112,7 @@
                                             <button type="submit" class="dropdown-item text-danger">Delete</button>
                                         </form>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </td>

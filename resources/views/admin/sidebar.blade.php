@@ -18,7 +18,7 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI')
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman')
                 <a class="nav-link {{ request()->routeIs('admin.instructors.index') ? 'active' : '' }}"
                     href="{{ route('admin.instructors.index') }}">
                     <i class="fas fa-chalkboard-teacher"></i> {{ __('Manage Instructor') }}

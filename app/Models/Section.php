@@ -18,6 +18,7 @@ class Section extends Model
     protected $fillable = [
         'name',
         'school_year',
+        'semester',
     ];
 
     /**

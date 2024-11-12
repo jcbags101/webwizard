@@ -36,6 +36,12 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="deadline">{{ __('Deadline') }}</label>
+                    <input id="deadline" type="datetime-local" class="form-control @error('deadline') is-invalid @enderror"
+                        name="deadline" value="{{ old('deadline') }}">
+                </div>
+
                 <div class="form-group mb-0">
                     <button type="submit" class="btn btn-primary">
                         {{ __('Add Requirement') }}

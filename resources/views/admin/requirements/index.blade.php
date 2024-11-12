@@ -12,6 +12,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Deadline</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                         <td>{{ $requirement->id }}</td>
                         <td>{{ $requirement->name }}</td>
                         <td>{{ $requirement->description }}</td>
+                        <td>{{ $requirement->formatted_deadline }}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $requirement->id }}" data-bs-toggle="dropdown" aria-expanded="false">

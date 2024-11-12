@@ -36,6 +36,7 @@ class SectionController extends Controller
             'name' => 'required|string|max:255',
             'school_year' => 'required|string|max:255',
             'students' => 'required|array',
+            'semester' => 'required|string|max:255',
         ]);
 
 
@@ -43,15 +44,23 @@ class SectionController extends Controller
         $section = Section::create([
             'name' => $request->name,
             'school_year' => $request->school_year,
+            'semester' => $request->semester,
         ]);
         
         foreach ($request->students as $studentData) {
-            $section->students()->create([
-                'student_id' => $studentData['student_id'],
-                'first_name' => $studentData['first_name'],
-                'last_name' => $studentData['last_name'],
-                'email' => $studentData['email'],
-            ]);
+            // Check if student with this ID already exists
+            $existingStudent = Student::where('student_id', $studentData['student_id'])->first();
+            
+            if (!$existingStudent) {
+                $student = Student::create([
+                    'student_id' => $studentData['student_id'],
+                    'first_name' => $studentData['first_name'],
+                    'last_name' => $studentData['last_name'],
+                    'email' => $studentData['email'],
+                ]);
+                
+                $section->students()->attach($student->id);
+            }
         }
 
         return redirect()->route('admin.sections.index')->with('success', 'Section created successfully');
@@ -84,22 +93,27 @@ class SectionController extends Controller
             'name' => 'required|string|max:255',
             'school_year' => 'required|string|max:255',
             'students' => 'required|array',
+            'semester' => 'required|string|max:255',
         ]);
         $section = Section::findOrFail($id);
         $section->update([
             'name' => $request->name,
-            'school_year' => $request->school_year
+            'school_year' => $request->school_year,
+            'semester' => $request->semester,
         ]);
 
         // Create new students
         foreach ($request->students as $studentData) {
             if (!empty($studentData['student_id'])) {
-                $section->students()->create([
-                    'student_id' => $studentData['student_id'],
-                    'first_name' => $studentData['first_name'], 
-                    'last_name' => $studentData['last_name'],
-                    'email' => $studentData['email'],
-                ]);
+                $existingStudent = Student::where('student_id', $studentData['student_id'])->first();
+                if (!$existingStudent) {
+                    $student = $section->students()->create([
+                        'student_id' => $studentData['student_id'],
+                        'first_name' => $studentData['first_name'],
+                        'last_name' => $studentData['last_name'], 
+                        'email' => $studentData['email'],
+                    ]);
+                }
             }
         }
 

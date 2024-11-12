@@ -26,7 +26,11 @@
                             <td>{{ $submittedRequirement->id }}</td>
                             <td>{{ $submittedRequirement->requirement->name }}</td>
                             <td><a href="{{ asset('storage/' . $submittedRequirement->file) }}" target="_blank">View File</a></td>
-                            <td>{{ $submittedRequirement->class->section }}</td>
+                            <td>
+                                {{ $submittedRequirement->class->section ? $submittedRequirement->class->section->name : 'N/A' }}
+                                -
+                                {{ $submittedRequirement->class->subject ? $submittedRequirement->class->subject->name : 'N/A' }}
+                            </td>
                             <td>{{ $submittedRequirement->instructor->full_name }}</td>
                             <td>
                                 @if ($submittedRequirement->status === 'pending')

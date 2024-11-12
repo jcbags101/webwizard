@@ -52,8 +52,9 @@
                             </td>
                             <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
                             <td>
+                                
                                 <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
-                                    class="btn btn-primary">Edit</a>
+                                    class="btn btn-primary">View</a>
                                 <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
                                     method="POST" style="display:inline-block;">
                                     @csrf

@@ -41,11 +41,13 @@ class RequirementController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'deadline' => 'nullable|date',
         ]);
 
         $requirement = Requirement::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
+            'deadline' => $request->input('deadline'),
         ]);
 
         return redirect()->route('admin.requirements.index')->with('success', 'Requirement added successfully.');
@@ -76,12 +78,14 @@ class RequirementController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'deadline' => 'nullable|date',
         ]);
 
         $requirement = Requirement::findOrFail($id);
         $requirement->update([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
+            'deadline' => $request->input('deadline'),
         ]);
 
         return redirect()->route('admin.requirements.index')->with('success', 'Requirement updated successfully.');

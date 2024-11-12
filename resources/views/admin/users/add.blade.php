@@ -31,7 +31,7 @@
                         <option value="">{{ __('Select User Type') }}</option>
                         <option value="MIS" {{ old('user_type') == 'MIS' ? 'selected' : '' }}>{{ __('MIS') }}</option>
                         <option value="Chairman" {{ old('user_type') == 'Chairman' ? 'selected' : '' }}>{{ __('Chairman') }}</option>
-                        <option value="Registrar" {{ old('user_type') == 'Registrar' ? 'selected' : '' }}>{{ __('Registrar DOI') }}</option>
+                        <option value="Registrar" {{ old('user_type') == 'Registrar' ? 'selected' : '' }}>{{ __('Registrar') }}</option>
                         <option value="DOI" {{ old('user_type') == 'DOI' ? 'selected' : '' }}>{{ __('DOI') }}</option>
                     </select>
                     @error('user_type')

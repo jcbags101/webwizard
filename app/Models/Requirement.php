@@ -17,5 +17,18 @@ class Requirement extends Model
     protected $fillable = [
         'name',
         'description',
+        'deadline',
     ];
+
+    protected $casts = [
+        'deadline' => 'datetime',
+    ];
+
+    /**
+     * Get the deadline in human readable format
+     */
+    public function getFormattedDeadlineAttribute()
+    {
+        return $this->deadline ? $this->deadline->format('F j, Y g:i A') : null;
+    }
 }

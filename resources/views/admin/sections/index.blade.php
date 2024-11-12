@@ -13,6 +13,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>School Year</th>
+                        <th>Semester</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                             <td>{{ $section->id }}</td>
                             <td>{{ $section->name }}</td>
                             <td>{{ $section->school_year }}</td>
+                            <td>{{ $section->semester }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $section->id }}" data-bs-toggle="dropdown" aria-expanded="false">

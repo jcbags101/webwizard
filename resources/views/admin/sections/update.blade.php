@@ -37,6 +37,17 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label for="semester">{{ __('Semester') }}</label>
+                    <input id="semester" type="text" class="form-control @error('semester') is-invalid @enderror"
+                        name="semester" value="{{ old('semester', $section->semester) }}" required>
+                    @error('semester')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>  
+
                 <div class="form-group mb-4">
                     <label>{{ __('Import Students from Excel/CSV') }}</label>
                     <div class="input-group">
