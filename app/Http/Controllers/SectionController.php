@@ -60,6 +60,8 @@ class SectionController extends Controller
                 ]);
                 
                 $section->students()->attach($student->id);
+            } else {
+                $section->students()->attach($existingStudent->id);
             }
         }
 
@@ -113,6 +115,9 @@ class SectionController extends Controller
                         'last_name' => $studentData['last_name'], 
                         'email' => $studentData['email'],
                     ]);
+                    $section->students()->attach($student->id);
+                } else {
+                    $section->students()->attach($existingStudent->id);
                 }
             }
         }
