@@ -58,11 +58,16 @@
                     @enderror
                 </div>
 
-                {{-- <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary" {{ $submittedRequirement->edit_status !== 'approved' ? 'disabled' : '' }}>
                         {{ __('Update Submitted Requirement') }}
                     </button>
-                </div> --}}
+                    @if($submittedRequirement->edit_status !== 'approved')
+                        <small class="text-muted d-block mt-2">
+                            {{ __('You can only update this requirement after your edit request has been approved.') }}
+                        </small>
+                    @endif
+                </div>
             </form>
         </div>
     </div>
