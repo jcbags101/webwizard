@@ -47,8 +47,7 @@ class SubmittedRequirementController extends Controller
                 'class_id' => 'required|exists:classes,id',
             ]);
     
-            \Log::info('Request Data:', $request->all());
-    
+
             if ($request->hasFile('file')) {
                 $filePath = $request->file('file')->store('submitted_requirements', 'public');
             }
@@ -76,19 +75,31 @@ class SubmittedRequirementController extends Controller
  
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'requirement_id' => 'required|exists:requirements,id',
-            'class_id' => 'required|exists:classes,id',
-        ]);
+        try {
+            $request->validate([
+                'requirement_id' => 'required|exists:requirements,id',
+                'class_id' => 'required|exists:classes,id',
+            ]);
+    
+            $submittedRequirement = SubmittedRequirement::findOrFail($id);
+
+            $filePath = null;
+            
+            if ($request->hasFile('file')) {
+                $filePath = $request->file('file')->store('submitted_requirements', 'public');
+            }
+
+            $submittedRequirement->update([
+                'requirement_id' => $request->input('requirement_id'),
+                'file' => $filePath ?? $submittedRequirement->file,
+                'class_id' => $request->input('class_id'),
+                'edit_status' => 'pending'
+            ]);
  
-        $submittedRequirement = SubmittedRequirement::findOrFail($id);
-        $submittedRequirement->update([
-            'requirement_id' => $request->input('requirement_id'),
-            'file' => $request->input('file') ?? $submittedRequirement->file,
-            'class_id' => $request->input('class_id'),
-        ]);
- 
-        return redirect()->route('instructor.requirements.index')->with('success', 'Submitted Requirement updated successfully.');
+            return redirect()->route('instructor.requirements.index')->with('success', 'Submitted Requirement updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('instructor.requirements.index')->with('error', 'An error occurred while updating the submitted requirement.');
+        }
     }
  
     public function destroy($id)

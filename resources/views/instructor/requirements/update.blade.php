@@ -6,7 +6,7 @@
         <div class="card-header">{{ __('Update Submitted Requirement') }}</div>
 
         <div class="card-body">
-            <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST">
+            <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
