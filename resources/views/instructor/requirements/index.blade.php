@@ -75,7 +75,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $submittedRequirement->id }}">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}">View</a>
+                                            <a class="dropdown-item" href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}">{{ $submittedRequirement->edit_status === 'approved' ? 'Edit' : 'View' }}</a>
                                         </li>
                                         @if ($submittedRequirement->edit_status === 'pending' || $submittedRequirement->edit_status === 'rejected')
                                         <li>
