@@ -39,14 +39,18 @@
 
                 <div class="form-group">
                     <label for="semester">{{ __('Semester') }}</label>
-                    <input id="semester" type="text" class="form-control @error('semester') is-invalid @enderror"
-                        name="semester" value="{{ old('semester') }}" required>
+                    <select id="semester" class="form-control @error('semester') is-invalid @enderror" 
+                            name="semester" required>
+                        <option value="">Select Semester</option>
+                        <option value="First Semester" {{ old('semester') == 'First Semester' ? 'selected' : '' }}>First Semester</option>
+                        <option value="Second Semester" {{ old('semester') == 'Second Semester' ? 'selected' : '' }}>Second Semester</option>
+                    </select>
                     @error('semester')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div>      
+                </div>
 
                 <div class="form-group mb-4">
                     <label>{{ __('Import Students from Excel/CSV') }}</label>
@@ -68,7 +72,92 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label>{{ __('Add Students') }}</label>
+                    <div id="students-container">
+                        <div class="student-entry border p-3 mb-3">
+                            <div class="d-flex justify-content-end mb-2">
+                                <button type="button" class="btn btn-danger btn-sm remove-student" onclick="removeStudent(this)">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Student ID/LRN</label>
+                                        <input type="text" name="students[0][student_id]" class="form-control @error('students.0.student_id') is-invalid @enderror" placeholder="Enter student ID" required>
+                                        @error('students.0.student_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" name="students[0][first_name]" class="form-control @error('students.0.first_name') is-invalid @enderror" placeholder="Enter first name" required>
+                                        @error('students.0.first_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="students[0][last_name]" class="form-control @error('students.0.last_name') is-invalid @enderror" placeholder="Enter last name" required>
+                                        @error('students.0.last_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" name="students[0][email]" class="form-control @error('students.0.email') is-invalid @enderror" placeholder="Enter email" required>
+                                        @error('students.0.email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="add-student">
+                        {{ __('Add Another Student') }}
+                    </button>
+                </div>
+
                 <script>
+                    let studentCount = 1;
+                    document.getElementById('add-student').addEventListener('click', function() {
+                        const container = document.getElementById('students-container');
+                        const template = document.querySelector('.student-entry').cloneNode(true);
+                        
+                        // Update input names with new index
+                        template.querySelectorAll('input, select').forEach(input => {
+                            input.name = input.name.replace('[0]', `[${studentCount}]`);
+                            input.value = ''; // Clear values
+                        });
+                        
+                        container.appendChild(template);
+                        studentCount++;
+                    });
+
+                    function removeStudent(button) {
+                        const studentEntry = button.closest('.student-entry');
+                        if (document.querySelectorAll('.student-entry').length > 1) {
+                            studentEntry.remove();
+                        } else {
+                            alert('At least one student entry must remain.');
+                        }
+                    }
+
                     document.getElementById('upload-btn').addEventListener('click', async function() {
                         const fileInput = document.getElementById('student_file');
                         const file = fileInput.files[0];
@@ -211,93 +300,6 @@
                                     return obj;
                                 }, {});
                             });
-                    }
-                </script>
-
-                <div class="form-group">
-                    <label>{{ __('Add Students') }}</label>
-                    <div id="students-container">
-                        <div class="student-entry border p-3 mb-3">
-                            <div class="d-flex justify-content-end mb-2">
-                                <button type="button" class="btn btn-danger btn-sm remove-student" onclick="removeStudent(this)">
-                                    <i class="fas fa-times"></i> Remove
-                                </button>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Student ID/LRN</label>
-                                        <input type="text" name="students[0][student_id]" class="form-control @error('students.0.student_id') is-invalid @enderror" placeholder="Enter student ID" required>
-                                        @error('students.0.student_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>First Name</label>
-                                        <input type="text" name="students[0][first_name]" class="form-control @error('students.0.first_name') is-invalid @enderror" placeholder="Enter first name" required>
-                                        @error('students.0.first_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" name="students[0][last_name]" class="form-control @error('students.0.last_name') is-invalid @enderror" placeholder="Enter last name" required>
-                                        @error('students.0.last_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" name="students[0][email]" class="form-control @error('students.0.email') is-invalid @enderror" placeholder="Enter email" required>
-                                        @error('students.0.email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    <button type="button" class="btn btn-secondary" id="add-student">
-                        {{ __('Add Another Student') }}
-                    </button>
-                </div>
-
-                <script>
-                    let studentCount = 1;
-                    document.getElementById('add-student').addEventListener('click', function() {
-                        const container = document.getElementById('students-container');
-                        const template = document.querySelector('.student-entry').cloneNode(true);
-                        
-                        // Update input names with new index
-                        template.querySelectorAll('input, select').forEach(input => {
-                            input.name = input.name.replace('[0]', `[${studentCount}]`);
-                            input.value = ''; // Clear values
-                        });
-                        
-                        container.appendChild(template);
-                        studentCount++;
-                    });
-
-                    function removeStudent(button) {
-                        const studentEntry = button.closest('.student-entry');
-                        if (document.querySelectorAll('.student-entry').length > 1) {
-                            studentEntry.remove();
-                        } else {
-                            alert('At least one student entry must remain.');
-                        }
                     }
                 </script>
 

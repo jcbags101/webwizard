@@ -39,8 +39,12 @@
 
                 <div class="form-group">
                     <label for="semester">{{ __('Semester') }}</label>
-                    <input id="semester" type="text" class="form-control @error('semester') is-invalid @enderror"
-                        name="semester" value="{{ old('semester', $section->semester) }}" required>
+                    <select id="semester" class="form-control @error('semester') is-invalid @enderror" 
+                            name="semester" required>
+                        <option value="">Select Semester</option>
+                        <option value="First Semester" {{ old('semester', $section->semester) == 'First Semester' ? 'selected' : '' }}>First Semester</option>
+                        <option value="Second Semester" {{ old('semester', $section->semester) == 'Second Semester' ? 'selected' : '' }}>Second Semester</option>
+                    </select>
                     @error('semester')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
