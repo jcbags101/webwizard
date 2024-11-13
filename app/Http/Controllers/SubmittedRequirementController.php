@@ -98,4 +98,11 @@ class SubmittedRequirementController extends Controller
  
         return redirect()->route('instructor.requirements.index')->with('success', 'Submitted Requirement deleted successfully.');
     }
+
+    public function requestEdit($id)
+    {
+        $submittedRequirement = SubmittedRequirement::findOrFail($id);
+        $submittedRequirement->update(['edit_status' => 'request_submitted']);
+        return redirect()->route('instructor.requirements.index')->with('success', 'Request for edit sent successfully.');
+    }
 }

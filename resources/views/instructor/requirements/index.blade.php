@@ -2,6 +2,11 @@
 
 @section('instructor-content')
     <div class="container">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <h1>All Submitted Requirements</h1>
         <div class="text-end">
             <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit
@@ -16,6 +21,7 @@
                     <th>Class</th>
                     <th>Status</th>
                     <th>Remarks</th>
+                    <th>Edit Request Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -52,16 +58,41 @@
                             </td>
                             <td>{{ $submittedRequirement->remarks ?? 'No remarks' }}</td>
                             <td>
-                                
-                                <a href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}"
-                                    class="btn btn-primary">View</a>
-                                <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
-                                    method="POST" style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                @if ($submittedRequirement->edit_status === 'request_submitted')
+                                    <span class="badge bg-warning text-dark">Request Submitted</span>
+                                @elseif ($submittedRequirement->edit_status === 'pending')
+                                    <span class="badge bg-secondary">Pending</span>
+                                @elseif ($submittedRequirement->edit_status === 'approved') 
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif ($submittedRequirement->edit_status === 'rejected')
+                                    <span class="badge bg-danger">Rejected</span>
+                                @endif
                             </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ $submittedRequirement->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $submittedRequirement->id }}">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('instructor.requirements.edit', $submittedRequirement->id) }}">View</a>
+                                        </li>
+                                        @if ($submittedRequirement->edit_status === 'pending' || $submittedRequirement->edit_status === 'rejected')
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('instructor.requirements.requestEdit', $submittedRequirement->id) }}">Request Edit</a>
+                                        </li>
+                                        @endif
+                                        <li>
+                                            <form action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            
                         </tr>
                     @endforeach
                 @endif

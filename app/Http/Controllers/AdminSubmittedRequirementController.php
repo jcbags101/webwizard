@@ -35,6 +35,10 @@ class AdminSubmittedRequirementController extends Controller
             }
         }
 
+        if ($request->has('edit_status')) {
+            $requirements = $requirements->where('edit_status', $request->edit_status);
+        }
+
         return view('admin.submitted_requirements.index', compact('requirements'));
     }
 
@@ -68,5 +72,12 @@ class AdminSubmittedRequirementController extends Controller
         $submittedRequirement->delete();
 
         return redirect()->route('admin.submitted_requirements.index')->with('success', 'Submitted Requirement deleted successfully.');
+    }
+
+    public function approveEdit($id)
+    {
+        $submittedRequirement = SubmittedRequirement::findOrFail($id);
+        $submittedRequirement->update(['edit_status' => 'approved']);
+        return redirect()->route('admin.submitted_requirements.index')->with('success', 'Edit request approved successfully.');
     }
 }

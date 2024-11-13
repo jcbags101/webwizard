@@ -6,6 +6,14 @@
 
     <div class="container">
         <h1>All Submitted Requirements</h1>
+        <div class="mb-3">
+            <a href="{{ route('admin.submitted_requirements.index', ['edit_status' => 'request_submitted']) }}" class="btn btn-primary {{ request('edit_status') == 'request_submitted' ? 'active' : '' }}">
+                Show Edit Requests
+            </a>
+            @if(request()->has('edit_status'))
+                <a href="{{ route('admin.submitted_requirements.index') }}" class="btn btn-secondary">Show All</a>
+            @endif
+        </div>
         @if($requirements->count() > 0)
             <table class="table table-striped">
                 <thead>
@@ -53,6 +61,15 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $submittedRequirement->id }}">
                                         <li><a class="dropdown-item" href="{{ route('admin.submitted_requirements.edit', $submittedRequirement->id) }}">Edit</a></li>
+                                        @if ($submittedRequirement->edit_status === 'request_submitted')
+                                            <li>
+                                                <form action="{{ route('admin.submitted_requirements.approveEdit', $submittedRequirement->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="dropdown-item">Approve Edit Request</button>
+                                                </form>
+                                            </li>
+                                        @endif
                                         <li>
                                             <form action="{{ route('admin.submitted_requirements.destroy', $submittedRequirement->id) }}" method="POST">
                                                 @csrf

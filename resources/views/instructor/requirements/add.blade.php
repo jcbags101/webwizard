@@ -1,6 +1,7 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
+    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Back</a>
     <div class="card">
         <div class="card-header">{{ __('Add Submitted Requirement') }}</div>
 
