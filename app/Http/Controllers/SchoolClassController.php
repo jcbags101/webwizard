@@ -126,4 +126,35 @@ class SchoolClassController extends Controller
         return redirect()->route('admin.classes.index')
                          ->with('success', 'SchoolClass deleted successfully.');
     }
+
+    public function showStudents(string $id)
+    {
+        $schoolClass = SchoolClass::findOrFail($id);
+        $students = $schoolClass->section->students;
+        return view('instructor.classes.students', compact('schoolClass', 'students'));
+    }
+
+    public function updateGrades(Request $request, string $id)
+    {
+        $student = Student::findOrFail($id);
+        $classId = $request->input('class_id');
+        $schoolClass = SchoolClass::findOrFail($classId);
+
+        // Validate that the student belongs to the class's section
+        if ($student->section_id !== $schoolClass->section_id) {
+            return redirect()->back()->with('error', 'Student does not belong to this class.');
+        }
+
+        // Validate quiz scores and items
+        $validatedData = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $validatedData["quiz{$i}"] = $request->input("quiz{$i}");
+            $validatedData["quiz{$i}_items"] = $request->input("quiz{$i}_items");
+        }
+
+        // Update student's grades
+        $student->update($validatedData);
+
+        return redirect()->back()->with('success', 'Grades updated successfully.');
+    }
 }

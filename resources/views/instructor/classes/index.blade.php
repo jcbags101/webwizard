@@ -28,10 +28,19 @@
                             <td>{{ $schoolClass->subject->name }}</td>
                             <td>{{ $schoolClass->instructor->full_name }}</td>
                             <td>
-                                <a href="{{ route('instructor.requirements.index', ['class_id' => $schoolClass->id]) }}" 
-                                   class="btn btn-primary btn-sm">
-                                    <i class="fas fa-file-alt"></i> View Requirements
-                                </a>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton{{ $schoolClass->id }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $schoolClass->id }}">
+                                        <a class="dropdown-item" href="{{ route('instructor.requirements.index', ['class_id' => $schoolClass->id]) }}">
+                                            <i class="fas fa-file-alt"></i> View Requirements
+                                        </a>
+                                        <a class="dropdown-item" href="{{ route('instructor.classes.students', $schoolClass->id) }}">
+                                            <i class="fas fa-users"></i> Show Students
+                                        </a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

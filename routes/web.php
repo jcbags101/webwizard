@@ -92,6 +92,8 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => [InstructorMiddleware::class]], function () {
         Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard')->middleware(RedirectIfAuthenticated::class);
         Route::get('/instructor/classes', [App\Http\Controllers\SchoolClassController::class, 'instructorClasses'])->name('instructor.classes.index');
+        Route::get('/instructor/classes/{id}/students', [App\Http\Controllers\SchoolClassController::class, 'showStudents'])->name('instructor.classes.students');
+        Route::post('/instructor/classes/{id}/students/update-grades', [App\Http\Controllers\SchoolClassController::class, 'updateGrades'])->name('instructor.classes.students.update-grades');
 
         Route::get('/instructor/class-records', [ClassRecordController::class, 'index'])->name('instructor.class_records.index');
 
@@ -102,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'update'])->name('instructor.requirements.update');
         Route::delete('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'destroy'])->name('instructor.requirements.destroy');
         Route::get('/instructor/requirements/{id}/request-edit', [SubmittedRequirementController::class, 'requestEdit'])->name('instructor.requirements.requestEdit');
+
 
         Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
     });
