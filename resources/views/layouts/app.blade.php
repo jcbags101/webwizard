@@ -30,7 +30,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            font-size: 18px;
+            font-size: 14px;
             text-align: left;
         }
         table th, table td {
