@@ -16,24 +16,24 @@ class ClassRecordItemController extends Controller
     {
         $validatedData = $request->validate([
             'class_id' => 'required|exists:classes,id',
-            'quiz1_items' => 'nullable|integer|min:1',
-            'quiz2_items' => 'nullable|integer|min:1',
-            'quiz3_items' => 'nullable|integer|min:1',
-            'quiz4_items' => 'nullable|integer|min:1', 
-            'quiz5_items' => 'nullable|integer|min:1',
-            'quiz6_items' => 'nullable|integer|min:1',
-            'oral1_items' => 'nullable|integer|min:1',
-            'oral2_items' => 'nullable|integer|min:1',
-            'oral3_items' => 'nullable|integer|min:1',
-            'oral4_items' => 'nullable|integer|min:1',
-            'oral5_items' => 'nullable|integer|min:1',
-            'oral6_items' => 'nullable|integer|min:1',
-            'project1_items' => 'nullable|integer|min:1',
-            'project2_items' => 'nullable|integer|min:1',
-            'project3_items' => 'nullable|integer|min:1',
-            'project4_items' => 'nullable|integer|min:1',
-            'midterm_exam_items' => 'nullable|integer|min:1',
-            'final_exam_items' => 'nullable|integer|min:1'
+            'quiz1_items' => 'nullable|decimal:0,2|min:1',
+            'quiz2_items' => 'nullable|decimal:0,2|min:1',
+            'quiz3_items' => 'nullable|decimal:0,2|min:1',
+            'quiz4_items' => 'nullable|decimal:0,2|min:1',
+            'quiz5_items' => 'nullable|decimal:0,2|min:1', 
+            'quiz6_items' => 'nullable|decimal:0,2|min:1',
+            'oral1_items' => 'nullable|decimal:0,2|min:1',
+            'oral2_items' => 'nullable|decimal:0,2|min:1',
+            'oral3_items' => 'nullable|decimal:0,2|min:1',
+            'oral4_items' => 'nullable|decimal:0,2|min:1',
+            'oral5_items' => 'nullable|decimal:0,2|min:1',
+            'oral6_items' => 'nullable|decimal:0,2|min:1',
+            'project1_items' => 'nullable|decimal:0,2|min:1',
+            'project2_items' => 'nullable|decimal:0,2|min:1',
+            'project3_items' => 'nullable|decimal:0,2|min:1',
+            'project4_items' => 'nullable|decimal:0,2|min:1',
+            'midterm_exam_items' => 'nullable|decimal:0,2|min:1',
+            'final_exam_items' => 'nullable|decimal:0,2|min:1'
         ]);
 
         $updateData = [];
