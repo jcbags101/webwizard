@@ -56,4 +56,20 @@ class Student extends Model
     {
         return $this->belongsTo(Section::class);
     }
+
+    /**
+     * Get the class records for this student.
+     */
+    public function classRecords()
+    {
+        return $this->hasMany(\App\Models\ClassRecord::class);
+    }
+
+    /**
+     * Get a specific class record for this student.
+     */
+    public function getClassRecord($classId)
+    {
+        return $this->classRecords()->where('class_id', $classId)->first();
+    }
 }

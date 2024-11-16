@@ -10,6 +10,7 @@ use App\Http\Controllers\SubmittedRequirementController;
 use App\Http\Controllers\AdminSubmittedRequirementController;
 use App\Http\Controllers\ClassRecordController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ClassRecordItemController;
 use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
@@ -96,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/instructor/classes/{id}/students/update-grades', [App\Http\Controllers\SchoolClassController::class, 'updateGrades'])->name('instructor.classes.students.update-grades');
 
         Route::get('/instructor/class-records', [ClassRecordController::class, 'index'])->name('instructor.class_records.index');
+        Route::post('/instructor/class-records', [ClassRecordController::class, 'store'])->name('instructor.class_records.store');
 
         Route::get('/instructor/requirements', [SubmittedRequirementController::class, 'index'])->name('instructor.requirements.index');
         Route::get('/instructor/requirements/create', [SubmittedRequirementController::class, 'create'])->name('instructor.requirements.create');
@@ -105,7 +107,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/instructor/requirements/{id}', [SubmittedRequirementController::class, 'destroy'])->name('instructor.requirements.destroy');
         Route::get('/instructor/requirements/{id}/request-edit', [SubmittedRequirementController::class, 'requestEdit'])->name('instructor.requirements.requestEdit');
 
-
+        Route::get('/instructor/class-record-items', [ClassRecordItemController::class, 'index'])->name('instructor.class-record-items.index');
+        Route::post('/instructor/class-record-items', [ClassRecordItemController::class, 'store'])->name('instructor.class-record-items.store');
         Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
     });
 });

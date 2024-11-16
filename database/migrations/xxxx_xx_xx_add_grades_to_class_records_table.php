@@ -8,11 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::dropIfExists('class_records');
-        Schema::create('class_records', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('student_id')->constrained()->onDelete('cascade');
-            
+        Schema::table('class_records', function (Blueprint $table) {
             // Quizzes (6)
             $table->decimal('quiz_1', 5, 2)->nullable();
             $table->decimal('quiz_2', 5, 2)->nullable();
@@ -41,13 +37,19 @@ return new class extends Migration
             
             // Final Grade
             $table->decimal('final_grade', 5, 2)->nullable();
-            
-            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('class_records');
+        Schema::table('class_records', function (Blueprint $table) {
+            $table->dropColumn([
+                'quiz_1', 'quiz_2', 'quiz_3', 'quiz_4', 'quiz_5', 'quiz_6',
+                'oral_1', 'oral_2', 'oral_3', 'oral_4', 'oral_5', 'oral_6',
+                'project_1', 'project_2', 'project_3', 'project_4',
+                'midterm', 'final',
+                'final_grade'
+            ]);
+        });
     }
-};
+}; 

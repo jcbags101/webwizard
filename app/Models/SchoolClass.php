@@ -38,4 +38,9 @@ class SchoolClass extends Model
     {
         return $this->hasMany(Requirement::class);
     }
+
+    public function classRecordItem()
+    {
+        return $this->hasOne(ClassRecordItem::class, 'class_id');
+    }
 }

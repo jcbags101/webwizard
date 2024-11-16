@@ -24,5 +24,154 @@ class ClassRecordController extends Controller
     {
         return view('instructor.class_records.index');
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'class_id' => 'required|exists:classes,id',
+            'quiz1' => 'nullable|numeric|min:0|max:100',
+            'quiz2' => 'nullable|numeric|min:0|max:100', 
+            'quiz3' => 'nullable|numeric|min:0|max:100',
+            'quiz4' => 'nullable|numeric|min:0|max:100',
+            'quiz5' => 'nullable|numeric|min:0|max:100',
+            'quiz6' => 'nullable|numeric|min:0|max:100',
+            'oral1' => 'nullable|numeric|min:0|max:100',
+            'oral2' => 'nullable|numeric|min:0|max:100',
+            'oral3' => 'nullable|numeric|min:0|max:100', 
+            'oral4' => 'nullable|numeric|min:0|max:100',
+            'oral5' => 'nullable|numeric|min:0|max:100',
+            'oral6' => 'nullable|numeric|min:0|max:100',
+            'project1' => 'nullable|numeric|min:0|max:100',
+            'project2' => 'nullable|numeric|min:0|max:100',
+            'project3' => 'nullable|numeric|min:0|max:100',
+            'project4' => 'nullable|numeric|min:0|max:100',
+            'midterm' => 'nullable|numeric|min:0|max:100',
+            'final' => 'nullable|numeric|min:0|max:100',
+            'final_grade' => 'nullable|numeric|min:0|max:100'
+        ]);
+
+        
+        $updateData = [];
+        
+        // Quiz scores
+        for ($i = 1; $i <= 6; $i++) {
+            if ($request->has("quiz$i")) {
+                $updateData["quiz_$i"] = $request->{"quiz$i"};
+            }
+        }
+        
+        // Oral scores
+        for ($i = 1; $i <= 6; $i++) {
+            if ($request->has("oral$i")) {
+                $updateData["oral_$i"] = $request->{"oral$i"};
+            }
+        }
+        
+        // Project scores
+        for ($i = 1; $i <= 4; $i++) {
+            if ($request->has("project$i")) {
+                $updateData["project_$i"] = $request->{"project$i"}; 
+            }
+        }
+        
+        // Exam scores
+        if ($request->has('midterm')) {
+            $updateData['midterm'] = $request->midterm;
+        }
+        if ($request->has('final')) {
+            $updateData['final'] = $request->final;
+        }
+        if ($request->has('final_grade')) {
+            $updateData['final_grade'] = $request->final_grade;
+        }
+
+        $classRecord = \App\Models\ClassRecord::updateOrCreate(
+            [
+                'student_id' => $request->student_id,
+                'class_id' => $request->class_id
+            ],
+            $updateData
+        );
+
+        // Get class record items for total possible scores
+        $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $request->class_id)->first();
+
+        // Calculate percentages for each component
+        $quizTotal = 0;
+        $quizItems = 0;
+        for ($i = 1; $i <= 6; $i++) {
+            if ($classRecordItem->{"quiz_$i"}) {
+                $quizTotal += $classRecord->{"quiz_$i"};
+                $quizItems += $classRecordItem->{"quiz_$i"}; 
+            }
+        }
+        $quizPercentage = $quizItems > 0 ? ($quizTotal / $quizItems) * 0.3 : 0;
+
+        $oralTotal = 0;
+        $oralItems = 0;
+        for ($i = 1; $i <= 6; $i++) {
+            if ($classRecordItem->{"oral_$i"}) {
+                $oralTotal += $classRecord->{"oral_$i"};
+                $oralItems += $classRecordItem->{"oral_$i"};
+            }
+        }
+        $oralPercentage = $oralItems > 0 ? ($oralTotal / $oralItems) * 0.2 : 0;
+
+        $projectTotal = 0;
+        $projectItems = 0;
+        for ($i = 1; $i <= 4; $i++) {
+            if ($classRecordItem->{"project_$i"}) {
+                $projectTotal += $classRecord->{"project_$i"};
+                $projectItems += $classRecordItem->{"project_$i"};
+            }
+        }
+        $projectPercentage = $projectItems > 0 ? ($projectTotal / $projectItems) * 0.1 : 0;
+
+        $examTotal = 0;
+        $examItems = 0;
+        if (isset($updateData['midterm']) && $classRecordItem->midterm) {
+            $examTotal += $classRecord->midterm;
+            $examItems += $classRecordItem->midterm;
+        }
+        if (isset($updateData['final']) && $classRecordItem->final) {
+            $examTotal += $classRecord->final; 
+            $examItems += $classRecordItem->final;
+        }
+        $examPercentage = $examItems > 0 ? ($examTotal / $examItems) * 0.4 : 0;
+
+        // Calculate final percentage
+        $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage) * 100;
+
+        // Transmutation table
+        $transmutationTable = [
+            100 => 1.0, 99 => 1.1, 98 => 1.2, 97 => 1.3, 96 => 1.4, 95 => 1.5, 94 => 1.6, 93 => 1.6, 92 => 1.7,
+            91 => 1.7, 90 => 1.8, 89 => 1.8, 88 => 1.9, 87 => 1.9, 86 => 2.0, 85 => 2.0, 84 => 2.1, 83 => 2.1,
+            82 => 2.2, 81 => 2.2, 80 => 2.3, 79 => 2.3, 78 => 2.4, 77 => 2.4, 76 => 2.5, 75 => 2.5, 74 => 2.6,
+            73 => 2.6, 72 => 2.7, 71 => 2.7, 70 => 2.8, 69 => 2.8, 68 => 2.9, 67 => 2.9, 66 => 3.0, 65 => 3.0,
+            64 => 3.1, 63 => 3.1, 62 => 3.2, 61 => 3.2, 60 => 3.3, 59 => 3.3, 58 => 3.4, 57 => 3.4, 56 => 3.5,
+            55 => 3.5, 54 => 3.6, 53 => 3.6, 52 => 3.7, 51 => 3.7, 50 => 3.8, 49 => 3.8, 48 => 3.9, 47 => 3.9,
+            46 => 4.0, 45 => 4.0, 44 => 4.1, 43 => 4.1, 42 => 4.2, 41 => 4.2, 40 => 4.3, 39 => 4.3, 38 => 4.4,
+            37 => 4.4, 36 => 4.5, 35 => 4.5, 34 => 4.6, 33 => 4.6, 32 => 4.7, 31 => 4.7, 30 => 4.8, 29 => 4.8,
+            28 => 4.9, 27 => 4.9, 26 => 5.0
+        ];
+
+        // Get transmuted grade
+        $finalGrade = 5.0; // Default to lowest grade
+        foreach ($transmutationTable as $percentage => $grade) {
+            if ($finalPercentage >= $percentage) {
+                $finalGrade = $grade;
+                break;
+            }
+        }
+
+        // Update final grade
+        $classRecord->update([
+            'final_grade' => $finalGrade
+        ]);
+
+        return redirect()->route('instructor.classes.students', ['id' => $request->class_id])->with('success', 'Grades saved successfully.');
+    }
+
 }
 

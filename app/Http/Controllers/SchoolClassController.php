@@ -131,7 +131,11 @@ class SchoolClassController extends Controller
     {
         $schoolClass = SchoolClass::findOrFail($id);
         $students = $schoolClass->section->students;
-        return view('instructor.classes.students', compact('schoolClass', 'students'));
+        $grades = $students->map(function ($student) use ($schoolClass) {
+            return $student->getClassRecord($schoolClass->id);
+
+        });
+        return view('instructor.classes.students', compact('schoolClass', 'students', 'grades'));
     }
 
     public function updateGrades(Request $request, string $id)

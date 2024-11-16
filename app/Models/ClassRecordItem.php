@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassRecord extends Model
+class ClassRecordItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
+        'class_id',
         'quiz_1',
         'quiz_2',
         'quiz_3',
@@ -29,7 +29,10 @@ class ClassRecord extends Model
         'project_4',
         'midterm',
         'final',
-        'final_grade',
-        'class_id'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 }
