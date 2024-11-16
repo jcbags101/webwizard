@@ -5,9 +5,22 @@ namespace App\Http\Controllers;
 use App\Imports\ClassRecordsImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Carbon\Carbon;
+use PDF;
 class ClassRecordController extends Controller
 {
+    private $transmutationTable = [
+        100 => 1.0, 99 => 1.1, 98 => 1.2, 97 => 1.3, 96 => 1.4, 95 => 1.5, 94 => 1.6, 93 => 1.6, 92 => 1.7,
+        91 => 1.7, 90 => 1.8, 89 => 1.8, 88 => 1.9, 87 => 1.9, 86 => 2.0, 85 => 2.0, 84 => 2.1, 83 => 2.1,
+        82 => 2.2, 81 => 2.2, 80 => 2.3, 79 => 2.3, 78 => 2.4, 77 => 2.4, 76 => 2.5, 75 => 2.5, 74 => 2.6,
+        73 => 2.6, 72 => 2.7, 71 => 2.7, 70 => 2.8, 69 => 2.8, 68 => 2.9, 67 => 2.9, 66 => 3.0, 65 => 3.0,
+        64 => 3.1, 63 => 3.1, 62 => 3.2, 61 => 3.2, 60 => 3.3, 59 => 3.3, 58 => 3.4, 57 => 3.4, 56 => 3.5,
+        55 => 3.5, 54 => 3.6, 53 => 3.6, 52 => 3.7, 51 => 3.7, 50 => 3.8, 49 => 3.8, 48 => 3.9, 47 => 3.9,
+        46 => 4.0, 45 => 4.0, 44 => 4.1, 43 => 4.1, 42 => 4.2, 41 => 4.2, 40 => 4.3, 39 => 4.3, 38 => 4.4,
+        37 => 4.4, 36 => 4.5, 35 => 4.5, 34 => 4.6, 33 => 4.6, 32 => 4.7, 31 => 4.7, 30 => 4.8, 29 => 4.8,
+        28 => 4.9, 27 => 4.9, 26 => 5.0
+    ];
+
     public function import(Request $request)
     {
         $request->validate([
@@ -143,22 +156,9 @@ class ClassRecordController extends Controller
         // Calculate final percentage
         $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage) * 100;
 
-        // Transmutation table
-        $transmutationTable = [
-            100 => 1.0, 99 => 1.1, 98 => 1.2, 97 => 1.3, 96 => 1.4, 95 => 1.5, 94 => 1.6, 93 => 1.6, 92 => 1.7,
-            91 => 1.7, 90 => 1.8, 89 => 1.8, 88 => 1.9, 87 => 1.9, 86 => 2.0, 85 => 2.0, 84 => 2.1, 83 => 2.1,
-            82 => 2.2, 81 => 2.2, 80 => 2.3, 79 => 2.3, 78 => 2.4, 77 => 2.4, 76 => 2.5, 75 => 2.5, 74 => 2.6,
-            73 => 2.6, 72 => 2.7, 71 => 2.7, 70 => 2.8, 69 => 2.8, 68 => 2.9, 67 => 2.9, 66 => 3.0, 65 => 3.0,
-            64 => 3.1, 63 => 3.1, 62 => 3.2, 61 => 3.2, 60 => 3.3, 59 => 3.3, 58 => 3.4, 57 => 3.4, 56 => 3.5,
-            55 => 3.5, 54 => 3.6, 53 => 3.6, 52 => 3.7, 51 => 3.7, 50 => 3.8, 49 => 3.8, 48 => 3.9, 47 => 3.9,
-            46 => 4.0, 45 => 4.0, 44 => 4.1, 43 => 4.1, 42 => 4.2, 41 => 4.2, 40 => 4.3, 39 => 4.3, 38 => 4.4,
-            37 => 4.4, 36 => 4.5, 35 => 4.5, 34 => 4.6, 33 => 4.6, 32 => 4.7, 31 => 4.7, 30 => 4.8, 29 => 4.8,
-            28 => 4.9, 27 => 4.9, 26 => 5.0
-        ];
-
         // Get transmuted grade
         $finalGrade = 5.0; // Default to lowest grade
-        foreach ($transmutationTable as $percentage => $grade) {
+        foreach ($this->transmutationTable as $percentage => $grade) {
             if ($finalPercentage >= $percentage) {
                 $finalGrade = $grade;
                 break;
@@ -173,5 +173,75 @@ class ClassRecordController extends Controller
         return redirect()->route('instructor.classes.students', ['id' => $request->class_id])->with('success', 'Grades saved successfully.');
     }
 
+    public function generatePDF($classId)
+    {
+        // Get class details
+        $schoolClass = \App\Models\SchoolClass::with(['subject', 'instructor'])->findOrFail($classId);
+        
+        // Get class records with students
+        $classRecords = \App\Models\ClassRecord::with('student')
+            ->where('class_id', $classId)
+            ->get();
+
+        // Get class record items
+        $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $classId)->first();
+
+        // Calculate midterm and final grades for each record
+        foreach ($classRecords as $record) {
+            $midtermTotal = 0;
+            $midtermItems = 0;
+            $finalTotal = 0; 
+            $finalItems = 0;
+
+            // Midterm calculations
+            if ($record->midterm && $classRecordItem->midterm) {
+                $midtermTotal = $record->midterm;
+                $midtermItems = $classRecordItem->midterm;
+            }
+
+            // Final calculations  
+            if ($record->final && $classRecordItem->final) {
+                $finalTotal = $record->final;
+                $finalItems = $classRecordItem->final;
+            }
+
+            // Update computed grades
+            // Calculate raw percentage scores
+            $midtermPercentage = $midtermItems > 0 ? ($midtermTotal / $midtermItems) * 100 : 0;
+            $finalPercentage = $finalItems > 0 ? ($finalTotal / $finalItems) * 100 : 0;
+
+            // Map to transmuted grades using transmutation table
+            $record->midterm = 5.0; // Default to lowest grade
+            $record->final = 5.0;
+
+            foreach ($this->transmutationTable as $percentage => $grade) {
+                if ($midtermPercentage >= $percentage) {
+                    $record->midterm = $grade;
+                    break;
+                }
+            }
+
+            foreach ($this->transmutationTable as $percentage => $grade) {
+                if ($finalPercentage >= $percentage) {
+                    $record->final = $grade;
+                    break;
+                }
+            }
+        }
+        // Format current date and time
+        $currentDateTime = Carbon::now()->format('F d, Y h:i A');
+
+        // Generate PDF
+        $pdf = PDF::loadView('instructor.class_records.pdf', [
+            'schoolClass' => $schoolClass,
+            'classRecords' => $classRecords,
+            'currentDateTime' => $currentDateTime
+        ]);
+
+        // Set paper size to legal and landscape orientation
+        $pdf->setPaper('legal', 'landscape');
+
+        return $pdf->stream('gradesheet_summary.pdf');
+    }
 }
 

@@ -9,6 +9,7 @@
     @endif
     <div class="container">
         <h1>Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }}</h1>
+        <a href="{{ route('instructor.class_records.pdf', ['id' => $schoolClass->id]) }}" class="btn btn-primary mb-3" target="_blank">Generate PDF</a>
         <div class="mb-4">
             <nav class="nav-tabs mb-4">
                 <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">

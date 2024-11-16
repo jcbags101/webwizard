@@ -110,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/class-record-items', [ClassRecordItemController::class, 'index'])->name('instructor.class-record-items.index');
         Route::post('/instructor/class-record-items', [ClassRecordItemController::class, 'store'])->name('instructor.class-record-items.store');
         Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
+
+        Route::get('/instructor/class-records/{id}/pdf', [ClassRecordController::class, 'generatePDF'])->name('instructor.class_records.pdf');
     });
 });
 

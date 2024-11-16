@@ -32,4 +32,9 @@ class ClassRecord extends Model
         'final_grade',
         'class_id'
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
 }
