@@ -24,12 +24,12 @@
                 <i class="fas fa-tasks"></i> {{ __('Manage Requirements') }}
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('instructor.grades.index') ? 'active' : '' }}"
                 href="{{ route('instructor.grades.index') }}">
                 <i class="fas fa-graduation-cap"></i> {{ __('Grades') }}
             </a>
-        </li>
+        </li> --}}
         <!-- Add more sidebar items here -->
     </ul>
 </div>

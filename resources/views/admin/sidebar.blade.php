@@ -9,14 +9,14 @@
                 
             @endif
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'Registrar')
                 <a class="nav-link {{ request()->routeIs('admin.rates.index') ? 'active' : '' }}"
                     href="{{ route('admin.rates.index') }}">
                     <i class="fas fa-percentage"></i> {{ __('Manage Grading Rates') }}
                 </a>
             @endif
-        </li>
+        </li> --}}
         <li class="nav-item">
             @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman')
                 <a class="nav-link {{ request()->routeIs('admin.instructors.index') ? 'active' : '' }}"
