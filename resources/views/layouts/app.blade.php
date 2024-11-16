@@ -58,7 +58,7 @@
             user-select: none;
             border: 1px solid transparent;
             padding: 0.375rem 0.75rem;
-            font-size: 1rem;
+            font-size: 14px;
             line-height: 1.5;
             border-radius: 0.25rem;
             transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -109,7 +109,7 @@
             color: #343a40;
             padding: 15px;
             height: 100vh;
-            font-size: 18px;
+            font-size: 15px;
         }
 
         .sidebar-header {
