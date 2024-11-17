@@ -161,4 +161,45 @@ class SchoolClassController extends Controller
 
         return redirect()->back()->with('success', 'Grades updated successfully.');
     }
+
+    public function addStudent(string $id)
+    {
+        $schoolClass = SchoolClass::findOrFail($id);
+        return view('instructor.classes.add-student', compact('schoolClass'));
+    }
+
+    public function addStudentsStore(Request $request, string $id)
+    {
+        $schoolClass = SchoolClass::findOrFail($id);
+        $request->validate([
+            'students' => 'required|array',
+            'students.*.student_id' => 'required',
+            'students.*.first_name' => 'required|string|max:255',
+            'students.*.last_name' => 'required|string|max:255',
+            'students.*.email' => 'required|email|max:255'
+        ]);
+
+        foreach ($request->students as $studentData) {
+            // Check if student already exists
+            $existingStudent = Student::where('student_id', $studentData['student_id'])->first();
+            
+            if (!$existingStudent) {
+                // Create new student if doesn't exist
+                $existingStudent = Student::create([
+                    'student_id' => $studentData['student_id'],
+                    'first_name' => $studentData['first_name'],
+                    'last_name' => $studentData['last_name'],
+                    'email' => $studentData['email']
+                ]);
+            }
+
+            // Check if student is already in the class
+            if (!$schoolClass->students()->where('student_id', $existingStudent->id)->exists()) {
+                $schoolClass->students()->attach($existingStudent->id);
+            }
+        }
+
+        return redirect()->route('instructor.classes.students', ['id' => $schoolClass->id])
+                        ->with('success', 'Students added successfully.');
+    }
 }

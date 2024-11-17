@@ -12,6 +12,7 @@ use App\Http\Controllers\ClassRecordController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ClassRecordItemController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -112,6 +113,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/grades', [GradeController::class, 'index'])->name('instructor.grades.index');
 
         Route::get('/instructor/class-records/{id}/pdf', [ClassRecordController::class, 'generatePDF'])->name('instructor.class_records.pdf');
+
+        Route::get('/instructor/classes/{id}/add-student', [App\Http\Controllers\SchoolClassController::class, 'addStudent'])->name('instructor.classes.add-student');
+
+        Route::post('/instructor/classes/{id}/add-students', [App\Http\Controllers\SchoolClassController::class, 'addStudentsStore'])->name('instructor.classes.students.store');
     });
 });
 
@@ -128,5 +133,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/import-class-records', [ClassRecordController::class, 'import'])->name('class-records.import');
+
+Route::post('/instructor/students/store', [StudentController::class, 'store'])->name('instructor.students.store');
 
 
