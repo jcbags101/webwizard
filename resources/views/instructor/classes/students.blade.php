@@ -11,9 +11,45 @@
         <h1>Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }}</h1>
         <a href="{{ route('instructor.class_records.pdf', ['id' => $schoolClass->id]) }}" class="btn btn-primary mb-3" target="_blank">Generate PDF</a>
         <div class="d-flex justify-content-end mb-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+            <button type="button" class="btn btn-success me-2" onclick="sendGrades()">
+                <i class="fas fa-envelope"></i> Send Grades to Students
+            </button>
+            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addStudentModal">
                 <i class="bi bi-plus-lg"></i> Add Student
             </button>
+            <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#shareInstructorModal">
+                <i class="fas fa-share-alt"></i> Share to Other Instructor
+            </button>
+
+            <!-- Share Instructor Modal -->
+            <div class="modal fade" id="shareInstructorModal" tabindex="-1" aria-labelledby="shareInstructorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="shareInstructorModalLabel">Share to Other Instructor</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="shareInstructorForm">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="instructor" class="form-label">Select Instructor</label>
+                                    <select class="form-select" id="instructor" name="instructor_email" required>
+                                        <option value="">Choose an instructor...</option>
+                                        @foreach($instructors as $instructor)
+                                            <option value="{{ $instructor->email }}">{{ $instructor->full_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="shareWithInstructor()">Share</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="mb-4">
             <nav class="nav-tabs mb-4">
@@ -418,11 +454,12 @@
                 }
             });
         }
+
+        let shareModal;
         
         document.addEventListener('DOMContentLoaded', function() {
+            shareModal = new bootstrap.Modal(document.getElementById('shareInstructorModal'));
             // Get modal element and create instance
-            const modalElement = document.getElementById('addStudentModal');
-            const modal = new bootstrap.Modal(modalElement);
 
             // Handle form submission
             document.getElementById('addStudentForm').addEventListener('submit', async function(e) {
@@ -525,5 +562,99 @@
                 modalElement.style.display = 'none';
             });
         });
+
+        async function sendGrades() {
+            try {
+                const response = await fetch('{{ route("instructor.classes.students.send-grades", $schoolClass->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Grades have been sent to students via email',
+                        icon: 'success',
+                        confirmButtonColor: '#F9A602'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message || 'Failed to send grades',
+                        icon: 'error',
+                        confirmButtonColor: '#F9A602'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to send grades. Please try again.',
+                    icon: 'error',
+                    confirmButtonColor: '#F9A602'
+                });
+            }
+        }
+
+        async function shareWithInstructor() {
+            const instructor = document.getElementById('instructor').value;
+            if (!instructor) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Validation Error', 
+                    text: 'Please select an instructor before sharing',
+                    confirmButtonColor: '#F9A602'
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch('{{ route('instructor.classes.share', ['id' => $schoolClass->id]) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    },
+                    body: JSON.stringify({
+                        instructor_email: instructor
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message || 'Successfully shared with instructor',
+                        confirmButtonColor: '#F9A602'
+                    });
+
+                    console.log('shareModal', shareModal);
+
+                    // Close modal
+                    if (shareModal) {
+                        shareModal.hide();
+                    }
+                } else {
+                    throw new Error(data.message || 'Failed to share with instructor');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'Error sharing with instructor',
+                    confirmButtonColor: '#F9A602'
+                });
+            }
+        }
     </script>
 @endsection

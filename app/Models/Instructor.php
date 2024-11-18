@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SharedClassRecord;
 
 class Instructor extends Model
 {
@@ -22,5 +23,10 @@ class Instructor extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'email', 'email');
+    }
+
+    public function sharedClasses()
+    {
+        return $this->hasMany(SharedClassRecord::class, 'instructor_id');
     }
 }

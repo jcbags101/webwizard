@@ -43,4 +43,9 @@ class SchoolClass extends Model
     {
         return $this->hasOne(ClassRecordItem::class, 'class_id');
     }
+
+    public function sharedInstructors()
+    {
+        return $this->belongsToMany(Instructor::class, 'shared_class_records', 'class_id', 'instructor_id');
+    }
 }

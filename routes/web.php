@@ -117,6 +117,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/instructor/classes/{id}/add-student', [App\Http\Controllers\SchoolClassController::class, 'addStudent'])->name('instructor.classes.add-student');
 
         Route::post('/instructor/classes/{id}/add-students', [App\Http\Controllers\SchoolClassController::class, 'addStudentsStore'])->name('instructor.classes.students.store');
+
+        Route::post('/instructor/classes/{id}/send-grades', [App\Http\Controllers\SchoolClassController::class, 'sendGrades'])->name('instructor.classes.students.send-grades');
+
+        Route::post('/instructor/classes/{id}/share', [App\Http\Controllers\SchoolClassController::class, 'shareClass'])->name('instructor.classes.share');
+
+        Route::get('/instructor/shared-records', [App\Http\Controllers\SharedClassRecordController::class, 'index'])->name('instructor.shared-records.index');
+        Route::get('/instructor/shared-records/{id}', [App\Http\Controllers\SharedClassRecordController::class, 'show'])->name('instructor.shared-records.show');
     });
 });
 

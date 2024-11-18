@@ -31,6 +31,12 @@
             </a>
         </li> --}}
         <!-- Add more sidebar items here -->
+        <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('instructor.shared-records.index') ? 'active' : '' }}"
+                href="{{ route('instructor.shared-records.index') }}">
+                <i class="fas fa-share-alt"></i> {{ __('Shared Class Records') }}
+            </a>
+        </li>
     </ul>
 </div>
 

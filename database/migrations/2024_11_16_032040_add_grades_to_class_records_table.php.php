@@ -41,6 +41,8 @@ return new class extends Migration
             
             // Final Grade
             $table->decimal('final_grade', 5, 2)->nullable();
+
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             
             $table->timestamps();
         });
