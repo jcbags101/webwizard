@@ -7,6 +7,11 @@
             {{ session('success') }}
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="container">
         <h1>Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }}</h1>
         <a href="{{ route('instructor.class_records.pdf', ['id' => $schoolClass->id]) }}" class="btn btn-primary mb-3" target="_blank">Generate PDF</a>
@@ -52,6 +57,23 @@
             </div>
         </div>
         <div class="mb-4">
+            <nav class="nav-tabs">
+                <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">
+                    <button class="btn btn-outline-danger rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#midtermContent" aria-expanded="false" >
+                        <i class="fas fa-file-alt me-2"></i>
+                        <span class="fw-bold">Midterm</span>
+                        <i class="fas fa-chevron-down ms-2"></i>
+                    </button>
+    
+                    <button class="btn btn-outline-dark rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#preFinalContent" aria-expanded="false">
+                        <i class="fas fa-file-alt me-2"></i>
+                        <span class="fw-bold">Pre-Final</span>
+                        <i class="fas fa-chevron-down ms-2"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class="mb-4">
             <nav class="nav-tabs mb-4">
                 <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">
                     <button class="btn btn-outline-primary rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target=".gradeColumn" aria-expanded="false" onclick="hideOthers('gradeColumn')">
@@ -84,6 +106,7 @@
                 <div class="card card-body p-3 bg-light">
                     <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
                         <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                         <div class="row row-cols-2 row-cols-md-3 g-3">
                             @for ($i = 1; $i <= 6; $i++)
@@ -115,6 +138,7 @@
                     <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                        <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
                         <div class="row row-cols-2 row-cols-md-3 g-3">
                             @for ($i = 1; $i <= 6; $i++)
                                 <div class="col">
@@ -241,6 +265,7 @@
                                     @csrf
                                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                                     <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
@@ -281,6 +306,7 @@
                                     @csrf
                                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                                     <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
@@ -321,6 +347,7 @@
                                     @csrf
                                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                                     <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 4; $i++)
                                             <div class="me-3">
@@ -361,6 +388,7 @@
                                     @csrf
                                     <input type="hidden" name="student_id" value="{{ $student->id }}">
                                     <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
                                             <label class="small">Midterm</label>
@@ -455,11 +483,151 @@
             });
         }
 
-        let shareModal;
-        
         document.addEventListener('DOMContentLoaded', function() {
-            shareModal = new bootstrap.Modal(document.getElementById('shareInstructorModal'));
-            // Get modal element and create instance
+            const midtermBtn = document.querySelector('[data-bs-target="#midtermContent"]');
+            const preFinalBtn = document.querySelector('[data-bs-target="#preFinalContent"]');
+            const termTypeInputs = document.getElementsByClassName('termTypeInput');
+            
+            // Add click event listeners
+            midtermBtn.addEventListener('click', function() {
+                Array.from(termTypeInputs).forEach(input => {
+                    input.value = 'midterm';
+                });
+            });
+
+            preFinalBtn.addEventListener('click', function() {
+                Array.from(termTypeInputs).forEach(input => {
+                    input.value = 'pre_final';
+                });
+
+                console.log(termTypeInputs);
+            });
+            
+            const transmutationTable = {
+                100: 1.0, 99: 1.1, 98: 1.2, 97: 1.3, 96: 1.4, 95: 1.5, 94: 1.6, 93: 1.6, 92: 1.7,
+                91: 1.7, 90: 1.8, 89: 1.8, 88: 1.9, 87: 1.9, 86: 2.0, 85: 2.0, 84: 2.1, 83: 2.1,
+                82: 2.2, 81: 2.2, 80: 2.3, 79: 2.3, 78: 2.4, 77: 2.4, 76: 2.5, 75: 2.5, 74: 2.6,
+                73: 2.6, 72: 2.6, 71: 2.6, 70: 2.6, 69: 2.7, 68: 2.7, 67: 2.7, 66: 2.7, 65: 2.7,
+                64: 2.8, 63: 2.8, 62: 2.8, 61: 2.8, 60: 2.8, 59: 2.9, 58: 2.9, 57: 2.9, 56: 2.9,
+                55: 2.9, 54: 3.0, 53: 3.0, 52: 3.0, 51: 3.0, 50: 3.0, 49: 3.1, 48: 3.1, 47: 3.1,
+                46: 3.2, 45: 3.2, 44: 3.3, 43: 3.3, 42: 3.3, 41: 3.3, 40: 3.3, 39: 3.4, 38: 3.4,
+                37: 3.5, 36: 3.5, 35: 3.5, 34: 3.6, 33: 3.6, 32: 3.6, 31: 3.7, 30: 3.7, 29: 3.8,
+                28: 3.8, 27: 3.8, 26: 3.8, 25: 3.9, 24: 3.9, 23: 3.9, 22: 4.0, 21: 4.0, 20: 4.1,
+                19: 4.1, 18: 4.1, 17: 4.2, 16: 4.2, 15: 4.3, 14: 4.3, 13: 4.4, 12: 4.4, 11: 4.4,
+                10: 4.5, 9: 4.5, 8: 4.6, 7: 4.6, 6: 4.7, 5: 4.7, 4: 4.8, 3: 4.8, 2: 4.9, 1: 4.9,
+                0: 5.0
+            };
+
+            const rates = {
+                quiz: 0.3,
+                oral: 0.2,
+                project: 0.1,
+                term: 0.4
+            }
+
+            function calculatePercentageAndTransmutation(score, totalItems) {
+                if (!score || !totalItems) return '';
+                const percentage = Math.round((score / totalItems) * 100);
+                // If percentage is less than minimum in table (26), return 5.0
+                if (percentage < 26) return 5.0;
+                // If percentage is greater than 100, return 1.0
+                if (percentage > 100) return 1.0;
+                return transmutationTable[percentage];
+            }
+
+            const quizItems = document.querySelectorAll('.quiz-items');
+            const oralItems = document.querySelectorAll('.oral-items');
+            const projectItems = document.querySelectorAll('.project-items');
+            const termItems = document.querySelectorAll('.term-exam-items');
+
+            // Handle quiz calculations for each row
+            // Helper function to handle calculations for a specific type of assessment
+            function handleAssessmentCalculations(row, {
+                inputs, percentages, totalInput, totalPercentageInput, itemInputs, rate
+            }) {
+                if (!inputs.length) return; // Skip if not a student row
+                
+                function updateCalculations() {
+                    console.log('updateCalculations');
+                    // Calculate individual scores
+                    inputs.forEach((input, index) => {
+                        const score = Number(input.value) || 0;
+                        const totalItems = Number(itemInputs[index]?.value) || 0;
+                        const transmutedGrade = calculatePercentageAndTransmutation(score, totalItems);
+                        if (percentages[index]) {
+                            percentages[index].value = transmutedGrade;
+                        }
+                    });
+
+                    console.log(inputs);
+                    // Calculate totals
+                    const totalScore = Array.from(inputs).reduce((sum, input) => 
+                        sum + (Number(input.value) || 0), 0);
+                    const totalItems = Array.from(itemInputs).reduce((sum, input) => 
+                        sum + (Number(input.value) || 0), 0);
+
+                    const total = calculatePercentageAndTransmutation(totalScore, totalItems);
+                    if (totalInput) {
+                        totalInput.value = total;
+                    }
+
+
+                    const totalPercentage = total * rate;
+                    if (totalPercentageInput) {
+                        totalPercentageInput.value = totalPercentage;
+                    }
+                }
+
+                // Add event listeners
+                [...inputs, ...itemInputs].forEach(input => {
+                    input.addEventListener('input', updateCalculations);
+                });
+
+                updateCalculations();
+            }
+
+            // Process each student row
+            document.querySelectorAll('tr').forEach(row => {
+                // Handle quizzes
+                handleAssessmentCalculations(row, {
+                    inputs: row.querySelectorAll('.quiz-input'),
+                    percentages: row.querySelectorAll('.quiz-percentage'), 
+                    totalInput: row.querySelector('.quiz-total'),
+                    totalPercentageInput: row.querySelector('.quiz-total-percentage'),
+                    itemInputs: quizItems,
+                    rate: rates.quiz
+                });
+
+                // Handle oral assessments  
+                handleAssessmentCalculations(row, {
+                    inputs: row.querySelectorAll('.oral-input'),
+                    percentages: row.querySelectorAll('.oral-percentage'),
+                    totalInput: row.querySelector('.oral-total'),
+                    totalPercentageInput: row.querySelector('.oral-total-percentage'),
+                    itemInputs: oralItems,
+                    rate: rates.oral
+                });
+
+                // Handle projects
+                handleAssessmentCalculations(row, {
+                    inputs: row.querySelectorAll('.project-input'),
+                    percentages: row.querySelectorAll('.project-percentage'),
+                    totalInput: row.querySelector('.project-total'),
+                    totalPercentageInput: row.querySelector('.project-total-percentage'),
+                    itemInputs: projectItems,
+                    rate: rates.project
+                });
+
+                // Handle term exams
+                handleAssessmentCalculations(row, {
+                    inputs: row.querySelectorAll('.term-exam-input'),
+                    percentages: row.querySelectorAll('.term-exam-percentage'),
+                    totalInput: row.querySelector('.term-exam-total'),
+                    totalPercentageInput: row.querySelector('.term-exam-total-percentage'),
+                    itemInputs: termItems,
+                    rate: rates.term
+                });
+            });
 
             // Handle form submission
             document.getElementById('addStudentForm').addEventListener('submit', async function(e) {
@@ -552,15 +720,6 @@
                     });
                 }
             });
-
-            // Handle modal hidden event
-            modalElement.addEventListener('hidden.bs.modal', function () {
-                document.body.classList.remove('modal-open');
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) backdrop.remove();
-                document.body.removeAttribute('style');
-                modalElement.style.display = 'none';
-            });
         });
 
         async function sendGrades() {
@@ -635,13 +794,6 @@
                         text: data.message || 'Successfully shared with instructor',
                         confirmButtonColor: '#F9A602'
                     });
-
-                    console.log('shareModal', shareModal);
-
-                    // Close modal
-                    if (shareModal) {
-                        shareModal.hide();
-                    }
                 } else {
                     throw new Error(data.message || 'Failed to share with instructor');
                 }

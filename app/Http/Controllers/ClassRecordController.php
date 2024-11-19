@@ -64,7 +64,8 @@ class ClassRecordController extends Controller
             'project4' => 'nullable|numeric|min:0|max:100',
             'midterm' => 'nullable|numeric|min:0|max:100',
             'final' => 'nullable|numeric|min:0|max:100',
-            'final_grade' => 'nullable|numeric|min:0|max:100'
+            'final_grade' => 'nullable|numeric|min:0|max:100',
+            'term_type' => 'required|string'
         ]);
 
         
@@ -112,6 +113,11 @@ class ClassRecordController extends Controller
 
         // Get class record items for total possible scores
         $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $request->class_id)->first();
+
+
+        if (!$classRecordItem) {
+            return redirect()->route('instructor.classes.students', ['id' => $request->class_id])->with('error', 'Class record items not found.');
+        }
 
         // Calculate percentages for each component
         $quizTotal = 0;
