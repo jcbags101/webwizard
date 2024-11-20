@@ -17,10 +17,7 @@ class SubmittedRequirementController extends Controller
     public function index(Request $request)
     {
         $instructor = \App\Models\Instructor::where('email', auth()->user()->email)->first();
-        $query = SubmittedRequirement::where('instructor_id', $instructor->id)
-            ->whereHas('class', function($query) use ($instructor) {
-                $query->where('instructor_id', $instructor->id);
-            });
+        $query = SubmittedRequirement::where('instructor_id', $instructor->id);
 
         if ($request->has('class_id')) {
             $query->where('class_id', $request->class_id);

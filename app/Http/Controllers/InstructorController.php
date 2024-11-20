@@ -14,12 +14,8 @@ class InstructorController extends Controller
 
     public function index()
     {
-       if (auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman') {
-           $instructors = Instructor::whereDoesntHave('submittedRequirements')->get();
-       } else {
-           $instructors = Instructor::all();
-       }
-       return view('admin.instructor.index', compact('instructors'));
+        $instructors = Instructor::all();
+        return view('admin.instructor.index', compact('instructors'));
     }
 
     public function create()
