@@ -50,25 +50,25 @@
 
     <div class="details">
         <div class="details-row">
-            <strong>MIS CODE:</strong> {{ $schoolClass->subject->code }}
+            <strong style="display: inline-block; width: 120px;">MIS CODE</strong>: {{ $schoolClass->subject->code }}
         </div>
         <div class="details-row">
-            <strong>SUBJECT:</strong> {{ $schoolClass->subject->name }}
+            <strong style="display: inline-block; width: 120px;">SUBJECT</strong>: {{ $schoolClass->subject->name }}
         </div>
         <div class="details-row">
-            <strong>DESCRIPTION:</strong> {{ $schoolClass->subject->description }}
+            <strong style="display: inline-block; width: 120px;">DESCRIPTION</strong>: {{ $schoolClass->subject->description }}
         </div>
         <div class="details-row">
-            <strong>UNIT:</strong> {{ $schoolClass->subject->units }}
+            <strong style="display: inline-block; width: 120px;">UNIT</strong>: {{ $schoolClass->subject->units }}
         </div>
         <div class="details-row">
-            <strong>TIME/DAY/ROOM:</strong> {{ $schoolClass->schedule }}
+            <strong style="display: inline-block; width: 120px;">TIME/DAY/ROOM</strong>: {{ $schoolClass->schedule }}
         </div>
         <div class="details-row">
-            <strong>INSTRUCTOR:</strong> {{ $schoolClass->instructor->name }}
+            <strong style="display: inline-block; width: 120px;">INSTRUCTOR</strong>: {{ $schoolClass->instructor->name }}
         </div>
         <div class="details-row">
-            <strong>DATE AND TIME:</strong> {{ $currentDateTime }}
+            <strong style="display: inline-block; width: 120px;">DATE AND TIME</strong>: {{ $currentDateTime }}
         </div>
     </div>
 
@@ -103,6 +103,37 @@
             </tr>
             @endforeach
         </tbody>
+    </table>
+
+    <table style="margin-top: 50px; border: none;">
+        <tr>
+            <td style="border: none; width: 50%; vertical-align: top;">
+                <p><strong>Prepared and Submitted By:</strong></p>
+                <br><br><br>
+                <p style="margin-bottom: 0;"><strong>{{ $schoolClass->instructor->full_name }}</strong></p>
+                <p style="margin-top: 0;">Associate Professor V, College of Technology</p>
+                <p style="margin-top: 0;">CTU-NAGA EXTENSION CAMPUS</p>
+                <br><br>
+                <p><strong>Reviewed and Certified True and Correct:</strong></p>
+                <br><br><br>
+                <p style="margin-bottom: 0;"><strong>AL D. HORTEZA, LPT, Ph.D.</strong></p>
+                <p style="margin-top: 0;">Campus Head of Instruction</p>
+                <p style="margin-top: 0;">CTU-NAGA EXTENSION CAMPUS</p>
+            </td>
+            <td style="border: none; width: 50%; vertical-align: top;">
+                <p><strong>Noted and Checked By:</strong></p>
+                <br><br><br>
+                <p style="margin-bottom: 0;"><strong>MARIA CHRISTINA A. FLORES, LPT, MSME</strong></p>
+                <p style="margin-top: 0;">Chairman, College of Technology</p>
+                <p style="margin-top: 0;">CTU-NAGA EXTENSION CAMPUS</p>
+                <br><br>
+                <p><strong>Received By:</strong></p>
+                <br><br><br>
+                <p style="margin-bottom: 0;"><strong>JOVEL R. CADAVOS, LPT</strong></p>
+                <p style="margin-top: 0;">Registrar Designate</p>
+                <p style="margin-top: 0;">CTU-NAGA EXTENSION CAMPUS</p>
+            </td>
+        </tr>
     </table>
 </body>
 </html>

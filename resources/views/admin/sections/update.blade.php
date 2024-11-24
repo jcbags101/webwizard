@@ -126,7 +126,7 @@
                                                 </span>
                                             @enderror
                                         </td>
-                                        
+
                                         <td>
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-primary btn-sm" onclick="updateExistingStudent({{ $student->id }})">
