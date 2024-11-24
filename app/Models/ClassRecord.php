@@ -30,7 +30,25 @@ class ClassRecord extends Model
         'midterm',
         'final',
         'final_grade',
-        'class_id'
+        'class_id',
+        'pre_final_quiz_1',
+        'pre_final_quiz_2',
+        'pre_final_quiz_3',
+        'pre_final_quiz_4',
+        'pre_final_quiz_5',
+        'pre_final_quiz_6',
+        'pre_final_oral_1',
+        'pre_final_oral_2',
+        'pre_final_oral_3',
+        'pre_final_oral_4',
+        'pre_final_oral_5',
+        'pre_final_oral_6',
+        'pre_final_project_1',
+        'pre_final_project_2',
+        'pre_final_project_3',
+        'pre_final_project_4',
+        'pre_final_midterm',
+        'pre_final_final',
     ];
 
     public function student()

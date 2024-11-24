@@ -33,7 +33,25 @@ class ClassRecordItemController extends Controller
             'project3_items' => 'nullable|decimal:0,2|min:1',
             'project4_items' => 'nullable|decimal:0,2|min:1',
             'midterm_exam_items' => 'nullable|decimal:0,2|min:1',
-            'final_exam_items' => 'nullable|decimal:0,2|min:1'
+            'final_exam_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz1_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz2_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz3_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz4_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz5_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_quiz6_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral1_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral2_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral3_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral4_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral5_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_oral6_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_project1_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_project2_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_project3_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_project4_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_midterm_exam_items' => 'nullable|decimal:0,2|min:1',
+            'pre_final_final_exam_items' => 'nullable|decimal:0,2|min:1',
         ]);
 
         $updateData = [];
@@ -58,8 +76,34 @@ class ClassRecordItemController extends Controller
                 $updateData["project_{$i}"] = $request->{"project{$i}_items"};
             }
         }
+
+        // Pre Final Exam scores
+        for ($i = 1; $i <= 6; $i++) {
+            if ($request->has("pre_final_quiz{$i}_items")) {
+                $updateData["pre_final_quiz_{$i}"] = $request->{"pre_final_quiz{$i}_items"};
+            }
+        }
+
+        for ($i = 1; $i <= 6; $i++) {
+            if ($request->has("pre_final_oral{$i}_items")) {
+                $updateData["pre_final_oral_{$i}"] = $request->{"pre_final_oral{$i}_items"};
+            }
+        }
+
+        for ($i = 1; $i <= 4; $i++) {
+            if ($request->has("pre_final_project{$i}_items")) {
+                $updateData["pre_final_project_{$i}"] = $request->{"pre_final_project{$i}_items"};
+            }
+        }
         
         // Exam scores
+        if ($request->has("pre_final_midterm_exam_items")) {
+            $updateData['pre_final_midterm'] = $request->{"pre_final_midterm_exam_items"};
+        }
+        if ($request->has('pre_final_final_exam_items')) {
+            $updateData['pre_final_final'] = $request->{"pre_final_final_exam_items"};
+        }
+
         if ($request->has('midterm_exam_items')) {
             $updateData['midterm'] = $request->midterm_exam_items;
         }
@@ -67,7 +111,6 @@ class ClassRecordItemController extends Controller
             $updateData['final'] = $request->final_exam_items;
         }
 
-        
         $classRecordItem = \App\Models\ClassRecordItem::updateOrCreate(
             [
                 'class_id' => $request->class_id
