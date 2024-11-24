@@ -1,18 +1,18 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <a href="{{ route('instructor.classes.index') }}" class="btn btn-secondary mb-3">Back</a>
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-    <div class="container">
+@if(session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
+<div class="container">
+        <a href="{{ route('instructor.classes.index') }}" class="btn btn-secondary mb-3">Back</a>
         <h1>Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }}</h1>
         <a href="{{ route('instructor.class_records.pdf', ['id' => $schoolClass->id]) }}" class="btn btn-primary mb-3" target="_blank">Generate PDF</a>
         <div class="d-flex justify-content-end mb-3">
