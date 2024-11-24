@@ -623,7 +623,7 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" class="form-control form-control-sm quiz-total-percentage" style="width: 80px;" readonly>
+                                                    <input type="number" class="form-control form-control-sm pre-final-quiz-total-percentage" style="width: 80px;" readonly>
                                                     <small class="text-muted">30%</small>
                                                 </div>
                                             </div>
