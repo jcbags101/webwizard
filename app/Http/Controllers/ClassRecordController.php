@@ -41,114 +41,130 @@ class ClassRecordController extends Controller
         return view('instructor.class_records.index');
     }
 
-    public function store(Request $request)
+    private function validateRequest(Request $request)
     {
-        $request->validate([
+        return $request->validate([
             'student_id' => 'required|exists:students,id',
             'class_id' => 'required|exists:classes,id',
-            'quiz1' => 'nullable|numeric|min:0|max:100',
-            'quiz2' => 'nullable|numeric|min:0|max:100', 
-            'quiz3' => 'nullable|numeric|min:0|max:100',
-            'quiz4' => 'nullable|numeric|min:0|max:100',
-            'quiz5' => 'nullable|numeric|min:0|max:100',
-            'quiz6' => 'nullable|numeric|min:0|max:100',
-            'oral1' => 'nullable|numeric|min:0|max:100',
-            'oral2' => 'nullable|numeric|min:0|max:100',
-            'oral3' => 'nullable|numeric|min:0|max:100', 
-            'oral4' => 'nullable|numeric|min:0|max:100',
-            'oral5' => 'nullable|numeric|min:0|max:100',
-            'oral6' => 'nullable|numeric|min:0|max:100',
-            'project1' => 'nullable|numeric|min:0|max:100',
-            'project2' => 'nullable|numeric|min:0|max:100',
-            'project3' => 'nullable|numeric|min:0|max:100',
-            'project4' => 'nullable|numeric|min:0|max:100',
-            'midterm' => 'nullable|numeric|min:0|max:100',
-            'final' => 'nullable|numeric|min:0|max:100',
-            'final_grade' => 'nullable|numeric|min:0|max:100',
             'term_type' => 'required|string',
-            'pre_final_quiz1' => 'nullable|numeric|min:0|max:100',
-            'pre_final_quiz2' => 'nullable|numeric|min:0|max:100',
-            'pre_final_quiz3' => 'nullable|numeric|min:0|max:100',
-            'pre_final_quiz4' => 'nullable|numeric|min:0|max:100',
-            'pre_final_quiz5' => 'nullable|numeric|min:0|max:100',
-            'pre_final_quiz6' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral1' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral2' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral3' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral4' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral5' => 'nullable|numeric|min:0|max:100',
-            'pre_final_oral6' => 'nullable|numeric|min:0|max:100',
-            'pre_final_project1' => 'nullable|numeric|min:0|max:100',
-            'pre_final_project2' => 'nullable|numeric|min:0|max:100',
-            'pre_final_project3' => 'nullable|numeric|min:0|max:100',
-            'pre_final_project4' => 'nullable|numeric|min:0|max:100',
-            'pre_final_midterm' => 'nullable|numeric|min:0|max:100',
-            'pre_final_final' => 'nullable|numeric|min:0|max:100',
+            // Group similar validations
+            ...$this->getScoreValidationRules(),
         ]);
+    }
 
-        
+    private function getScoreValidationRules()
+    {
+        $rules = [];
+        $scoreTypes = ['quiz', 'oral', 'project', 'pre_final_quiz', 'pre_final_oral', 'pre_final_project'];
+        $maxItems = ['quiz' => 6, 'oral' => 6, 'project' => 4];
+
+        foreach ($scoreTypes as $type) {
+            $max = $maxItems[str_replace('pre_final_', '', $type)] ?? 6;
+            for ($i = 1; $i <= $max; $i++) {
+                $rules["{$type}{$i}"] = 'nullable|numeric|min:0|max:100';
+            }
+        }
+
+        // Add exam rules
+        $examTypes = ['midterm', 'final', 'final_grade', 'pre_final_midterm', 'pre_final_final'];
+        foreach ($examTypes as $type) {
+            $rules[$type] = 'nullable|numeric|min:0|max:100';
+        }
+
+        return $rules;
+    }
+
+    private function prepareUpdateData(Request $request)
+    {
         $updateData = [];
         
-        // Quiz scores
-        for ($i = 1; $i <= 6; $i++) {
-            if ($request->has("quiz$i")) {
-                $updateData["quiz_$i"] = $request->{"quiz$i"};
+        // Handle regular scores
+        $this->processScores($updateData, $request, ['quiz', 'oral', 'project']);
+        
+        // Handle pre-final scores
+        $this->processScores($updateData, $request, ['pre_final_quiz', 'pre_final_oral', 'pre_final_project']);
+        
+        // Handle exam scores
+        $examTypes = ['midterm', 'final', 'final_grade', 'pre_final_midterm', 'pre_final_final'];
+        foreach ($examTypes as $type) {
+            if ($request->has($type)) {
+                $updateData[$type] = $request->$type;
             }
         }
         
-        // Oral scores
-        for ($i = 1; $i <= 6; $i++) {
-            if ($request->has("oral$i")) {
-                $updateData["oral_$i"] = $request->{"oral$i"};
+        return $updateData;
+    }
+
+    private function processScores(&$updateData, Request $request, array $types)
+    {
+        $maxItems = ['quiz' => 6, 'oral' => 6, 'project' => 4];
+        
+        foreach ($types as $type) {
+            $baseType = str_replace('pre_final_', '', $type);
+            $max = $maxItems[$baseType];
+            
+            for ($i = 1; $i <= $max; $i++) {
+                $requestKey = "{$type}{$i}";
+                $dbKey = str_replace('final_', 'final_', "{$type}_{$i}");
+                
+                if ($request->has($requestKey)) {
+                    $updateData[$dbKey] = $request->$requestKey;
+                }
+            }
+        }
+    }
+
+    private function calculateComponentPercentage($classRecord, $classRecordItem, $component, $maxItems, $weight)
+    {
+        $total = 0;
+        $items = 0;
+        
+        for ($i = 1; $i <= $maxItems; $i++) {
+            $field = "{$component}_{$i}";
+            if ($classRecordItem->$field) {
+                $percentage = ($classRecord->$field / $classRecordItem->$field) * 100;
+                $transmutedGrade = $this->calculateFinalGrade($percentage);
+                $total += $transmutedGrade;
+                $items++;
             }
         }
         
-        // Project scores
-        for ($i = 1; $i <= 4; $i++) {
-            if ($request->has("project$i")) {
-                $updateData["project_$i"] = $request->{"project$i"}; 
-            }
-        }
+        return $items > 0 ? ($total / $items) * $weight : 0;
+    }
 
-        // Pre-final quiz scores
-        for ($i = 1; $i <= 6; $i++) {
-            if ($request->has("pre_final_quiz$i")) {
-                $updateData["pre_final_quiz_$i"] = $request->{"pre_final_quiz$i"};
-            }
-        }
-
-        // Pre-final oral scores
-        for ($i = 1; $i <= 6; $i++) {
-            if ($request->has("pre_final_oral$i")) {
-                $updateData["pre_final_oral_$i"] = $request->{"pre_final_oral$i"};
+    private function calculateExamPercentage($classRecord, $classRecordItem, $updateData, $examFields, $weight)
+    {
+        $total = 0;
+        $items = 0;
+        
+        foreach ($examFields as $field) {
+            if (isset($updateData[$field]) && $classRecordItem->$field) {
+                $percentage = ($updateData[$field] / $classRecordItem->$field) * 100;
+                $transmutedGrade = $this->calculateFinalGrade($percentage);
+                $total += $transmutedGrade;
+                $items++;
             }
         }
         
-        // Pre-final project scores
-        for ($i = 1; $i <= 4; $i++) {
-            if ($request->has("pre_final_project$i")) {
-                $updateData["pre_final_project_$i"] = $request->{"pre_final_project$i"};
+        return $items > 0 ? ($total / $items) * $weight : 0;
+    }
+
+    private function calculateFinalGrade($finalPercentage)
+    {
+        $finalGrade = 5.0; // Default to lowest grade
+        foreach ($this->transmutationTable as $percentage => $grade) {
+            if ($finalPercentage >= $percentage) {
+                return $grade;
             }
         }
+        return $finalGrade;
+    }
 
-
-        if ($request->has('pre_final_midterm')) {
-            $updateData['pre_final_midterm'] = $request->pre_final_midterm;
-        }
-        if ($request->has('pre_final_final')) {
-            $updateData['pre_final_final'] = $request->pre_final_final;
-        } 
-        // Exam scores
-        if ($request->has('midterm')) {
-            $updateData['midterm'] = $request->midterm;
-        }
-        if ($request->has('final')) {
-            $updateData['final'] = $request->final;
-        }
-        if ($request->has('final_grade')) {
-            $updateData['final_grade'] = $request->final_grade;
-        }
-
+    public function store(Request $request)
+    {
+        $this->validateRequest($request);
+        $updateData = $this->prepareUpdateData($request);
+        
         $classRecord = \App\Models\ClassRecord::updateOrCreate(
             [
                 'student_id' => $request->student_id,
@@ -157,121 +173,37 @@ class ClassRecordController extends Controller
             $updateData
         );
 
-        // Get class record items for total possible scores
         $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $request->class_id)->first();
-
-
+        
         if (!$classRecordItem) {
-            return redirect()->route('instructor.classes.students', ['id' => $request->class_id])->with('error', 'Class record items not found.');
+            return redirect()
+                ->route('instructor.classes.students', ['id' => $request->class_id])
+                ->with('error', 'Class record items not found.');
         }
 
-        // Calculate percentages for each component
-        $quizTotal = 0;
-        $quizItems = 0;
-        for ($i = 1; $i <= 6; $i++) {
-            if ($classRecordItem->{"quiz_$i"}) {
-                $quizTotal += $classRecord->{"quiz_$i"};
-                $quizItems += $classRecordItem->{"quiz_$i"};
-            }
-        }
-        $quizPercentage = $quizItems > 0 ? ($quizTotal / $quizItems) * 0.3 : 0;
+        // Calculate regular term percentages
+        $quizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'quiz', 6, 0.3);
+        $oralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'oral', 6, 0.2);
+        $projectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'project', 4, 0.1);
+        $examPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['midterm', 'final'], 0.4);
 
-        $oralTotal = 0;
-        $oralItems = 0;
-        for ($i = 1; $i <= 6; $i++) {
-            if ($classRecordItem->{"oral_$i"}) {
-                $oralTotal += $classRecord->{"oral_$i"};
-                $oralItems += $classRecordItem->{"oral_$i"};
-            }
-        }
-        $oralPercentage = $oralItems > 0 ? ($oralTotal / $oralItems) * 0.2 : 0;
+        // Calculate pre-final percentages
+        $preFinalQuizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_quiz', 6, 0.3);
+        $preFinalOralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_oral', 6, 0.2);
+        $preFinalProjectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_project', 4, 0.1);
+        $preFinalExamPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['pre_final_midterm', 'pre_final_final'], 0.4);
 
-        $projectTotal = 0;
-        $projectItems = 0;
-        for ($i = 1; $i <= 4; $i++) {
-            if ($classRecordItem->{"project_$i"}) {
-                $projectTotal += $classRecord->{"project_$i"};
-                $projectItems += $classRecordItem->{"project_$i"};
-            }
-        }
-        $projectPercentage = $projectItems > 0 ? ($projectTotal / $projectItems) * 0.1 : 0;
-
-        $examTotal = 0;
-        $examItems = 0;
-        if (isset($updateData['midterm']) && $classRecordItem->midterm) {
-            $examTotal += $classRecord->midterm;
-            $examItems += $classRecordItem->midterm;
-        }
-        if (isset($updateData['final']) && $classRecordItem->final) {
-            $examTotal += $classRecord->final; 
-            $examItems += $classRecordItem->final;
-        }
-        $examPercentage = $examItems > 0 ? ($examTotal / $examItems) * 0.4 : 0;
-
-        $preFinalQuizTotal = 0;
-        $preFinalQuizItems = 0;
-        for ($i = 1; $i <= 6; $i++) {
-            if ($classRecordItem->{"pre_final_quiz_$i"}) {
-                $preFinalQuizTotal += $classRecord->{"pre_final_quiz_$i"};
-                $preFinalQuizItems += $classRecordItem->{"pre_final_quiz_$i"};
-            }
-        }
-        $preFinalQuizPercentage = $preFinalQuizItems > 0 ? ($preFinalQuizTotal / $preFinalQuizItems) * 0.3 : 0;
-
-        $preFinalOralTotal = 0;
-        $preFinalOralItems = 0;
-        for ($i = 1; $i <= 6; $i++) {
-            if ($classRecordItem->{"pre_final_oral_$i"}) {
-                $preFinalOralTotal += $classRecord->{"pre_final_oral_$i"};
-                $preFinalOralItems += $classRecordItem->{"pre_final_oral_$i"};
-            }
-        }
-        $preFinalOralPercentage = $preFinalOralItems > 0 ? ($preFinalOralTotal / $preFinalOralItems) * 0.2 : 0;
-
-        $preFinalProjectTotal = 0;
-        $preFinalProjectItems = 0;
-        for ($i = 1; $i <= 4; $i++) {
-            if ($classRecordItem->{"pre_final_project_$i"}) {
-                $preFinalProjectTotal += $classRecord->{"pre_final_project_$i"};
-                $preFinalProjectItems += $classRecordItem->{"pre_final_project_$i"};
-            }
-        }
-        $preFinalProjectPercentage = $preFinalProjectItems > 0 ? ($preFinalProjectTotal / $preFinalProjectItems) * 0.1 : 0;
-
-
-        $preFinalExamTotal = 0;
-        $preFinalExamItems = 0;
-        if (isset($updateData['pre_final_midterm']) && $classRecordItem->pre_final_midterm) {
-            $preFinalExamTotal += $classRecord->pre_final_midterm;
-            $preFinalExamItems += $classRecordItem->pre_final_midterm;
-        }
-        if (isset($updateData['pre_final_final']) && $classRecordItem->pre_final_final) {
-            $preFinalExamTotal += $classRecord->pre_final_final;
-            $preFinalExamItems += $classRecordItem->pre_final_final;
-        }
-        $preFinalExamPercentage = $preFinalExamItems > 0 ? ($preFinalExamTotal / $preFinalExamItems) * 0.4 : 0;
-
-        // Calculate final percentage
-        $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage) * 100;
-        $preFinalFinalPercentage = ($preFinalQuizPercentage + $preFinalOralPercentage + $preFinalProjectPercentage + $preFinalExamPercentage) * 100;
-
+        // Calculate final percentages
+        $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage);
+        $preFinalFinalPercentage = ($preFinalQuizPercentage + $preFinalOralPercentage + $preFinalProjectPercentage + $preFinalExamPercentage);
+        
         $finalGradePercentage = ($preFinalFinalPercentage + $finalPercentage) / 2;
 
-        // Get transmuted grade
-        $finalGrade = 5.0; // Default to lowest grade
-        foreach ($this->transmutationTable as $percentage => $grade) {
-            if ($finalGradePercentage >= $percentage) {
-                $finalGrade = $grade;
-                break;
-            }
-        }
+        $classRecord->update(['final_grade' => $finalGradePercentage, 'midterm_grade' => $finalPercentage, 'prefinal_grade' => $preFinalFinalPercentage]);
 
-        // Update final grade
-        $classRecord->update([
-            'final_grade' => $finalGrade
-        ]);
-
-        return redirect()->route('instructor.classes.students', ['id' => $request->class_id])->with('success', 'Grades saved successfully.');
+        return redirect()
+            ->route('instructor.classes.students', ['id' => $request->class_id])
+            ->with('success', 'Grades saved successfully.');
     }
 
     public function generatePDF($classId)

@@ -49,6 +49,8 @@ class ClassRecord extends Model
         'pre_final_project_4',
         'pre_final_midterm',
         'pre_final_final',
+        'midterm_grade',
+        'prefinal_grade'
     ];
 
     public function student()

@@ -398,8 +398,9 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>LRN</th>
-                    
+                    <th>MidTerm Grade</th>
+                    <th>PreFinal Grade</th>
+                    <th>Final Grade</th>
                 </tr>
             </thead>
             <tbody>
@@ -413,6 +414,8 @@
                             <td>{{ $student->id }}</td>
                             <td>{{ $student->full_name }}</td>
                             <td>{{ $student->email }}</td>
+                            <td>{{ $student->getClassRecord($schoolClass->id)->midterm_grade ?? 0 }}</td>
+                            <td>{{ $student->getClassRecord($schoolClass->id)->prefinal_grade ?? 0 }}</td>
                             <td>{{ $student->getClassRecord($schoolClass->id)->final_grade ?? 0 }}</td>
                             <td class="collapse gradeColumn">
                                 <form action="{{ route('instructor.class_records.store') }}" method="POST" class="d-inline mt-2">
