@@ -894,15 +894,16 @@
                     const totalItems = Array.from(itemInputs).reduce((sum, input) => 
                         sum + (Number(input.value) || 0), 0);
 
-                    const total = calculatePercentageAndTransmutation(totalScore, totalItems);
+                    const total = Array.from(percentages).reduce((sum, input) => 
+                        sum + (Number(input.value) || 0), 0) / percentages.length;
                     if (totalInput) {
-                        totalInput.value = total;
+                        totalInput.value = Math.round(total * 10) / 10;
                     }
 
 
                     const totalPercentage = total * rate;
                     if (totalPercentageInput) {
-                        totalPercentageInput.value = totalPercentage;
+                        totalPercentageInput.value = Math.round(totalPercentage * 100) / 100;
                     }
                 }
 

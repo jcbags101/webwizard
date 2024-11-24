@@ -171,7 +171,7 @@ class ClassRecordController extends Controller
         for ($i = 1; $i <= 6; $i++) {
             if ($classRecordItem->{"quiz_$i"}) {
                 $quizTotal += $classRecord->{"quiz_$i"};
-                $quizItems += $classRecordItem->{"quiz_$i"}; 
+                $quizItems += $classRecordItem->{"quiz_$i"};
             }
         }
         $quizPercentage = $quizItems > 0 ? ($quizTotal / $quizItems) * 0.3 : 0;
