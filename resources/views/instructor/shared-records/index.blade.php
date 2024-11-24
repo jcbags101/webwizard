@@ -1,7 +1,6 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <div class="container">
         <h1>Shared Class Records</h1>
 
         @if(session('success'))
@@ -41,6 +40,5 @@
                     @endif
                 </tbody>
             </table>
-        </div>
     </div>
 @endsection

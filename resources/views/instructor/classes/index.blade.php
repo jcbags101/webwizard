@@ -1,7 +1,6 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <div class="container">
         <h1>All Classes</h1>
         <table class="table table-striped">
             <thead>
@@ -47,5 +46,4 @@
                 @endif
             </tbody>
         </table>
-    </div>
 @endsection

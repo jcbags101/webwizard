@@ -1,7 +1,6 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <div class="container">
         <h1>All Instructors</h1>
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -120,7 +119,6 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
 
     
     <script>

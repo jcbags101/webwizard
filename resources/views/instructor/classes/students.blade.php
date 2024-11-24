@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="mb-4">
+        <div class="mb-4">
             <nav class="nav-tabs">
                 <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">
                     <button class="btn btn-outline-danger rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target="#midtermContent" aria-expanded="false" onclick="mainHideOthers('midtermContent')">
@@ -72,8 +72,8 @@
                     </button>
                 </div>
             </nav>
-        </div> --}}
-        <div class="mb-4" id="midtermContent">
+        </div>
+        <div class="mb-4 collapse" id="midtermContent">
             <nav class="nav-tabs mb-4">
                 <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">
                     <button class="btn btn-outline-primary rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target=".gradeColumn" aria-expanded="false" onclick="hideOthers('gradeColumn')">
@@ -118,7 +118,6 @@
                                                    class="form-control quiz-items" 
                                                    min="1" 
                                                    step="1" 
-                                                   required
                                                    value="{{ $schoolClass->classRecordItem?->{"quiz_{$i}"} }}"
                                                    placeholder="Enter items">
                                             <span class="input-group-text">items</span>
@@ -149,7 +148,6 @@
                                                class="form-control oral-items" 
                                                min="1" 
                                                step="1" 
-                                               required
                                                value="{{ $schoolClass->classRecordItem?->{"oral_{$i}"} }}"
                                                placeholder="Enter items">
                                         <span class="input-group-text">items</span>
@@ -179,7 +177,6 @@
                                                class="form-control project-items" 
                                                min="1" 
                                                step="1" 
-                                               required
                                                value="{{ $schoolClass->classRecordItem?->{"project_{$i}"} }}"
                                                placeholder="Enter items">
                                         <span class="input-group-text">items</span>
@@ -208,7 +205,6 @@
                                            class="form-control term-exam-items" 
                                            min="1" 
                                            step="1" 
-                                           required
                                            value="{{ $schoolClass->classRecordItem?->{"midterm"} }}"
                                            placeholder="Enter items">
                                     <span class="input-group-text">items</span>
@@ -222,7 +218,6 @@
                                            class="form-control term-exam-items" 
                                            min="1" 
                                            step="1" 
-                                           required
                                            value="{{ $schoolClass->classRecordItem?->{"final"} }}"
                                            placeholder="Enter items">
                                     <span class="input-group-text">items</span>
@@ -237,7 +232,7 @@
             </div>
         </div>
 
-        <div class="mb-4" id="preFinalContent">
+        <div class="mb-4 collapse" id="preFinalContent">
             <nav class="nav-tabs mb-4">
                 <div class="d-flex align-items-center justify-content-center bg-white rounded-top p-2 shadow-sm">
                     <button class="btn btn-outline-primary rounded-pill me-3 px-4 py-2" type="button" data-bs-toggle="collapse" data-bs-target=".preFinalGradeColumn" aria-expanded="false" onclick="hideOthers('preFinalGradeColumn')">
@@ -282,7 +277,6 @@
                                                class="form-control pre-final-quiz-items" 
                                                min="1" 
                                                step="1" 
-                                               required
                                                value="{{ $schoolClass->classRecordItem?->{"pre_final_quiz_{$i}"} }}"
                                                placeholder="Enter items">
                                         <span class="input-group-text">items</span>
@@ -313,7 +307,6 @@
                                                class="form-control pre-final-oral-items" 
                                                min="1" 
                                                step="1" 
-                                               required
                                                value="{{ $schoolClass->classRecordItem?->{"pre_final_oral_{$i}"} }}"
                                                placeholder="Enter items">
                                         <span class="input-group-text">items</span>
@@ -344,7 +337,6 @@
                                                class="form-control pre-final-project-items" 
                                                min="1" 
                                                step="1" 
-                                               required
                                                value="{{ $schoolClass->classRecordItem?->{"pre_final_project_{$i}"} }}"
                                                placeholder="Enter items">
                                         <span class="input-group-text">items</span>
@@ -374,7 +366,6 @@
                                            class="form-control pre-final-term-exam-items" 
                                            min="1" 
                                            step="1" 
-                                           required
                                            value="{{ $schoolClass->classRecordItem?->{"pre_final_midterm"} }}"
                                            placeholder="Enter items">
                                 </div>
@@ -387,7 +378,6 @@
                                            class="form-control pre-final-term-exam-items" 
                                            min="1" 
                                            step="1" 
-                                           required
                                            value="{{ $schoolClass->classRecordItem?->{"pre_final_final"} }}"
                                            placeholder="Enter items">
                                 </div>
@@ -818,24 +808,24 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // const midtermBtn = document.querySelector('[data-bs-target="#midtermContent"]');
-            // const preFinalBtn = document.querySelector('[data-bs-target="#preFinalContent"]');
-            // const termTypeInputs = document.getElementsByClassName('termTypeInput');
+            const midtermBtn = document.querySelector('[data-bs-target="#midtermContent"]');
+            const preFinalBtn = document.querySelector('[data-bs-target="#preFinalContent"]');
+            const termTypeInputs = document.getElementsByClassName('termTypeInput');
             
-            // // Add click event listeners
-            // midtermBtn.addEventListener('click', function() {
-            //     Array.from(termTypeInputs).forEach(input => {
-            //         input.value = 'midterm';
-            //     });
-            // });
+            // Add click event listeners
+            midtermBtn.addEventListener('click', function() {
+                Array.from(termTypeInputs).forEach(input => {
+                    input.value = 'midterm';
+                });
+            });
 
-            // preFinalBtn.addEventListener('click', function() {
-            //     Array.from(termTypeInputs).forEach(input => {
-            //         input.value = 'pre_final';
-            //     });
+            preFinalBtn.addEventListener('click', function() {
+                Array.from(termTypeInputs).forEach(input => {
+                    input.value = 'pre_final';
+                });
 
-            //     console.log(termTypeInputs);
-            // });
+                console.log(termTypeInputs);
+            });
             
             const transmutationTable = {
                 100: 1.0, 99: 1.1, 98: 1.2, 97: 1.3, 96: 1.4, 95: 1.5, 94: 1.6, 93: 1.6, 92: 1.7,

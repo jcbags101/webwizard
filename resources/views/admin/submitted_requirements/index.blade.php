@@ -4,7 +4,6 @@
     <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Back</a>
 
 
-    <div class="container">
         <h1>All Submitted Requirements</h1>
         <div class="mb-3">
             <a href="{{ route('admin.submitted_requirements.index', ['edit_status' => 'request_submitted']) }}" class="btn btn-primary {{ request('edit_status') == 'request_submitted' ? 'active' : '' }}">
@@ -89,5 +88,4 @@
                 No submitted requirements found.
             </div>
         @endif
-    </div>
 @endsection

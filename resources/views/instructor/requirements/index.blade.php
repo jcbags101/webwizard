@@ -1,7 +1,6 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <div class="container">
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -98,5 +97,4 @@
                 @endif
             </tbody>
         </table>
-    </div>
 @endsection

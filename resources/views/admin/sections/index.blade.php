@@ -1,7 +1,6 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <div class="container">
         <h1>All Sections</h1>
         <div class="text-end">
             <a href="{{ route('admin.sections.create') }}" class="btn btn-success mb-3">Create Section</a>
@@ -51,5 +50,4 @@
                 No sections found.
             </div>
         @endif
-    </div>
 @endsection

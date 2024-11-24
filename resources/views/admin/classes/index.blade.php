@@ -1,7 +1,6 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <div class="container">
         <h1>All Classes</h1>
         <div class="text-end">
             <a href="{{ route('admin.classes.create') }}" class="btn btn-success mb-3">Create Class</a>
@@ -46,5 +45,4 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
 @endsection

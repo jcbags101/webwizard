@@ -1,7 +1,6 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <div class="container">
         <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary mb-3">Back</a>
         
         <div class="card">
@@ -50,5 +49,4 @@
                 @endif
             </div>
         </div>
-    </div>
 @endsection

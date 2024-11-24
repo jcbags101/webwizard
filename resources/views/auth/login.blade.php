@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container login-container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg p-4 mb-5 bg-white rounded">
@@ -75,6 +75,14 @@
 </div>
 
     <style>
+        body {
+            background-image: url('{{ asset('images/nagacampus.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(255, 255, 255, 0.5);
+            background-blend-mode: lighten;
+        }
         .bg-gradient-primary {
             background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
         }
