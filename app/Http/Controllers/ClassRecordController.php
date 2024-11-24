@@ -135,7 +135,7 @@ class ClassRecordController extends Controller
         if ($request->has('pre_final_midterm')) {
             $updateData['pre_final_midterm'] = $request->pre_final_midterm;
         }
-        if ($request->has('final')) {
+        if ($request->has('pre_final_final')) {
             $updateData['pre_final_final'] = $request->pre_final_final;
         } 
         // Exam scores

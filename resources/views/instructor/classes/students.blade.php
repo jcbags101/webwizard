@@ -566,8 +566,20 @@
                                                 </div>
                                                 <div>
                                                     <input type="number" name="final_percentage" class="form-control form-control-sm term-exam-percentage" style="width: 80px;" readonly>
-                                                    <small class="text-muted">Percentage ({{ $student->finals_items > 0 ? number_format((float)$student->finals / $student->finals_items * 100, 2) : 0 }}%)</small>
+                                                    <small class="text-muted">EQU</small>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="me-3">
+                                            <label class="small">Total</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control form-control-sm term-exam-total" style="width: 80px;" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="me-3">
+                                            <label class="small">Percentage</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control form-control-sm term-exam-total-percentage" style="width: 80px;" readonly>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm mt-3">
@@ -731,9 +743,23 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" name="pre_final_final_percentage" class="form-control form-control-sm exam-percentage" style="width: 80px;" readonly>
+                                                    <input type="number" name="pre_final_final_percentage" class="form-control form-control-sm pre-final-term-exam-percentage" style="width: 80px;" readonly>
                                                     <small class="text-muted">20%</small>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="me-3">
+                                            <label class="small">Total</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control form-control-sm pre-final-term-exam-total" style="width: 80px;" readonly>
+                                                <small class="text-muted">40%</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="me-3">
+                                            <label class="small">Percentage</label>
+                                            <div class="d-flex gap-2">
+                                                <input type="number" class="form-control form-control-sm pre-final-term-exam-total-percentage" style="width: 80px;" readonly>
                                             </div>
                                         </div>
 
@@ -973,6 +999,8 @@
                 handleAssessmentCalculations(row, {
                     inputs: row.querySelectorAll('.pre-final-oral-input'),
                     percentages: row.querySelectorAll('.pre-final-oral-percentage'),
+                    totalInput: row.querySelector('.pre-final-oral-total'),
+                    totalPercentageInput: row.querySelector('.pre-final-oral-total-percentage'),
                     itemInputs: preFinalOralItems,
                     rate: rates.oral
                 });
@@ -981,6 +1009,8 @@
                 handleAssessmentCalculations(row, {
                     inputs: row.querySelectorAll('.pre-final-project-input'),
                     percentages: row.querySelectorAll('.pre-final-project-percentage'),
+                    totalInput: row.querySelector('.pre-final-project-total'),
+                    totalPercentageInput: row.querySelector('.pre-final-project-total-percentage'),
                     itemInputs: preFinalProjectItems,
                     rate: rates.project
                 });
@@ -990,6 +1020,8 @@
                 handleAssessmentCalculations(row, {
                     inputs: row.querySelectorAll('.pre-final-term-exam-input'),
                     percentages: row.querySelectorAll('.pre-final-term-exam-percentage'),
+                    totalInput: row.querySelector('.pre-final-term-exam-total'),
+                    totalPercentageInput: row.querySelector('.pre-final-term-exam-total-percentage'),
                     itemInputs: preFinalTermItems,
                     rate: rates.term
                 });
