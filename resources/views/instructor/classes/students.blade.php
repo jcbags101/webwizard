@@ -548,7 +548,7 @@
                                     <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <label class="small">Midterm</label>
+                                            <label class="small">Prelim</label>
                                             <div class="d-flex gap-2">
                                                 <div>
                                                     <input type="number" name="midterm" class="form-control form-control-sm term-exam-input" style="width: 80px;" min="0" max="100" step="1" required value="{{ $student->getClassRecord($schoolClass->id)->{'midterm'} ?? 0 }}">
@@ -561,7 +561,7 @@
                                             </div>
                                         </div>
                                         <div class="me-3">
-                                            <label class="small">Finals</label>
+                                            <label class="small">Midterm</label>
                                             <div class="d-flex gap-2">
                                                 <div>
                                                     <input type="number" name="final" class="form-control form-control-sm term-exam-input" style="width: 80px;" min="0" max="100" step="1" required value="{{ $student->getClassRecord($schoolClass->id)->{'final'} ?? 0 }}">
@@ -726,7 +726,7 @@
                                     <input type="hidden" name="term_type" class="termTypeInput" value="pre_final">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <label class="small">Pre-Final Midterm</label>
+                                            <label class="small">Semi-Final Midterm</label>
                                             <div class="d-flex gap-2">
                                                 <div>
                                                     <input type="number" name="pre_final_midterm" class="form-control form-control-sm pre-final-term-exam-input" style="width: 80px;" min="0" max="100" step="1" required value="{{ $student->getClassRecord($schoolClass->id)->pre_final_midterm ?? 0 }}">

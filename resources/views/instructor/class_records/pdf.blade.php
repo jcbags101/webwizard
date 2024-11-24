@@ -94,8 +94,8 @@
                 <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
                 <td>{{ $record->student->course }}</td>
                 <td>{{ $record->student->year }}</td>
-                <td @if($record->midterm >= 3.0) class="failed" @endif>{{ number_format($record->midterm, 1) }}</td>
-                <td @if($record->final >= 3.0) class="failed" @endif>{{ number_format($record->final, 1) }}</td>
+                <td @if($record->midterm_grade >= 3.0) class="failed" @endif>{{ number_format($record->midterm_grade, 1) }}</td>
+                <td @if($record->prefinal_grade >= 3.0) class="failed" @endif>{{ number_format($record->prefinal_grade, 1) }}</td>
                 <td @if($record->final_grade >= 3.0) class="failed" @endif>{{ number_format($record->final_grade, 1) }}</td>
                 <td @if($record->final_grade >= 3.0) class="failed" @endif>
                     {{ $record->final_grade >= 3.0 ? 'FAILED' : 'PASSED' }}
