@@ -894,8 +894,9 @@
                     const totalItems = Array.from(itemInputs).reduce((sum, input) => 
                         sum + (Number(input.value) || 0), 0);
 
-                    const total = Array.from(percentages).reduce((sum, input) => 
-                        sum + (Number(input.value) || 0), 0) / percentages.length;
+                    const validPercentages = Array.from(percentages).filter(input => input.value !== null && input.value !== '');
+                    const total = validPercentages.length > 0 ? 
+                        validPercentages.reduce((sum, input) => sum + (Number(input.value) || 0), 0) / validPercentages.length : 0;
                     if (totalInput) {
                         totalInput.value = Math.round(total * 10) / 10;
                     }
