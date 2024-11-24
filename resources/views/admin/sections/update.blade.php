@@ -1,11 +1,14 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary mb-3">Back</a>
-    <div class="card">
-        <div class="card-header">{{ __('Update Section') }}</div>
 
-        <div class="card-body">
+<div>
+    <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary mb-3">Back</a>
+</div>
+<div class="card">
+    <div class="card-header">{{ __('Update Section') }}</div>
+    
+    <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -157,7 +160,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Student ID/LRN</label>
-                                        <input type="text" name="students[0][student_id]" class="form-control @error('students.0.student_id') is-invalid @enderror" placeholder="Enter student ID" required>
+                                        <input type="text" name="students[0][student_id]" class="form-control @error('students.0.student_id') is-invalid @enderror" placeholder="Enter student ID" >
                                         @error('students.0.student_id')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -168,7 +171,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" name="students[0][first_name]" class="form-control @error('students.0.first_name') is-invalid @enderror" placeholder="Enter first name" required>
+                                        <input type="text" name="students[0][first_name]" class="form-control @error('students.0.first_name') is-invalid @enderror" placeholder="Enter first name" >
                                         @error('students.0.first_name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -179,7 +182,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="students[0][last_name]" class="form-control @error('students.0.last_name') is-invalid @enderror" placeholder="Enter last name" required>
+                                        <input type="text" name="students[0][last_name]" class="form-control @error('students.0.last_name') is-invalid @enderror" placeholder="Enter last name" >
                                         @error('students.0.last_name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -190,7 +193,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" name="students[0][email]" class="form-control @error('students.0.email') is-invalid @enderror" placeholder="Enter email" required>
+                                        <input type="email" name="students[0][email]" class="form-control @error('students.0.email') is-invalid @enderror" placeholder="Enter email" >
                                         @error('students.0.email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
