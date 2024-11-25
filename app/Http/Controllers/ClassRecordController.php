@@ -138,8 +138,8 @@ class ClassRecordController extends Controller
         $items = 0;
         
         foreach ($examFields as $field) {
-            if (isset($updateData[$field]) && $classRecordItem->$field) {
-                $percentage = ($updateData[$field] / $classRecordItem->$field) * 100;
+            if ($classRecordItem->$field) {
+                $percentage = ($classRecord[$field] / $classRecordItem->$field) * 100;
                 $transmutedGrade = $this->calculateFinalGrade($percentage);
                 $total += $transmutedGrade;
                 $items++;
