@@ -124,6 +124,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/instructor/shared-records', [App\Http\Controllers\SharedClassRecordController::class, 'index'])->name('instructor.shared-records.index');
         Route::get('/instructor/shared-records/{id}', [App\Http\Controllers\SharedClassRecordController::class, 'show'])->name('instructor.shared-records.show');
+
+        Route::get('/instructor/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
+        Route::put('/instructor/profile', [InstructorController::class, 'updateProfile'])->name('instructor.profile.update');
     });
 });
 

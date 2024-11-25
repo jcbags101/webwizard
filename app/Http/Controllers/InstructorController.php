@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Instructor;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class InstructorController extends Controller
 {
     public function dashboard()
@@ -16,6 +16,43 @@ class InstructorController extends Controller
     {
         $instructors = Instructor::all();
         return view('admin.instructor.index', compact('instructors'));
+    }
+
+    public function profile()
+    {
+        $instructor = Auth::user()->instructor;
+        return view('instructor.profile.index', compact('instructor'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'position' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+        ]);
+
+        $instructor = Auth::user()->instructor;
+        
+        $instructor->update([
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'position' => $request->position,
+            'department' => $request->department,
+            'username' => $request->username,
+        ]);
+
+        // Update associated user record
+        $user = Auth::user();
+        $user->update([
+            'name' => $request->full_name,
+            'email' => $request->email,
+            'username' => $request->username
+        ]);
+
+        return redirect()->route('instructor.profile')->with('success', 'Profile updated successfully.');
     }
 
     public function create()
