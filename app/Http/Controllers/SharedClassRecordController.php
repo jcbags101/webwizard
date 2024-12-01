@@ -12,7 +12,6 @@ class SharedClassRecordController extends Controller
         $user = auth()->user();
         $instructor = \App\Models\Instructor::where('email', $user->email)->first();
         $sharedClasses = $instructor->sharedClasses()
-            ->with(['section', 'subject', 'instructor'])
             ->get();
 
         return view('instructor.shared-records.index', [

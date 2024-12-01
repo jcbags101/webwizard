@@ -15,7 +15,7 @@ class SharedClassRecord extends Model
 
     protected $fillable = [
         'class_id',
-        'instructor_id'
+        'instructor_id',
     ];
 
     protected $dates = [
@@ -30,12 +30,12 @@ class SharedClassRecord extends Model
 
     public function section()
     {
-        return $this->belongsTo(Section::class, 'class_id');
+        return $this->belongsTo(Section::class)->through('schoolClass');
     }
 
     public function subject()
     {
-        return $this->belongsTo(Subject::class, 'class_id');
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
     public function schoolClass()
