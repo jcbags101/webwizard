@@ -41,7 +41,6 @@ class SubmittedRequirementController extends Controller
             $request->validate([
                 'requirement_id' => 'required|exists:requirements,id',
                 'file' => 'required|file|mimes:pdf,doc,docx',
-                'class_id' => 'required|exists:classes,id',
             ]);
     
 
@@ -53,7 +52,6 @@ class SubmittedRequirementController extends Controller
                 'requirement_id' => $request->input('requirement_id'),
                 'file' => $filePath,
                 'instructor_id' => \App\Models\Instructor::where('email', auth()->user()->email)->first()->id,
-                'class_id' => $request->input('class_id'),
             ]);
     
             return redirect()->route('instructor.requirements.create')->with('success', 'Submitted Requirement added successfully.');
@@ -75,7 +73,6 @@ class SubmittedRequirementController extends Controller
         try {
             $request->validate([
                 'requirement_id' => 'required|exists:requirements,id',
-                'class_id' => 'required|exists:classes,id',
             ]);
     
             $submittedRequirement = SubmittedRequirement::findOrFail($id);
@@ -89,7 +86,6 @@ class SubmittedRequirementController extends Controller
             $submittedRequirement->update([
                 'requirement_id' => $request->input('requirement_id'),
                 'file' => $filePath ?? $submittedRequirement->file,
-                'class_id' => $request->input('class_id'),
                 'edit_status' => 'pending'
             ]);
  

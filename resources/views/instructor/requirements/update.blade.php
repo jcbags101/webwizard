@@ -6,16 +6,19 @@
         <div class="card-header">{{ __('Update Submitted Requirement') }}</div>
 
         <div class="card-body">
-            <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                
+
                 <div class="form-group">
                     <label for="requirement_id">{{ __('Requirement') }}</label>
-                    <select id="requirement_id" class="form-control @error('requirement_id') is-invalid @enderror" name="requirement_id" required>
+                    <select id="requirement_id" class="form-control @error('requirement_id') is-invalid @enderror"
+                        name="requirement_id" required>
                         <option value="">{{ __('Select Requirement') }}</option>
                         @foreach ($requirements as $requirement)
-                            <option value="{{ $requirement->id }}" {{ $submittedRequirement->requirement_id == $requirement->id ? 'selected' : '' }}>
+                            <option value="{{ $requirement->id }}"
+                                {{ $submittedRequirement->requirement_id == $requirement->id ? 'selected' : '' }}>
                                 {{ $requirement->name }}
                             </option>
                         @endforeach
@@ -32,7 +35,8 @@
                     <div class="custom-file">
                         <input id="file" type="file" class="custom-file-input @error('file') is-invalid @enderror"
                             name="file">
-                        <label class="custom-file-label" for="file">{{ $submittedRequirement->file ? basename($submittedRequirement->file) : __('Choose file') }}</label>
+                        <label class="custom-file-label"
+                            for="file">{{ $submittedRequirement->file ? basename($submittedRequirement->file) : __('Choose file') }}</label>
                     </div>
                     @error('file')
                         <span class="invalid-feedback" role="alert">
@@ -41,7 +45,7 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="class_id">{{ __('Class') }}</label>
                     <select id="class_id" class="form-control @error('class_id') is-invalid @enderror" name="class_id" required>
                         <option value="">{{ __('Select Class') }}</option>
@@ -56,15 +60,15 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div>
+                </div> --}}
 
                 <div class="form-group mt-3">
-                    @if($submittedRequirement->edit_status === 'approved')
+                    @if ($submittedRequirement->edit_status === 'approved')
                         <button type="submit" class="btn btn-primary">
                             {{ __('Update Submitted Requirement') }}
                         </button>
                     @endif
-                    @if($submittedRequirement->edit_status !== 'approved')
+                    @if ($submittedRequirement->edit_status !== 'approved')
                         <small class="text-muted d-block mt-2">
                             {{ __('You can only update this requirement after your edit request has been approved.') }}
                         </small>

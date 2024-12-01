@@ -45,7 +45,7 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="class_id">{{ __('Class') }}</label>
                     <select id="class_id" class="form-control @error('class_id') is-invalid @enderror" name="class_id"
                         required>
@@ -61,7 +61,7 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div>
+                </div> --}}
 
                 <div class="form-group mb-0">
                     <button type="submit" class="btn btn-primary">
