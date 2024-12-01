@@ -13,7 +13,7 @@
 
                 <p class="mt-4">Dear Ms. Flores,</p>
 
-                <div class="mt-4 mb-4">
+                <div class="mt-4 mb-4">web
                     {{ $submittedRequirement->message }}
                 </div>
 

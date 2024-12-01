@@ -32,9 +32,15 @@ class InstructorController extends Controller
             'position' => 'required|string|max:255',
             'department' => 'required|string|max:255',
             'username' => 'required|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $instructor = Auth::user()->instructor;
+        $passwordChanged = false;
+        
+        if ($request->password) {
+            $passwordChanged = true;
+        }
         
         $instructor->update([
             'full_name' => $request->full_name,
@@ -42,6 +48,7 @@ class InstructorController extends Controller
             'position' => $request->position,
             'department' => $request->department,
             'username' => $request->username,
+            'password' => $request->password ? bcrypt($request->password) : $instructor->password,
         ]);
 
         // Update associated user record
@@ -49,8 +56,16 @@ class InstructorController extends Controller
         $user->update([
             'name' => $request->full_name,
             'email' => $request->email,
-            'username' => $request->username
+            'username' => $request->username,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
+
+        if ($passwordChanged) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->route('login')->with('success', 'Profile updated successfully. Please login with your new password.');
+        }
 
         return redirect()->route('instructor.profile')->with('success', 'Profile updated successfully.');
     }
