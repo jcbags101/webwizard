@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SubmittedRequirement;
 use App\Models\Requirement;
 use App\Models\SchoolClass;
-
+use App\Models\Instructor;
 class AdminSubmittedRequirementController extends Controller
 {
     public function dashboard()
@@ -17,6 +17,7 @@ class AdminSubmittedRequirementController extends Controller
     public function index(Request $request)
     {
         $instructor_id = $request->query('instructor_id');
+        
 
         \Log::info('Instructor ID: ' . $instructor_id);
         if ($instructor_id) {
@@ -39,7 +40,9 @@ class AdminSubmittedRequirementController extends Controller
             $requirements = $requirements->where('edit_status', $request->edit_status);
         }
 
-        return view('admin.submitted_requirements.index', compact('requirements'));
+        $instructors = Instructor::all();
+
+        return view('admin.submitted_requirements.index', compact('requirements', 'instructors'));
     }
 
     public function edit(string $id)
