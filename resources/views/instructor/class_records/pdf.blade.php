@@ -1,3 +1,17 @@
+@php
+    function romanToNumber($roman)
+    {
+        $romans = [
+            'I' => 1,
+            'II' => 2,
+            'III' => 3,
+            'IV' => 4,
+            'V' => 5,
+        ];
+        return $romans[$roman] ?? $roman;
+    }
+@endphp
+
 <!DOCTYPE html>
 <html>
 
@@ -77,7 +91,7 @@
         </div>
         <div class="details-row">
             <strong style="display: inline-block; width: 120px;">INSTRUCTOR</strong>:
-            {{ $schoolClass->instructor->name }}
+            {{ $schoolClass->instructor->full_name }}
         </div>
         <div class="details-row">
             <strong style="display: inline-block; width: 120px;">DATE AND TIME</strong>: {{ $currentDateTime }}
@@ -105,7 +119,7 @@
                     <td>{{ $record->student->student_id }}</td>
                     <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
                     <td>{{ explode(' ', $schoolClass->section->name)[0] }}</td>
-                    <td>{{ $schoolClass->section->school_year }}</td>
+                    <td>{{ romanToNumber(explode(' ', $schoolClass->section->name)[1]) }}</td>
                     <td @if ($record->midterm_grade >= 3.0) class="failed" @endif>
                         {{ number_format($record->midterm_grade, 1) }}</td>
                     <td @if ($record->prefinal_grade >= 3.0) class="failed" @endif>
