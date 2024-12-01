@@ -9,7 +9,7 @@ class SubmittedRequirement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['requirement_id', 'file', 'instructor_id', 'class_id', 'status', 'remarks', 'edit_status'];
+    protected $fillable = ['requirement_id', 'file', 'instructor_id', 'class_id', 'status', 'remarks', 'edit_status', 'is_late', 'message'];
 
 
     public function requirement()

@@ -83,4 +83,10 @@ class AdminSubmittedRequirementController extends Controller
         $submittedRequirement->update(['edit_status' => 'approved']);
         return redirect()->route('admin.submitted_requirements.index')->with('success', 'Edit request approved successfully.');
     }
+
+    public function showLateMessage($id)
+    {
+        $submittedRequirement = SubmittedRequirement::findOrFail($id);
+        return view('admin.submitted_requirements.late_message', compact('submittedRequirement'));
+    }
 }

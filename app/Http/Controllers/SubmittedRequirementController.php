@@ -41,21 +41,26 @@ class SubmittedRequirementController extends Controller
             $request->validate([
                 'requirement_id' => 'required|exists:requirements,id',
                 'file' => 'required|file|mimes:pdf,doc,docx',
+                'message' => 'nullable|string',
             ]);
-    
 
+            
+            
             if ($request->hasFile('file')) {
                 $filePath = $request->file('file')->store('submitted_requirements', 'public');
             }
-    
+            
             SubmittedRequirement::create([
                 'requirement_id' => $request->input('requirement_id'),
                 'file' => $filePath,
                 'instructor_id' => \App\Models\Instructor::where('email', auth()->user()->email)->first()->id,
+                'is_late' => $request->input('requirement_id') ? \App\Models\Requirement::find($request->input('requirement_id'))->deadline < now() : false,
+                'message' => $request->input('message'),
             ]);
     
             return redirect()->route('instructor.requirements.create')->with('success', 'Submitted Requirement added successfully.');
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->route('instructor.requirements.create')->with('error', 'An error occurred while adding the submitted requirement.');
         }
     }

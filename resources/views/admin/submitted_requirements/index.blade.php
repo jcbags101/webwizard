@@ -55,7 +55,9 @@
                         </td>
                         <td>{{ $submittedRequirement->instructor->full_name }}</td>
                         <td>
-                            @if ($submittedRequirement->status === 'pending')
+                            @if ($submittedRequirement->is_late)
+                                <span class="badge bg-danger">Late</span>
+                            @elseif ($submittedRequirement->status === 'pending')
                                 <span class="badge bg-warning text-dark">Pending</span>
                             @elseif ($submittedRequirement->status === 'rejected')
                                 <span class="badge bg-danger">Rejected</span>
@@ -81,6 +83,14 @@
                                     <li><a class="dropdown-item"
                                             href="{{ route('admin.submitted_requirements.edit', $submittedRequirement->id) }}">Edit</a>
                                     </li>
+                                    @if ($submittedRequirement->is_late && $submittedRequirement->message)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('admin.submitted_requirements.late_message', $submittedRequirement->id) }}">
+                                                View Late Submission Message
+                                            </a>
+                                        </li>
+                                    @endif
                                     @if ($submittedRequirement->edit_status === 'request_submitted')
                                         <li>
                                             <form
