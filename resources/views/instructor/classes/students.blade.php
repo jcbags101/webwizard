@@ -1075,7 +1075,7 @@
                 23: 3.9,
                 22: 4.0,
                 21: 4.0,
-                20: 4.1,
+                20: 4.0,
                 19: 4.1,
                 18: 4.1,
                 17: 4.2,
@@ -1108,8 +1108,6 @@
             function calculatePercentageAndTransmutation(score, totalItems) {
                 if (!score || !totalItems) return '';
                 const percentage = Math.round((score / totalItems) * 100);
-                // If percentage is less than minimum in table (26), return 5.0
-                if (percentage < 26) return 5.0;
                 // If percentage is greater than 100, return 1.0
                 if (percentage > 100) return 1.0;
                 return transmutationTable[percentage];
