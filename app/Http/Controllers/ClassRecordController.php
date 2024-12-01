@@ -272,7 +272,7 @@ class ClassRecordController extends Controller
         ]);
 
         // Set paper size to legal and landscape orientation
-        $pdf->setPaper('legal', 'landscape');
+        $pdf->setPaper('legal', 'portrait');
 
         return $pdf->stream('gradesheet_summary.pdf');
     }

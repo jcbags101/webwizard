@@ -154,7 +154,9 @@ class SchoolClassController extends Controller
         $students = $schoolClass->section->students ?? collect();
         $instructors = Instructor::where('id', '!=', auth()->user()->instructor->id)->get();
 
-        return view('instructor.classes.students', compact('schoolClass', 'students', 'instructors'));
+        $isShared = false;
+
+        return view('instructor.classes.students', compact('schoolClass', 'students', 'instructors', 'isShared'));
     }
 
     public function updateGrades(Request $request, string $id)

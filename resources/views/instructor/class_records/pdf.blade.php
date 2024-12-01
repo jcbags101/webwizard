@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Gradesheet Summary</title>
@@ -8,34 +9,43 @@
             font-family: Arial, sans-serif;
             font-size: 12px;
         }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .logo {
             width: 80px;
             height: auto;
         }
+
         .details {
             margin-bottom: 20px;
         }
+
         .details-row {
             margin-bottom: 5px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid black;
             padding: 5px;
             text-align: center;
         }
+
         .failed {
             color: red;
         }
     </style>
 </head>
+
 <body>
     <div class="header">
         <h4>Republic of the Philippines</h4>
@@ -56,7 +66,8 @@
             <strong style="display: inline-block; width: 120px;">SUBJECT</strong>: {{ $schoolClass->subject->name }}
         </div>
         <div class="details-row">
-            <strong style="display: inline-block; width: 120px;">DESCRIPTION</strong>: {{ $schoolClass->subject->description }}
+            <strong style="display: inline-block; width: 120px;">DESCRIPTION</strong>:
+            {{ $schoolClass->subject->description }}
         </div>
         <div class="details-row">
             <strong style="display: inline-block; width: 120px;">UNIT</strong>: {{ $schoolClass->subject->units }}
@@ -65,7 +76,8 @@
             <strong style="display: inline-block; width: 120px;">TIME/DAY/ROOM</strong>: {{ $schoolClass->schedule }}
         </div>
         <div class="details-row">
-            <strong style="display: inline-block; width: 120px;">INSTRUCTOR</strong>: {{ $schoolClass->instructor->name }}
+            <strong style="display: inline-block; width: 120px;">INSTRUCTOR</strong>:
+            {{ $schoolClass->instructor->name }}
         </div>
         <div class="details-row">
             <strong style="display: inline-block; width: 120px;">DATE AND TIME</strong>: {{ $currentDateTime }}
@@ -87,25 +99,28 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($classRecords as $index => $record)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $record->student->student_id }}</td>
-                <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
-                <td>{{ $record->student->course }}</td>
-                <td>{{ $record->student->year }}</td>
-                <td @if($record->midterm_grade >= 3.0) class="failed" @endif>{{ number_format($record->midterm_grade, 1) }}</td>
-                <td @if($record->prefinal_grade >= 3.0) class="failed" @endif>{{ number_format($record->prefinal_grade, 1) }}</td>
-                <td @if($record->final_grade >= 3.0) class="failed" @endif>{{ number_format($record->final_grade, 1) }}</td>
-                <td @if($record->final_grade >= 3.0) class="failed" @endif>
-                    {{ $record->final_grade >= 3.0 ? 'FAILED' : 'PASSED' }}
-                </td>
-            </tr>
+            @foreach ($classRecords as $index => $record)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $record->student->student_id }}</td>
+                    <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
+                    <td>{{ $record->student->course }}</td>
+                    <td>{{ $record->student->year }}</td>
+                    <td @if ($record->midterm_grade >= 3.0) class="failed" @endif>
+                        {{ number_format($record->midterm_grade, 1) }}</td>
+                    <td @if ($record->prefinal_grade >= 3.0) class="failed" @endif>
+                        {{ number_format($record->prefinal_grade, 1) }}</td>
+                    <td @if ($record->final_grade >= 3.0) class="failed" @endif>
+                        {{ number_format($record->final_grade, 1) }}</td>
+                    <td @if ($record->final_grade >= 3.0) class="failed" @endif>
+                        {{ $record->final_grade >= 3.0 ? 'FAILED' : 'PASSED' }}
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
 
-    <table style="margin-top: 50px; border: none;">
+    <table style="margin-top: 0px; border: none;">
         <tr>
             <td style="border: none; width: 50%; vertical-align: top;">
                 <p><strong>Prepared and Submitted By:</strong></p>
@@ -136,4 +151,5 @@
         </tr>
     </table>
 </body>
+
 </html>
