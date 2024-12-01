@@ -286,24 +286,41 @@ class SchoolClassController extends Controller
 
     public function shareClass(Request $request, string $id)
     {
-        // Validate request
-        $request->validate([
-            'instructor_email' => 'required|email|exists:instructors,email'
-        ]);
+        try {
+            // Validate request
+            $request->validate([
+                'instructor_email' => 'required|email|exists:instructors,email'
+            ]);
 
-        // Get the class and instructor
-        $schoolClass = SchoolClass::findOrFail($id);
-        $instructor = Instructor::where('email', $request->instructor_email)->first();
+            // Get the class and instructor
+            $schoolClass = SchoolClass::findOrFail($id);
+            $instructor = Instructor::where('email', $request->instructor_email)->first();
 
-        // Create shared class record
-        $schoolClass->sharedInstructors()->attach($instructor->id, [
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+            // Check if class is already shared with this instructor
+            if ($schoolClass->sharedInstructors()->where('instructor_id', $instructor->id)->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Class is already shared with ' . $instructor->email
+                ], 422);
+            }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Class shared successfully with ' . $instructor->email
-        ]);
+            // Create shared class record
+            $schoolClass->sharedInstructors()->attach($instructor->id, [
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Class shared successfully with ' . $instructor->email
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Error sharing class: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while sharing the class'
+            ], 500);
+        }
     }
 }
