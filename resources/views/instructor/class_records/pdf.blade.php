@@ -104,8 +104,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $record->student->student_id }}</td>
                     <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
-                    <td>{{ $record->student->course }}</td>
-                    <td>{{ $record->student->year }}</td>
+                    <td>{{ $schoolClass->subject->name }}</td>
+                    <td>{{ $schoolClass->section->school_year }}</td>
                     <td @if ($record->midterm_grade >= 3.0) class="failed" @endif>
                         {{ number_format($record->midterm_grade, 1) }}</td>
                     <td @if ($record->prefinal_grade >= 3.0) class="failed" @endif>
