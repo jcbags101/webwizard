@@ -4,10 +4,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    <h4>Instructor Profile</h4>
-                </div>
-                <div class="card-body">
+                <h4 style="margin-top: 20px; margin-bottom:20px; font-size:40px; text-align:center; font-weight:bolder">
+                    My Profile
+                </h4>
+                <hr style="margin-bottom:20px; border: 1px solid black;"> <!-- Added line here -->
+                <div class="card-body" style="border: 1px solid #ddd; border-radius: 5px; padding: 20px;">
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}

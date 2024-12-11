@@ -2,11 +2,11 @@
 
 @section('admin-content')
 
-<div>
-    <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary mb-3">Back</a>
-</div>
+
 <div class="card">
-    <div class="card-header">{{ __('Update Section') }}</div>
+<h1 style="margin-top: 20px; font-size:25px">Update Section</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;">
+
     
     <div class="card-body">
             @if (session('success'))
@@ -446,7 +446,7 @@
                 </script>
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                         {{ __('Update Section') }}
                     </button>
                 </div>

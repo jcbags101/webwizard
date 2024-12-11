@@ -1,14 +1,13 @@
 @extends('admin.layout')
 
 @section('admin-content')
-        <a href="{{ route('admin.sections.index') }}" class="btn btn-secondary mb-3">Back</a>
+    
         
-        <div class="card">
-            <div class="card-header">
-                <h4>Students in Section: {{ $section->name }}</h4>
+       
+                <h4 style="margin-top: 20px; font-size:25px">Students in Section: {{ $section->name }}</h4>
                 <h6 class="text-muted">School Year: {{ $section->school_year }}</h6>
-            </div>
-
+                <hr style="margin-bottom:20px; border: 0.5px solid black;">
+          
             <div class="card-body">
                 @if($section->students->count() > 0)
                     <table class="table table-striped">

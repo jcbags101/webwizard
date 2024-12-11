@@ -1,7 +1,8 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <h1>Shared Class Records</h1>
+<h1 style="margin-top: 20px; font-size:30px">Shared Class Records</h1>
+<hr style="margin-bottom:20px; border: 0.5px solid black;">
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -28,7 +29,7 @@
                     @foreach ($sharedClasses as $sharedClass)
                         <tr>
                             <td>{{ $sharedClass->schoolClass->section->name }}</td>
-                            <td>{{ $sharedClass->instructor->full_name }}</td>
+                            <td>{{ $sharedClass->schoolClass->instructor->full_name }}</td> <!-- Corrected this line -->
                             <td>{{ $sharedClass->created_at->format('M d, Y h:i A') }}</td>
                             <td>
                                 <a href="{{ route('instructor.shared-records.show', $sharedClass->id) }}"

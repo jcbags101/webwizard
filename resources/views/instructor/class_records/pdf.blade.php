@@ -21,12 +21,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 10px;
         }
 
-        .header {
+       .header h4, .header h3, .header h2 {
+            margin: 2px 0; /* Reduced margin to minimize space */
+            font-size: 12px; /* Adjusted font size to fit better */
             text-align: center;
-            margin-bottom: 20px;
+        }
+
+        .header p {
+            margin: 2px 0; /* Reduced margin to minimize space */
+            font-size: 10px; /* Adjusted font size for smaller text */
+            text-align: center;
         }
 
         .logo {
@@ -43,16 +50,21 @@
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px; /* Reduce font size for table */
         }
 
-        th,
-        td {
-            border: 1px solid black;
-            padding: 5px;
-            text-align: center;
+        th, td {
+        border: 1px solid black;
+        padding: 4px; /* Reduced padding */
+        text-align: center;
         }
+
+        td {
+        word-wrap: break-word; /* Ensure text does not overflow */
+        }
+
 
         .failed {
             color: red;
@@ -68,9 +80,12 @@
         <p>Central Poblacion, City of Naga, Cebu, Philippines</p>
         <p>Website: http://www.ctu.edu.ph E-mail: ctunagaextensioncampus@gmail.com</p>
         <h3>COLLEGE OF TECHNOLOGY</h3>
-        <h2>GRADESHEET SUMMARY</h2>
+        <hr style="margin-bottom:5px; border: 0.5px solid black;">
+        <h2 >GRADESHEET SUMMARY</h2>
         <h4>First Semester, AY {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}</h4>
     </div>
+
+
 
     <div class="details">
         <div class="details-row">
@@ -119,7 +134,16 @@
                     <td>{{ $record->student->student_id }}</td>
                     <td>{{ $record->student->last_name }}, {{ $record->student->first_name }}</td>
                     <td>{{ explode(' ', $schoolClass->section->name)[0] }}</td>
-                    <td>{{ romanToNumber(explode(' ', $schoolClass->section->name)[1]) }}</td>
+                    <td>
+                        @php
+                            // Split the section name to extract the Roman numeral part
+                            $sectionName = explode(' ', $schoolClass->section->name);
+                            $yearAndSub = explode('-', $sectionName[1]);
+                            $romanYear = $yearAndSub[0]; // Extract Roman numeral part (e.g., 'IV')
+                            $numericYear = romanToNumber($romanYear); // Convert Roman numeral to number
+                        @endphp
+                        {{ $numericYear }} <!-- Only output the numeric year -->
+                    </td>
                     <td @if ($record->midterm_grade >= 3.0) class="failed" @endif>
                         {{ number_format($record->midterm_grade, 1) }}</td>
                     <td @if ($record->prefinal_grade >= 3.0) class="failed" @endif>
@@ -164,6 +188,7 @@
             </td>
         </tr>
     </table>
+    
 </body>
 
 </html>

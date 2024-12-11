@@ -1,9 +1,10 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Back</a>
+    
     <div class="card">
-        <div class="card-header">{{ __('Add Submitted Requirement') }}</div>
+    <h1 style="margin-top: 20px; font-size:25px">Submit Requirements</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;"> <!-- Added line here -->
 
         <div class="card-body">
             @if (session('success'))
@@ -86,7 +87,7 @@
                 </div> --}}
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                         {{ __('Submit Requirement') }}
                     </button>
                 </div>

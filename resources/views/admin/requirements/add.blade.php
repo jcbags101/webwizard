@@ -2,7 +2,8 @@
 
 @section('admin-content')
     <div class="card">
-        <div class="card-header">{{ __('Add Requirement') }}</div>
+    <h1 style="margin-top: 20px; font-size:25px">Create Requirement</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;">
 
         <div class="card-body">
             @if (session('success'))
@@ -43,7 +44,7 @@
                 </div>
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                         {{ __('Add Requirement') }}
                     </button>
                 </div>

@@ -1,7 +1,8 @@
 @extends('admin.layout')
 
 @section('admin-content')
-        <h1>All Instructors</h1>
+<h1 style="margin-top: 20px; font-size:30px">ALL Instructors</h1>
+<hr style="margin-bottom:20px; border: 0.5px solid black;">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -18,9 +19,9 @@
 
             <!-- Notify All Modal -->
             <div class="modal fade" id="notifyAllModal" tabindex="-1" aria-labelledby="notifyAllModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="background-color: orange; color: white;">
                             <h5 class="modal-title" id="notifyAllModalLabel">Notify All Instructors</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -43,9 +44,9 @@
 
             <!-- Individual Notify Modal -->
             <div class="modal fade" id="notifyInstructorModal" tabindex="-1" aria-labelledby="notifyInstructorModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="background-color: orange; color: white;">
                             <h5 class="modal-title" id="notifyInstructorModalLabel">Notify Instructor</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -67,6 +68,30 @@
                 </div>
             </div>
         </div>
+        <!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(45deg, #FF4500, #DC143C); color: white;">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <strong id="deleteInstructorName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -104,13 +129,16 @@
                                         </button>
                                     </li>
                                     @if(auth()->user()->user_type !== 'Chairman')
-                                    <li>
-                                        <form action="{{ route('instructors.destroy', $instructor->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                        </form>
+                                   <li>
+                                        <button type="button" class="dropdown-item text-danger delete-button" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteConfirmationModal" 
+                                            data-instructor-id="{{ $instructor->id }}" 
+                                            data-instructor-name="{{ $instructor->full_name }}">
+                                            Delete
+                                        </button>
                                     </li>
+
                                     @endif
                                 </ul>
                             </div>
@@ -124,6 +152,9 @@
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const notifyButtons = document.querySelectorAll('.notify-instructor');
+        const deleteButtons = document.querySelectorAll('.delete-button');
+        const deleteForm = document.getElementById('deleteForm');
+        const deleteInstructorName = document.getElementById('deleteInstructorName');
         
         notifyButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -136,6 +167,18 @@
                 
                 // Update modal title
                 document.getElementById('notifyInstructorModalLabel').textContent = `Notify ${instructorName}`;
+            });
+        });
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const instructorId = this.dataset.instructorId;
+                const instructorName = this.dataset.instructorName;
+
+                // Update the modal's text
+                deleteInstructorName.textContent = instructorName;
+
+                // Update the form's action URL
+                deleteForm.action = `/instructors/${instructorId}`;
             });
         });
         });

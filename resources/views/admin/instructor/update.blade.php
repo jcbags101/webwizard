@@ -1,9 +1,10 @@
    @extends('admin.layout')
 
    @section('admin-content')
-       <a href="{{ route('admin.instructors.index') }}" class="btn btn-secondary mb-3">Back</a>
+      
        <div class="card">
-           <div class="card-header">{{ __('Add Instructor') }}</div>
+       <h1 style="margin-top: 20px; font-size:25px">Update Instructor's Account</h1>
+       <hr style="margin-bottom:20px; border: 0.5px solid black;">
 
            <div class="card-body">
                <form action="{{ route('instructors.update', $instructor->id) }}" method="POST">
@@ -44,7 +45,7 @@
                        <label for="password_confirmation">Confirm Password</label>
                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                    </div>
-                   <button type="submit" class="btn btn-primary">Update</button>
+                   <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Update</button>
                </form>
            </div>
        </div>

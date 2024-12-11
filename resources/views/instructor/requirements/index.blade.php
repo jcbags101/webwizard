@@ -6,10 +6,10 @@
             {{ session('success') }}
         </div>
     @endif
-    <h1>All Submitted Requirements</h1>
+    <h1 style="margin-top: 20px; font-size:30px">My Submitted Requirements</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;"> <!-- Added line here -->
     <div class="text-end">
-        <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit
-            Requirement</a>
+        <a href="{{ route('instructor.requirements.create') }}" class="btn btn-success mb-3">Submit Requirement</a>
     </div>
     <table class="table table-striped">
         <thead>
@@ -77,19 +77,42 @@
                                                 Edit</a>
                                         </li>
                                     @endif
+                                    <!-- Delete Button that Triggers Modal -->
                                     <li>
-                                        <form
-                                            action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="dropdown-item text-danger">Delete</button>
-                                        </form>
+                                        <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $submittedRequirement->id }}">Delete</button>
                                     </li>
                                 </ul>
                             </div>
-                        </td>
 
+                            <!-- Delete Confirmation Modal -->
+                            <div class="modal fade" id="deleteModal{{ $submittedRequirement->id }}" tabindex="-1"
+                                aria-labelledby="deleteModalLabel{{ $submittedRequirement->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background: linear-gradient(45deg, #FF4500, #DC143C); color: white;">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $submittedRequirement->id }}">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete this submitted requirement?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancel</button>
+                                            <form
+                                                action="{{ route('instructor.requirements.destroy', $submittedRequirement->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             @endif
