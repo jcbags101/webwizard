@@ -33,6 +33,7 @@ class InstructorController extends Controller
             'department' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'password' => 'nullable|string|min:8|confirmed',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $instructor = Auth::user()->instructor;
@@ -49,6 +50,7 @@ class InstructorController extends Controller
             'department' => $request->department,
             'username' => $request->username,
             'password' => $request->password ? bcrypt($request->password) : $instructor->password,
+            'profile_image' => $request->hasFile('profile_image') ? $request->file('profile_image')->store('profile_images', 'public') : $instructor->profile_image,
         ]);
 
         // Update associated user record

@@ -10,7 +10,7 @@ class Instructor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['full_name', 'email', 'position', 'department', 'username', 'password'];
+    protected $fillable = ['full_name', 'email', 'position', 'department', 'username', 'password', 'profile_image'];
 
     public function submittedRequirements()
     {
