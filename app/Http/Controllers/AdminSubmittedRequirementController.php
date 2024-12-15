@@ -89,4 +89,11 @@ class AdminSubmittedRequirementController extends Controller
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
         return view('admin.submitted_requirements.late_message', compact('submittedRequirement'));
     }
+
+    public function activityLogs($id)
+    {
+        $submittedRequirement = SubmittedRequirement::findOrFail($id);
+        $activityLogs = $submittedRequirement->activityLogs ?? [];
+        return view('admin.submitted_requirements.activity_logs', compact('submittedRequirement', 'activityLogs'));
+    }
 }

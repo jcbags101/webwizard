@@ -31,6 +31,7 @@ class NotificationController extends Controller
             'title' => $request->title,
             'message' => $request->message,
             'type' => $request->type ?? 'info',
+            'sender' => auth()->user()->name,
             'link' => $request->link
         ]));
 

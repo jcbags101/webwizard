@@ -83,6 +83,8 @@
                                     <li><a class="dropdown-item"
                                             href="{{ route('admin.submitted_requirements.edit', $submittedRequirement->id) }}">Edit</a>
                                     </li>
+
+
                                     @if ($submittedRequirement->is_late && $submittedRequirement->message)
                                         <li>
                                             <a class="dropdown-item"
@@ -110,6 +112,12 @@
                                             @method('DELETE')
                                             <button type="submit" class="dropdown-item text-danger">Delete</button>
                                         </form>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{{ route('admin.submitted_requirements.activity_logs', $submittedRequirement->id) }}">
+                                            View Activity Logs
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

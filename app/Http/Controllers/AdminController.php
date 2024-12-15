@@ -23,6 +23,7 @@ class AdminController extends Controller
             $instructor->notify(new \App\Notifications\GeneralNotification([
                 'title' => 'Requirements Update',
                 'message' => $request->message,
+                'sender' => auth()->user()->name,
                 'type' => 'warning',
                 'link' => route('instructor.requirements.index')
             ]));
@@ -38,6 +39,7 @@ class AdminController extends Controller
             'title' => 'Requirements Update',
             'message' => $request->message,
             'type' => 'warning',
+            'sender' => auth()->user()->name,
             'link' => route('instructor.requirements.index')
         ]));
 

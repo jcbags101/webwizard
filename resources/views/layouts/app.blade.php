@@ -25,7 +25,7 @@
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    
+
     <style>
         /* Table Styles */
         table {
@@ -35,17 +35,22 @@
             font-size: 14px;
             text-align: left;
         }
-        table th, table td {
+
+        table th,
+        table td {
             padding: 12px;
             border-bottom: 1px solid #ddd;
         }
+
         table th {
             background-color: #f2f2f2;
             color: #333;
         }
+
         table tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         table tr:hover {
             background-color: #f1f1f1;
         }
@@ -65,41 +70,49 @@
             border-radius: 0.25rem;
             transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
+
         .btn-primary {
             color: #fff;
             background-color: #F9A602;
             border-color: #F9A602;
         }
+
         .btn-primary:hover {
             color: #fff;
             background-color: #0056b3;
             border-color: #004085;
         }
+
         .btn-secondary {
             color: #fff;
             background-color: #6c757d;
             border-color: #6c757d;
         }
+
         .btn-secondary:hover {
             color: #fff;
             background-color: #5a6268;
             border-color: #545b62;
         }
+
         .btn-success {
             color: #fff;
             background-color: #28a745;
             border-color: #28a745;
         }
+
         .btn-success:hover {
             color: #fff;
             background-color: #218838;
             border-color: #1e7e34;
         }
+
         .btn-danger {
             color: #fff;
             background-color: #dc3545;
             border-color: #dc3545;
         }
+
         .btn-danger:hover {
             color: #fff;
             background-color: #c82333;
@@ -149,9 +162,18 @@
         }
 
         /* Advanced H1 Styles */
-        h1 { font-size: 1.2rem; line-height: 1.2; color: #1a1a1a; margin-bottom: 0.5rem; font-family: 'Roboto', sans-serif; text-transform: uppercase; letter-spacing: 0.05rem; text-align: left; }
+        h1 {
+            font-size: 1.2rem;
+            line-height: 1.2;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+            text-align: left;
+        }
 
-  
+
         body {
             min-height: 100vh;
             margin: 0;
@@ -168,7 +190,7 @@
             font-size: 0.75rem;
             padding: 0.25em 0.6em;
         }
-        
+
         .notification-icon-wrapper {
             position: relative;
             display: inline-block;
@@ -188,20 +210,20 @@
         function markAsRead(element, notificationId) {
             console.log(notificationId);
             fetch(`/notifications/${notificationId}/read`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    element.classList.remove('unread');
-                    element.classList.add('read');
-                    updateNotificationCount();
-                }
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        element.classList.remove('unread');
+                        element.classList.add('read');
+                        updateNotificationCount();
+                    }
+                });
         }
 
         function updateNotificationCount() {
@@ -212,24 +234,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('mark-all-read').addEventListener('click', function(e) {
                 e.preventDefault();
-                
+
                 fetch('/notifications/mark-all-read', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.querySelectorAll('.notification-item.unread').forEach(item => {
-                            item.classList.remove('unread');
-                            item.classList.add('read');
-                        });
-                        document.getElementById('notification-count').textContent = '0';
-                    }
-                });
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelectorAll('.notification-item.unread').forEach(item => {
+                                item.classList.remove('unread');
+                                item.classList.add('read');
+                            });
+                            document.getElementById('notification-count').textContent = '0';
+                        }
+                    });
             });
         });
     </script>
@@ -238,10 +261,12 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="background-color: #F9A602!important;">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"
+            style="background-color: #F9A602!important;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('images/ctu_logo.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="m-2">
+                    <img src="{{ asset('images/ctu_logo.png') }}" alt="Logo" style="width: 40px; height: 40px;"
+                        class="m-2">
                     WebWizard
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -279,7 +304,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    @if(Auth::user()->role === 'instructor')
+                                    @if (Auth::user()->role === 'instructor')
                                         <a class="dropdown-item" href="{{ route('instructor.profile') }}">
                                             Profile
                                         </a>
@@ -296,27 +321,33 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="notificationsDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a id="notificationsDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <div class="notification-icon-wrapper">
                                         <i class="fa-solid fa-bell"></i>
-                                        <span class="badge bg-danger notification-badge" id="notification-count">{{ Auth::user()->unreadNotifications->count() }}</span>
+                                        <span class="badge bg-danger notification-badge"
+                                            id="notification-count">{{ Auth::user()->unreadNotifications->count() }}</span>
                                     </div>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" id="notifications-menu" style="max-height: 300px; overflow-y: auto; min-width: 300px;">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown"
+                                    id="notifications-menu" style="max-height: 300px; overflow-y: auto; min-width: 300px;">
                                     <div class="dropdown-header d-flex justify-content-between align-items-center px-3">
                                         <span>Notifications</span>
-                                        <a href="#" class="text-decoration-none" id="mark-all-read">Mark all as read</a>
+                                        <a href="#" class="text-decoration-none" id="mark-all-read">Mark all as
+                                            read</a>
                                     </div>
                                     <div id="notifications-list">
                                         @forelse(Auth::user()->notifications as $notification)
-                                            <a  
-                                               href="{{ $notification->data['link'] ?? '#' }}"
-                                               class="dropdown-item notification-item {{ $notification->read_at ? 'read' : 'unread' }} p-3 border-bottom" 
-                                               data-notification-id="{{ $notification->id }}"
-                                               onclick="markAsRead(this, '{{ $notification->id }}')">
-                                                <small class="text-muted float-end">{{ $notification->created_at->diffForHumans() }}</small>
+                                            <a href="{{ $notification->data['link'] ?? '#' }}"
+                                                class="dropdown-item notification-item {{ $notification->read_at ? 'read' : 'unread' }} p-3 border-bottom"
+                                                data-notification-id="{{ $notification->id }}"
+                                                onclick="markAsRead(this, '{{ $notification->id }}')">
+                                                <small
+                                                    class="text-muted float-end">{{ $notification->created_at->diffForHumans() }}</small>
                                                 <div>{{ $notification->data['message'] }}</div>
+                                                <div class="text-muted">
+                                                    {{ $notification->data['sender'] ?? 'Unknown Sender' }}</div>
                                             </a>
                                         @empty
                                             <div class="dropdown-item text-center">No notifications</div>

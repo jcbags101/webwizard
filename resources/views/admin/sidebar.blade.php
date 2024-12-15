@@ -6,7 +6,6 @@
                     href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}
                 </a>
-                
             @endif
         </li>
         {{-- <li class="nav-item">
@@ -17,6 +16,14 @@
                 </a>
             @endif
         </li> --}}
+        <li class="nav-item">
+            @if (empty(auth()->user()->user_type))
+                <a class="nav-link {{ request()->routeIs('admin.login_logs.index') ? 'active' : '' }}"
+                    href="{{ route('admin.login_logs.index') }}">
+                    <i class="fas fa-user-clock"></i> {{ __('Login Logs') }}
+                </a>
+            @endif
+        </li>
         <li class="nav-item">
             @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman')
                 <a class="nav-link {{ request()->routeIs('admin.instructors.index') ? 'active' : '' }}"
@@ -50,7 +57,10 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'Registrar' || auth()->user()->user_type === 'Chairman' || auth()->user()->user_type === 'DOI')
+            @if (empty(auth()->user()->user_type) ||
+                    auth()->user()->user_type === 'Registrar' ||
+                    auth()->user()->user_type === 'Chairman' ||
+                    auth()->user()->user_type === 'DOI')
                 <a class="nav-link {{ request()->routeIs('admin.submitted_requirements.index') ? 'active' : '' }}"
                     href="{{ route('admin.submitted_requirements.index') }}">
                     <i class="fas fa-file-alt"></i> {{ __('Manage Submitted Requirements') }}
