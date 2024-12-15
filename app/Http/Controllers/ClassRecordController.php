@@ -276,5 +276,13 @@ class ClassRecordController extends Controller
 
         return $pdf->stream('gradesheet_summary.pdf');
     }
+    public function showClassRecords($classId)
+{
+    $schoolClass = SchoolClass::findOrFail($classId);
+    $students = $schoolClass->section->students()->orderBy('full_name', 'asc')->get(); // Sorted by full name
+
+    return view('instructor.class_records.index', compact('schoolClass', 'students'));
+}
+
 }
 

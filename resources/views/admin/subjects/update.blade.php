@@ -1,9 +1,10 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <a href="{{ route('admin.subjects.index') }}" class="btn btn-secondary mb-3">Back</a>
+    
     <div class="card">
-        <div class="card-header">{{ __('Update Subject') }}</div>
+    <h1 style="margin-top: 20px; font-size:25px">Update Subject</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;">
 
         <div class="card-body">
             <form action="{{ route('admin.subjects.update', $subject->id) }}" method="POST">
@@ -54,7 +55,7 @@
                 </div>
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                         {{ __('Update Subject') }}
                     </button>
                 </div>

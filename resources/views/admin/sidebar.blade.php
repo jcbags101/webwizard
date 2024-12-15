@@ -1,7 +1,7 @@
 <div class="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type))
+            @if (empty(auth()->user()->user_type)|| auth()->user()->user_type === 'MIS' || auth()->user()->user_type === 'Registrar'|| auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman')
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                     href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}
@@ -33,7 +33,7 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type))
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'MIS')
                 <a class="nav-link {{ request()->routeIs('admin.subjects.index') ? 'active' : '' }}"
                     href="{{ route('admin.subjects.index') }}">
                     <i class="fas fa-book"></i> {{ __('Manage Subjects') }}
@@ -41,7 +41,7 @@
             @endif
         </li>
         <li class="nav-item">
-            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI')
+            @if (empty(auth()->user()->user_type) || auth()->user()->user_type === 'DOI' || auth()->user()->user_type === 'Chairman')
                 <a class="nav-link {{ request()->routeIs('admin.requirements.index') ? 'active' : '' }}"
                     href="{{ route('admin.requirements.index') }}">
                     <i class="fas fa-tasks"></i> {{ __('Manage Requirements') }}

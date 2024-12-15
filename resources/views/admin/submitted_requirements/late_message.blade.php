@@ -2,13 +2,12 @@
 
 @section('admin-content')
     <div class="container-fluid">
-        <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">Back</a>
 
         <div class="card">
             <div class="card-body">
-                <p><strong>Date:</strong> {{ $submittedRequirement->created_at->format('F d, Y') }}</p>
+                <p><strong>{{ $submittedRequirement->created_at->format('F d, Y') }}</strong></p>
 
-                <p class="text-uppercase mb-0">MARIA CHRISTINA A. FLORES, LPT, MSME</p>
+                <p class="text-uppercase mb-0"><strong>MARIA CHRISTINA A. FLORES, LPT, MSME</strong></p>
                 <p>Chairman, College of Technology</p>
 
                 <p class="mt-4">Dear Ms. Flores,</p>
@@ -17,7 +16,7 @@
                     {{ $submittedRequirement->message }}
                 </div>
 
-                <p class="mb-0">{{ $submittedRequirement->instructor->full_name }}</p>
+                <p class="mb-0"><strong>{{ $submittedRequirement->instructor->full_name }}</strong></p>
                 <p>Instructor</p>
             </div>
         </div>

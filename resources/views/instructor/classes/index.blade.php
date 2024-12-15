@@ -1,7 +1,8 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-        <h1>All Classes</h1>
+<h1 style="margin-top: 20px; font-size:30px">My Classes</h1>
+<hr style="margin-bottom:20px; border: 0.5px solid black;">
         <table class="table table-striped">
             <thead>
                 <tr>

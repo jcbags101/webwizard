@@ -12,8 +12,11 @@
         </div>
     @endif
     <div class="container">
-        <a href="{{ route('instructor.classes.index') }}" class="btn btn-secondary mb-3">Back</a>
-        <h1>Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }}</h1>
+        <h1 style="margin-top: 20px; font-size:20px">My Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }} ({{ $schoolClass->subject->description}})</h1>
+        <div class="text-muted" style="font-style: italic; font-size:2px;">
+            <h5>{{ $schoolClass->section->semester }}</h5>
+        </div>
+        <hr style="margin-bottom:20px; border: 0.5px solid black;">
         <a href="{{ route('instructor.class_records.pdf', ['id' => $schoolClass->id]) }}" class="btn btn-primary mb-3"
             target="_blank">Generate PDF</a>
 
@@ -38,7 +41,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background: orange; color: white;">
                         <h5 class="modal-title" id="shareInstructorModalLabel">Share to Other Instructor</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -918,9 +921,9 @@
     <!-- Add Student Modal -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background: orange; color: white;">
                     <h5 class="modal-title" id="addStudentModalLabel">Add New Student</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1051,11 +1054,11 @@
                 47: 3.1,
                 46: 3.2,
                 45: 3.2,
-                44: 3.3,
+                44: 3.2,
                 43: 3.3,
                 42: 3.3,
                 41: 3.3,
-                40: 3.3,
+                40: 3.4,
                 39: 3.4,
                 38: 3.4,
                 37: 3.5,
@@ -1066,7 +1069,7 @@
                 32: 3.6,
                 31: 3.7,
                 30: 3.7,
-                29: 3.8,
+                29: 3.7,
                 28: 3.8,
                 27: 3.8,
                 26: 3.8,
@@ -1084,17 +1087,17 @@
                 14: 4.3,
                 13: 4.4,
                 12: 4.4,
-                11: 4.4,
+                11: 4.5,
                 10: 4.5,
-                9: 4.5,
+                9: 4.6,
                 8: 4.6,
-                7: 4.6,
+                7: 4.7,
                 6: 4.7,
-                5: 4.7,
+                5: 4.8,
                 4: 4.8,
-                3: 4.8,
+                3: 4.9,
                 2: 4.9,
-                1: 4.9,
+                1: 5.0,
                 0: 5.0
             };
 
@@ -1106,7 +1109,12 @@
             }
 
             function calculatePercentageAndTransmutation(score, totalItems) {
-                if (!score || !totalItems) return '';
+                 // If no totalItems, return null to indicate it shouldn't be calculated.
+    if (!totalItems) return null;
+
+// If score is 0, return the default grade of 5.0.
+if (score === 0) return 5.0;
+
                 const percentage = Math.round((score / totalItems) * 100);
                 // If percentage is greater than 100, return 1.0
                 if (percentage > 100) return 1.0;

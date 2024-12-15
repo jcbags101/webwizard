@@ -1,10 +1,9 @@
 @extends('instructor.layout')
 
 @section('instructor-content')
-    <a href="{{ route('instructor.requirements.index') }}" class="btn btn-secondary mb-3">Back</a>
     <div class="card">
-        <div class="card-header">{{ __('Update Submitted Requirement') }}</div>
-
+    <h1 style="margin-top: 20px; font-size:25px">Update Submitted Requirement</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;">
         <div class="card-body">
             <form action="{{ route('instructor.requirements.update', $submittedRequirement->id) }}" method="POST"
                 enctype="multipart/form-data">
@@ -64,7 +63,7 @@
 
                 <div class="form-group mt-3">
                     @if ($submittedRequirement->edit_status === 'approved')
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                             {{ __('Update Submitted Requirement') }}
                         </button>
                     @endif

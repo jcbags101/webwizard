@@ -1,11 +1,11 @@
 @extends('admin.layout')
 
 @section('admin-content')
-    <a href="{{ route('admin.classes.index') }}" class="btn btn-secondary mb-3">Back</a>
+
     <div class="card">
         
-        <div class="card-header">{{ __('Add Class') }}</div>
-
+    <h1 style="margin-top: 20px; font-size:25px">Create Class</h1>
+    <hr style="margin-bottom:20px; border: 0.5px solid black;">
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success">
@@ -52,7 +52,7 @@
                         <option value="">{{ __('Select Subject') }}</option>
                         @foreach ($subjects as $subject)
                             <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
-                                {{ $subject->name }}</option>
+                                {{ $subject->name }} - {{ $subject->description }}</option>
                         @endforeach
                     </select>
                     @error('subject_id')
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top:10px">
                         {{ __('Add Class') }}
                     </button>
                 </div>

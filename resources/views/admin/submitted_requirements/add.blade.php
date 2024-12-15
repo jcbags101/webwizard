@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="form-group mb-0">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
                         {{ __('Add Requirement') }}
                     </button>
                 </div>

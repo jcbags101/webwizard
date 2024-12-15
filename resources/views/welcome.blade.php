@@ -983,7 +983,7 @@
             </header>
 
             <main class="mt-6 h-[2000px]">
-                <h1 class="text-center">Welcome to the School Portal</h1>
+                <h1 class="text-center">Welcome to WebWizard</h1>
                 <p class="text-center text-md mt-2">Your gateway to managing classes and requirements.</p>
                 <div class="flex justify-center mt-4">
                     <img src="{{ asset('images/ctu_logo.png') }}" alt="CTU Logo" class="h-24 w-auto">
