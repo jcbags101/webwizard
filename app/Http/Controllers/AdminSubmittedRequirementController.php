@@ -7,6 +7,8 @@ use App\Models\SubmittedRequirement;
 use App\Models\Requirement;
 use App\Models\SchoolClass;
 use App\Models\Instructor;
+use App\Models\ActivityLog;
+
 class AdminSubmittedRequirementController extends Controller
 {
     public function dashboard()
@@ -90,8 +92,13 @@ class AdminSubmittedRequirementController extends Controller
         return view('admin.submitted_requirements.late_message', compact('submittedRequirement'));
     }
 
-    public function activityLogs($id)
+    public function activityLogs($id = null)
     {
+        if (is_null($id)) {
+            $activityLogs = ActivityLog::all();
+            return view('admin.submitted_requirements.logs', compact('activityLogs'));
+        }
+
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
         $activityLogs = $submittedRequirement->activityLogs ?? [];
         return view('admin.submitted_requirements.activity_logs', compact('submittedRequirement', 'activityLogs'));

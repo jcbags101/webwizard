@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/admin/submitted_requirements/{id}/approveEdit', [AdminSubmittedRequirementController::class, 'approveEdit'])->name('admin.submitted_requirements.approveEdit');
         Route::get('/admin/submitted_requirements/{id}/late-message', [AdminSubmittedRequirementController::class, 'showLateMessage'])->name('admin.submitted_requirements.late_message');
         Route::get('/admin/submitted_requirements/{id}/activity_logs', [AdminSubmittedRequirementController::class, 'activityLogs'])->name('admin.submitted_requirements.activity_logs');
+        Route::get('/admin/submitted_requirements/activity_logs', [AdminSubmittedRequirementController::class, 'activityLogs'])->name('admin.submitted_requirements.activity_logs');
 
         Route::get('/admin/classes', [App\Http\Controllers\SchoolClassController::class, 'index'])->name('admin.classes.index');
         Route::get('/admin/classes/create', [App\Http\Controllers\SchoolClassController::class, 'create'])->name('admin.classes.create');

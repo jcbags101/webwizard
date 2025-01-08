@@ -13,6 +13,6 @@ class ActivityLog extends Model
 
     public function submittedRequirement()
     {
-        return $this->belongsTo(SubmittedRequirement::class);
+        return $this->belongsTo(SubmittedRequirement::class, 'submitted_requirement_id');
     }
 }
