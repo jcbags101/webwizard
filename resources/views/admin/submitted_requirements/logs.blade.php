@@ -26,7 +26,7 @@
                         <td>{{ $log->submittedRequirement->instructor->full_name ?? 'Requirement deleted' }}</td>
                         <td>{{ $log->action }}</td>
                         <td>{{ $log->changes ?? 'No changes' }}</td>
-                        <td>{{ $log->created_at->format('M d, Y h:ia') }}</td>
+                        <td>{{ $log->created_at->timezone('Asia/Manila')->format('M d, Y h:i A') }}</td>
                     </tr>
                 @endforeach
             </tbody>
