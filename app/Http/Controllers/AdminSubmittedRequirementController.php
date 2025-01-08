@@ -57,6 +57,7 @@ class AdminSubmittedRequirementController extends Controller
  
     public function update(Request $request, $id)
     {
+        // Log the update action
         $request->validate([
             'status' => 'required|string|in:pending,accepted,rejected,chairman_approved',
             'remarks' => 'nullable|string|max:255',
