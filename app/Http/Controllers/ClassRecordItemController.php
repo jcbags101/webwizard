@@ -14,6 +14,7 @@ class ClassRecordItemController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $validatedData = $request->validate([
             'class_id' => 'required|exists:classes,id',
             'quiz1_items' => 'nullable|decimal:0,2|min:1',
@@ -53,6 +54,8 @@ class ClassRecordItemController extends Controller
             'pre_final_midterm_exam_items' => 'nullable|decimal:0,2|min:1',
             'pre_final_final_exam_items' => 'nullable|decimal:0,2|min:1',
         ]);
+
+        // dd($request->all());
 
         $updateData = [];
         

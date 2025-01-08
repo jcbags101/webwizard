@@ -125,14 +125,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="midterm">
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Quiz {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="quiz{{ $i }}_items[]"
+                                    <input type="number" name="quiz{{ $i }}_items"
                                         class="form-control quiz-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"quiz_{$i}"} }}"
                                         placeholder="Enter items">
@@ -154,14 +154,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="midterm">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Oral {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="oral{{ $i }}_items[]"
+                                    <input type="number" name="oral{{ $i }}_items"
                                         class="form-control oral-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"oral_{$i}"} }}"
                                         placeholder="Enter items">
@@ -183,13 +183,13 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-3 row-cols-md-2 g-3">
                         @for ($i = 1; $i <= 4; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Project {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="project{{ $i }}_items[]"
+                                    <input type="number" name="project{{ $i }}_items"
                                         class="form-control project-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"project_{$i}"} }}"
                                         placeholder="Enter items">
@@ -211,12 +211,12 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row">
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Prelim Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="midterm_exam_items[]" class="form-control term-exam-items"
+                                <input type="number" name="midterm_exam_items" class="form-control term-exam-items"
                                     min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"midterm"} }}" placeholder="Enter items">
                                 <span class="input-group-text">items</span>
@@ -225,7 +225,7 @@
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Midterm Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="final_exam_items[]" class="form-control term-exam-items"
+                                <input type="number" name="final_exam_items" class="form-control term-exam-items"
                                     min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"final"} }}" placeholder="Enter items">
                                 <span class="input-group-text">items</span>
@@ -283,14 +283,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Quiz {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_quiz{{ $i }}_items[]"
+                                    <input type="number" name="pre_final_quiz{{ $i }}_items"
                                         class="form-control pre-final-quiz-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_quiz_{$i}"} }}"
                                         placeholder="Enter items">
@@ -312,14 +312,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Oral {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_oral{{ $i }}_items[]"
+                                    <input type="number" name="pre_final_oral{{ $i }}_items"
                                         class="form-control pre-final-oral-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_oral_{$i}"} }}"
                                         placeholder="Enter items">
@@ -341,14 +341,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-3 row-cols-md-2 g-3">
                         @for ($i = 1; $i <= 4; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Project {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_project{{ $i }}_items[]"
+                                    <input type="number" name="pre_final_project{{ $i }}_items"
                                         class="form-control pre-final-project-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_project_{$i}"} }}"
                                         placeholder="Enter items">
@@ -370,13 +370,13 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
                     <div class="row">
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Semi Final Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="pre_final_midterm_exam_items[]"
+                                <input type="number" name="pre_final_midterm_exam_items"
                                     class="form-control pre-final-term-exam-items" min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"pre_final_midterm"} }}"
                                     placeholder="Enter items">
@@ -385,7 +385,7 @@
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Final Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="pre_final_final_exam_items[]"
+                                <input type="number" name="pre_final_final_exam_items"
                                     class="form-control pre-final-term-exam-items" min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"pre_final_final"} }}"
                                     placeholder="Enter items">
