@@ -12,7 +12,8 @@
         </div>
     @endif
     <div class="container">
-        <h1 style="margin-top: 20px; font-size:20px">My Students in {{ $schoolClass->section->name }} - {{ $schoolClass->subject->name }} ({{ $schoolClass->subject->description}})</h1>
+        <h1 style="margin-top: 20px; font-size:20px">My Students in {{ $schoolClass->section->name }} -
+            {{ $schoolClass->subject->name }} ({{ $schoolClass->subject->description }})</h1>
         <div class="text-muted" style="font-style: italic; font-size:2px;">
             <h5>{{ $schoolClass->section->semester }}</h5>
         </div>
@@ -124,14 +125,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="midterm">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Quiz {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="quiz{{ $i }}_items"
+                                    <input type="number" name="quiz{{ $i }}_items[]"
                                         class="form-control quiz-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"quiz_{$i}"} }}"
                                         placeholder="Enter items">
@@ -153,14 +154,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                    <input type="hidden" name="term_type" id="termTypeInput" value="midterm">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="midterm">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Oral {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="oral{{ $i }}_items"
+                                    <input type="number" name="oral{{ $i }}_items[]"
                                         class="form-control oral-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"oral_{$i}"} }}"
                                         placeholder="Enter items">
@@ -182,13 +183,13 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-3 row-cols-md-2 g-3">
                         @for ($i = 1; $i <= 4; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Project {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="project{{ $i }}_items"
+                                    <input type="number" name="project{{ $i }}_items[]"
                                         class="form-control project-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"project_{$i}"} }}"
                                         placeholder="Enter items">
@@ -210,12 +211,12 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row">
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Prelim Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="midterm_exam_items" class="form-control term-exam-items"
+                                <input type="number" name="midterm_exam_items[]" class="form-control term-exam-items"
                                     min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"midterm"} }}" placeholder="Enter items">
                                 <span class="input-group-text">items</span>
@@ -224,7 +225,7 @@
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Midterm Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="final_exam_items" class="form-control term-exam-items"
+                                <input type="number" name="final_exam_items[]" class="form-control term-exam-items"
                                     min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"final"} }}" placeholder="Enter items">
                                 <span class="input-group-text">items</span>
@@ -282,14 +283,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Quiz {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_quiz{{ $i }}_items"
+                                    <input type="number" name="pre_final_quiz{{ $i }}_items[]"
                                         class="form-control pre-final-quiz-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_quiz_{$i}"} }}"
                                         placeholder="Enter items">
@@ -311,14 +312,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-2 row-cols-md-3 g-3">
                         @for ($i = 1; $i <= 6; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Oral {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_oral{{ $i }}_items"
+                                    <input type="number" name="pre_final_oral{{ $i }}_items[]"
                                         class="form-control pre-final-oral-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_oral_{$i}"} }}"
                                         placeholder="Enter items">
@@ -340,14 +341,14 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row row-cols-3 row-cols-md-2 g-3">
                         @for ($i = 1; $i <= 4; $i++)
                             <div class="col">
                                 <label class="form-label fw-semibold mb-1">Project {{ $i }} Items</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="number" name="pre_final_project{{ $i }}_items"
+                                    <input type="number" name="pre_final_project{{ $i }}_items[]"
                                         class="form-control pre-final-project-items" min="1" step="1"
                                         value="{{ $schoolClass->classRecordItem?->{"pre_final_project_{$i}"} }}"
                                         placeholder="Enter items">
@@ -369,13 +370,13 @@
             <div class="card card-body p-3 bg-light">
                 <form action="{{ route('instructor.class-record-items.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="term_type" id="termTypeInput" value="pre_final">
-                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                    <input type="hidden" name="term_type[]" id="termTypeInput" value="pre_final">
+                    <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                     <div class="row">
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Semi Final Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="pre_final_midterm_exam_items"
+                                <input type="number" name="pre_final_midterm_exam_items[]"
                                     class="form-control pre-final-term-exam-items" min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"pre_final_midterm"} }}"
                                     placeholder="Enter items">
@@ -384,7 +385,7 @@
                         <div class="col-6">
                             <label class="form-label fw-semibold mb-1">Final Exam Items</label>
                             <div class="input-group input-group-sm">
-                                <input type="number" name="pre_final_final_exam_items"
+                                <input type="number" name="pre_final_final_exam_items[]"
                                     class="form-control pre-final-term-exam-items" min="1" step="1"
                                     value="{{ $schoolClass->classRecordItem?->{"pre_final_final"} }}"
                                     placeholder="Enter items">
@@ -402,45 +403,50 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped" id="studentsTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>MidTerm Grade</th>
-                    <th>PreFinal Grade</th>
-                    <th>Final Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if ($students->isEmpty())
+        <form action="{{ route('instructor.class_records.store') }}" method="POST" class="d-inline mt-2">
+            <div class="text-end mt-3">
+                @if (!$isShared)
+                    <button type="submit" class="btn btn-success">Save All</button>
+                @endif
+            </div>
+            @csrf
+            <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
+            <table class="table table-striped" id="studentsTable">
+                <thead>
                     <tr>
-                        <td colspan="4" class="text-center">No students found</td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>MidTerm Grade</th>
+                        <th>PreFinal Grade</th>
+                        <th>Final Grade</th>
                     </tr>
-                @else
-                    @foreach ($students as $student)
+                </thead>
+                <tbody>
+                    @if ($students->isEmpty())
                         <tr>
-                            <td>{{ $student->id }}</td>
-                            <td>{{ $student->full_name }}</td>
-                            <td>{{ $student->email }}</td>
-                            <td>{{ $student->getClassRecord($schoolClass->id)->midterm_grade ?? 0 }}</td>
-                            <td>{{ $student->getClassRecord($schoolClass->id)->prefinal_grade ?? 0 }}</td>
-                            <td>{{ $student->getClassRecord($schoolClass->id)->final_grade ?? 0 }}</td>
-                            <td class="collapse gradeColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
+                            <td colspan="4" class="text-center">No students found</td>
+                        </tr>
+                    @else
+                        @foreach ($students as $student)
+                            <input type="hidden" name="student_id[]" value="{{ $student->id }}">
+                            <tr>
+                                <td>{{ $student->id }}</td>
+                                <td>{{ $student->full_name }}</td>
+                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->getClassRecord($schoolClass->id)->midterm_grade ?? 0 }}</td>
+                                <td>{{ $student->getClassRecord($schoolClass->id)->prefinal_grade ?? 0 }}</td>
+                                <td>{{ $student->getClassRecord($schoolClass->id)->final_grade ?? 0 }}</td>
+                                <td class="collapse gradeColumn">
+
+                                    <input type="hidden" name="term_type[]" class="termTypeInput" value="midterm">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
                                                 <label class="small">Quiz {{ $i }}</label>
                                                 <div class="d-flex gap-2">
                                                     <div>
-                                                        <input type="number" name="quiz{{ $i }}"
+                                                        <input type="number" name="quiz{{ $i }}[]"
                                                             class="form-control form-control-sm quiz-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -449,7 +455,7 @@
                                                         <small class="text-muted">Score</small>
                                                     </div>
                                                     <div>
-                                                        <input type="number" name="quiz{{ $i }}_percentage"
+                                                        <input type="number" name="quiz{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm quiz-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU </small>
@@ -473,28 +479,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
-                            <td class="collapse oralColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
+                                </td>
+                                <td class="collapse oralColumn">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
                                                 <label class="small">Oral {{ $i }}</label>
                                                 <div class="d-flex gap-2">
                                                     <div>
-                                                        <input type="number" name="oral{{ $i }}"
+                                                        <input type="number" name="oral{{ $i }}[]"
                                                             class="form-control form-control-sm oral-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -503,7 +497,7 @@
                                                         <small class="text-muted">Score</small>
                                                     </div>
                                                     <div>
-                                                        <input type="number" name="oral{{ $i }}_percentage"
+                                                        <input type="number" name="oral{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm oral-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU</small>
@@ -527,28 +521,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
-                            <td class="collapse projectColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
+                                </td>
+                                <td class="collapse projectColumn">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 4; $i++)
                                             <div class="me-3">
                                                 <label class="small">Project {{ $i }}</label>
                                                 <div class="d-flex gap-2">
                                                     <div>
-                                                        <input type="number" name="project{{ $i }}"
+                                                        <input type="number" name="project{{ $i }}[]"
                                                             class="form-control form-control-sm project-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -558,7 +540,7 @@
                                                     </div>
                                                     <div>
                                                         <input type="number"
-                                                            name="project{{ $i }}_percentage"
+                                                            name="project{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm project-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU</small>
@@ -583,27 +565,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
-                            <td class="collapse termExamColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="midterm">
+                                </td>
+                                <td class="collapse termExamColumn">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
                                             <label class="small">Prelim</label>
                                             <div class="d-flex gap-2">
                                                 <div>
-                                                    <input type="number" name="midterm"
+                                                    <input type="number" name="midterm[]"
                                                         class="form-control form-control-sm term-exam-input"
                                                         style="width: 80px;" min="0" max="100"
                                                         step="1" required
@@ -612,7 +582,7 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" name="midterm_percentage"
+                                                    <input type="number" name="midterm_percentage[]"
                                                         class="form-control form-control-sm term-exam-percentage"
                                                         style="width: 80px;" readonly>
                                                     <small class="text-muted">EQU</small>
@@ -623,7 +593,7 @@
                                             <label class="small">Midterm</label>
                                             <div class="d-flex gap-2">
                                                 <div>
-                                                    <input type="number" name="final"
+                                                    <input type="number" name="final[]"
                                                         class="form-control form-control-sm term-exam-input"
                                                         style="width: 80px;" min="0" max="100"
                                                         step="1" required
@@ -632,7 +602,7 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" name="final_percentage"
+                                                    <input type="number" name="final_percentage[]"
                                                         class="form-control form-control-sm term-exam-percentage"
                                                         style="width: 80px;" readonly>
                                                     <small class="text-muted">EQU</small>
@@ -654,30 +624,18 @@
                                                     style="width: 80px;" readonly>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
+                                </td>
 
-                            <td class="collapse preFinalGradeColumn">
-                                <!-- Pre-Final Grades Section -->
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="pre_final">
+                                <td class="collapse preFinalGradeColumn">
+                                    <!-- Pre-Final Grades Section -->
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
                                                 <label class="small">Pre-Final Quiz {{ $i }}</label>
                                                 <div class="d-flex gap-2">
                                                     <div>
-                                                        <input type="number" name="pre_final_quiz{{ $i }}"
+                                                        <input type="number" name="pre_final_quiz{{ $i }}[]"
                                                             class="form-control form-control-sm pre-final-quiz-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -687,7 +645,7 @@
                                                     </div>
                                                     <div>
                                                         <input type="number"
-                                                            name="pre_final_quiz{{ $i }}_percentage"
+                                                            name="pre_final_quiz{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm pre-final-quiz-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU</small>
@@ -712,28 +670,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
-                            <td class="collapse preFinalOralColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="pre_final">
+                                </td>
+                                <td class="collapse preFinalOralColumn">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 6; $i++)
                                             <div class="me-3">
                                                 <label class="small">Pre-Final Oral {{ $i }}</label>
                                                 <div class="d-flex gap-2">
                                                     <div>
-                                                        <input type="number" name="pre_final_oral{{ $i }}"
+                                                        <input type="number" name="pre_final_oral{{ $i }}[]"
                                                             class="form-control form-control-sm pre-final-oral-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -743,7 +689,7 @@
                                                     </div>
                                                     <div>
                                                         <input type="number"
-                                                            name="pre_final_oral{{ $i }}_percentage"
+                                                            name="pre_final_oral{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm pre-final-oral-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU</small>
@@ -768,22 +714,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
+                                </td>
 
-                            <td class="collapse preFinalProjectColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="pre_final">
+                                <td class="collapse preFinalProjectColumn">
                                     <div class="d-flex align-items-center">
                                         @for ($i = 1; $i <= 4; $i++)
                                             <div class="me-3">
@@ -791,7 +725,7 @@
                                                 <div class="d-flex gap-2">
                                                     <div>
                                                         <input type="number"
-                                                            name="pre_final_project{{ $i }}"
+                                                            name="pre_final_project{{ $i }}[]"
                                                             class="form-control form-control-sm pre-final-project-input"
                                                             style="width: 80px;" min="0" max="100"
                                                             step="1" required
@@ -801,7 +735,7 @@
                                                     </div>
                                                     <div>
                                                         <input type="number"
-                                                            name="pre_final_project{{ $i }}_percentage"
+                                                            name="pre_final_project{{ $i }}_percentage[]"
                                                             class="form-control form-control-sm pre-final-project-percentage"
                                                             style="width: 80px;" readonly>
                                                         <small class="text-muted">EQU</small>
@@ -826,28 +760,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
+                                </td>
 
-                            <td class="collapse preFinalTermExamColumn">
-                                <form action="{{ route('instructor.class_records.store') }}" method="POST"
-                                    class="d-inline mt-2">
-                                    @csrf
-                                    <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                    <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
-                                    <input type="hidden" name="term_type" class="termTypeInput" value="pre_final">
+                                <td class="collapse preFinalTermExamColumn">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
                                             <label class="small">Semi-Final Midterm</label>
                                             <div class="d-flex gap-2">
                                                 <div>
-                                                    <input type="number" name="pre_final_midterm"
+                                                    <input type="number" name="pre_final_midterm[]"
                                                         class="form-control form-control-sm pre-final-term-exam-input"
                                                         style="width: 80px;" min="0" max="100"
                                                         step="1" required
@@ -856,7 +778,7 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" name="pre_final_midterm_percentage"
+                                                    <input type="number" name="pre_final_midterm_percentage[]"
                                                         class="form-control form-control-sm pre-final-term-exam-percentage"
                                                         style="width: 80px;" readonly>
                                                     <small class="text-muted">20%</small>
@@ -867,7 +789,7 @@
                                             <label class="small">Final Exam</label>
                                             <div class="d-flex gap-2">
                                                 <div>
-                                                    <input type="number" name="pre_final_final"
+                                                    <input type="number" name="pre_final_final[]"
                                                         class="form-control form-control-sm pre-final-term-exam-input"
                                                         style="width: 80px;" min="0" max="100"
                                                         step="1" required
@@ -876,7 +798,7 @@
                                                     <small class="text-muted">Score</small>
                                                 </div>
                                                 <div>
-                                                    <input type="number" name="pre_final_final_percentage"
+                                                    <input type="number" name="pre_final_final_percentage[]"
                                                         class="form-control form-control-sm pre-final-term-exam-percentage"
                                                         style="width: 80px;" readonly>
                                                     <small class="text-muted">20%</small>
@@ -901,20 +823,14 @@
                                                     style="width: 80px;" readonly>
                                             </div>
                                         </div>
-
-                                        @if (!$isShared)
-                                            <button type="submit" class="btn btn-primary btn-sm mt-3">
-                                                <i class="fas fa-save"></i> Save All
-                                            </button>
-                                        @endif
                                     </div>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-        </table>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </form>
     </div>
     </div>
 
@@ -930,22 +846,22 @@
                 <form id="addStudentForm" method="POST">
                     <div class="modal-body">
                         @csrf
-                        <input type="hidden" name="class_id" value="{{ $schoolClass->id }}">
+                        <input type="hidden" name="class_id[]" value="{{ $schoolClass->id }}">
                         <div class="mb-3">
                             <label for="student_id" class="form-label">Student ID</label>
-                            <input type="text" class="form-control" id="student_id" name="student_id" required>
+                            <input type="text" class="form-control" id="student_id" name="student_id[]" required>
                         </div>
                         <div class="mb-3">
                             <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            <input type="text" class="form-control" id="first_name" name="first_name[]" required>
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            <input type="text" class="form-control" id="last_name" name="last_name[]" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email[]" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1109,11 +1025,11 @@
             }
 
             function calculatePercentageAndTransmutation(score, totalItems) {
-                 // If no totalItems, return null to indicate it shouldn't be calculated.
-    if (!totalItems) return null;
+                // If no totalItems, return null to indicate it shouldn't be calculated.
+                if (!totalItems) return null;
 
-// If score is 0, return the default grade of 5.0.
-if (score === 0) return 5.0;
+                // If score is 0, return the default grade of 5.0.
+                if (score === 0) return 5.0;
 
                 const percentage = Math.round((score / totalItems) * 100);
                 // If percentage is greater than 100, return 1.0
@@ -1286,11 +1202,11 @@ if (score === 0) return 5.0;
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            student_id: formData.get('student_id'),
-                            first_name: formData.get('first_name'),
-                            last_name: formData.get('last_name'),
-                            email: formData.get('email'),
-                            class_id: formData.get('class_id')
+                            student_id: formData.get('student_id[]'),
+                            first_name: formData.get('first_name[]'),
+                            last_name: formData.get('last_name[]'),
+                            email: formData.get('email[]'),
+                            class_id: formData.get('class_id[]')
                         })
                     });
 

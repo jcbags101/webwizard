@@ -162,38 +162,142 @@ class ClassRecordController extends Controller
 
     public function store(Request $request)
     {
-        $this->validateRequest($request);
-        $updateData = $this->prepareUpdateData($request);
-        
-        $classRecord = \App\Models\ClassRecord::updateOrCreate(
-            [
-                'student_id' => $request->student_id,
-                'class_id' => $request->class_id
-            ],
-            $updateData
-        );
+        $request->validate([
+            'class_id' => 'required|exists:classes,id',
+            'student_id.*' => 'required|exists:students,id',
+            'term_type.*' => 'required|string',
+            // Add validation for arrays
+            'quiz1.*' => 'nullable|numeric|min:0|max:100',
+            'quiz2.*' => 'nullable|numeric|min:0|max:100',
+            'quiz3.*' => 'nullable|numeric|min:0|max:100',
+            'quiz4.*' => 'nullable|numeric|min:0|max:100',
+            'quiz5.*' => 'nullable|numeric|min:0|max:100',
+            'quiz6.*' => 'nullable|numeric|min:0|max:100',
+            'oral1.*' => 'nullable|numeric|min:0|max:100',
+            'oral2.*' => 'nullable|numeric|min:0|max:100',
+            'oral3.*' => 'nullable|numeric|min:0|max:100',
+            'oral4.*' => 'nullable|numeric|min:0|max:100',
+            'oral5.*' => 'nullable|numeric|min:0|max:100',
+            'oral6.*' => 'nullable|numeric|min:0|max:100',
+            'project1.*' => 'nullable|numeric|min:0|max:100',
+            'project2.*' => 'nullable|numeric|min:0|max:100',
+            'project3.*' => 'nullable|numeric|min:0|max:100',
+            'project4.*' => 'nullable|numeric|min:0|max:100',
+            'midterm.*' => 'nullable|numeric|min:0|max:100',
+            'final.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz1.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz2.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz3.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz4.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz5.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_quiz6.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral1.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral2.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral3.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral4.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral5.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_oral6.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_project1.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_project2.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_project3.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_project4.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_midterm.*' => 'nullable|numeric|min:0|max:100',
+            'pre_final_final.*' => 'nullable|numeric|min:0|max:100',
+        ]);
 
-        $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $request->class_id)->first();
-        
-        if (!$classRecordItem) {
-            return redirect()
-                ->route('instructor.classes.students', ['id' => $request->class_id])
-                ->with('error', 'Class record items not found.');
-        }
+        // dd($request->all());
 
-        // Calculate regular term percentages
-        $quizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'quiz', 6, 0.3);
-        $oralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'oral', 6, 0.2);
-        $projectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'project', 4, 0.1);
-        $examPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['midterm', 'final'], 0.4);
+        \DB::beginTransaction();
+        try {
+            $studentIds = $request->input('student_id');
 
-        // Calculate pre-final percentages
-        $preFinalQuizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_quiz', 6, 0.3);
-        $preFinalOralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_oral', 6, 0.2);
-        $preFinalProjectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_project', 4, 0.1);
-        $preFinalExamPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['pre_final_midterm', 'pre_final_final'], 0.4);
+            foreach ($studentIds as $index => $studentId) {
+                $updateData = [
+                    // Regular term grades
+                    'quiz_1' => $request->input("quiz1.{$index}", null),
+                    'quiz_2' => $request->input("quiz2.{$index}", null),
+                    'quiz_3' => $request->input("quiz3.{$index}", null),
+                    'quiz_4' => $request->input("quiz4.{$index}", null),
+                    'quiz_5' => $request->input("quiz5.{$index}", null),
+                    'quiz_6' => $request->input("quiz6.{$index}", null),
+                    'oral_1' => $request->input("oral1.{$index}", null),
+                    'oral_2' => $request->input("oral2.{$index}", null),
+                    'oral_3' => $request->input("oral3.{$index}", null),
+                    'oral_4' => $request->input("oral4.{$index}", null),
+                    'oral_5' => $request->input("oral5.{$index}", null),
+                    'oral_6' => $request->input("oral6.{$index}", null),
+                    'project_1' => $request->input("project1.{$index}", null),
+                    'project_2' => $request->input("project2.{$index}", null),
+                    'project_3' => $request->input("project3.{$index}", null),
+                    'project_4' => $request->input("project4.{$index}", null),
+                    'midterm' => $request->input("midterm.{$index}", null),
+                    'final' => $request->input("final.{$index}", null),
+                    // Pre-final grades
+                    'pre_final_quiz_1' => $request->input("pre_final_quiz1.{$index}", null),
+                    'pre_final_quiz_2' => $request->input("pre_final_quiz2.{$index}", null),
+                    'pre_final_quiz_3' => $request->input("pre_final_quiz3.{$index}", null),
+                    'pre_final_quiz_4' => $request->input("pre_final_quiz4.{$index}", null),
+                    'pre_final_quiz_5' => $request->input("pre_final_quiz5.{$index}", null),
+                    'pre_final_quiz_6' => $request->input("pre_final_quiz6.{$index}", null),
+                    'pre_final_oral_1' => $request->input("pre_final_oral1.{$index}", null),
+                    'pre_final_oral_2' => $request->input("pre_final_oral2.{$index}", null),
+                    'pre_final_oral_3' => $request->input("pre_final_oral3.{$index}", null),
+                    'pre_final_oral_4' => $request->input("pre_final_oral4.{$index}", null),
+                    'pre_final_oral_5' => $request->input("pre_final_oral5.{$index}", null),
+                    'pre_final_oral_6' => $request->input("pre_final_oral6.{$index}", null),
+                    'pre_final_project_1' => $request->input("pre_final_project1.{$index}", null),
+                    'pre_final_project_2' => $request->input("pre_final_project2.{$index}", null),
+                    'pre_final_project_3' => $request->input("pre_final_project3.{$index}", null),
+                    'pre_final_project_4' => $request->input("pre_final_project4.{$index}", null),
+                    'pre_final_midterm' => $request->input("pre_final_midterm.{$index}", null),
+                    'pre_final_final' => $request->input("pre_final_final.{$index}", null),
+                ];
 
-        // Calculate final percentages
+                $classRecord = \App\Models\ClassRecord::updateOrCreate(
+                    [
+                        'student_id' => $studentId,
+                        'class_id' => $request->class_id[0]
+                    ],
+                    $updateData
+                );
+
+                $classRecordItem = \App\Models\ClassRecordItem::where('class_id', $request->class_id)->first();
+                
+                if (!$classRecordItem) {
+                    \DB::rollback();
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Class record items not found.'
+                    ], 404);
+                }
+
+                // Calculate regular term percentages
+                $quizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'quiz', 6, 0.3);
+                $oralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'oral', 6, 0.2);
+                $projectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'project', 4, 0.1);
+                $examPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['midterm', 'final'], 0.4);
+
+                // Calculate pre-final percentages
+                $preFinalQuizPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_quiz', 6, 0.3);
+                $preFinalOralPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_oral', 6, 0.2);
+                $preFinalProjectPercentage = $this->calculateComponentPercentage($classRecord, $classRecordItem, 'pre_final_project', 4, 0.1);
+                $preFinalExamPercentage = $this->calculateExamPercentage($classRecord, $classRecordItem, $updateData, ['pre_final_midterm', 'pre_final_final'], 0.4);
+
+                // Calculate final percentages
+                $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage);
+                $preFinalFinalPercentage = ($preFinalQuizPercentage + $preFinalOralPercentage + $preFinalProjectPercentage + $preFinalExamPercentage);
+                
+                $finalGradePercentage = ($preFinalFinalPercentage + $finalPercentage) / 2;
+                
+                $classRecord->update([
+                    'final_grade' => $finalGradePercentage,
+                    'midterm_grade' => $finalPercentage,
+                    'prefinal_grade' => $preFinalFinalPercentage
+                ]);
+            }
+
+            \DB::commit();
+                    // Calculate final percentages
         $finalPercentage = ($quizPercentage + $oralPercentage + $projectPercentage + $examPercentage);
         $preFinalFinalPercentage = ($preFinalQuizPercentage + $preFinalOralPercentage + $preFinalProjectPercentage + $preFinalExamPercentage);
         
@@ -202,8 +306,18 @@ class ClassRecordController extends Controller
         $classRecord->update(['final_grade' => $finalGradePercentage, 'midterm_grade' => $finalPercentage, 'prefinal_grade' => $preFinalFinalPercentage]);
 
         return redirect()
-            ->route('instructor.classes.students', ['id' => $request->class_id])
+            ->route('instructor.classes.students', ['id' => $request->class_id[0]])
             ->with('success', 'Grades saved successfully.');
+
+
+        } catch (\Exception $e) {
+            \DB::rollback();
+            \Log::error('Error saving grades: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while saving grades. Please try again.'
+            ], 500);
+        }
     }
 
     public function generatePDF($classId)
@@ -285,4 +399,3 @@ class ClassRecordController extends Controller
 }
 
 }
-
