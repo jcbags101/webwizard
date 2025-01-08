@@ -22,8 +22,8 @@
                 @foreach ($activityLogs as $log)
                     <tr>
                         <td>{{ $log->id }}</td>
-                        <td>{{ $log->submittedRequirement->requirement->name }}</td>
-                        <td>{{ $log->submittedRequirement->instructor->full_name }}</td>
+                        <td>{{ $log->submittedRequirement->requirement->name ?? 'Requirement deleted' }}</td>
+                        <td>{{ $log->submittedRequirement->instructor->full_name ?? 'Requirement deleted' }}</td>
                         <td>{{ $log->action }}</td>
                         <td>{{ $log->changes ?? 'No changes' }}</td>
                         <td>{{ $log->created_at->format('M d, Y h:ia') }}</td>

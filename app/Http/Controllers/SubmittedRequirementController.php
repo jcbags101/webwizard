@@ -103,9 +103,23 @@ class SubmittedRequirementController extends Controller
     public function destroy($id)
     {
         $submittedRequirement = SubmittedRequirement::findOrFail($id);
+
+        // Log the deletion action before the requirement is deleted
+        \App\Models\ActivityLog::create([
+            'action' => 'deleted',
+            'submitted_requirement_id' => $id,
+            'changes' => json_encode($submittedRequirement->toArray()),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Delete the submitted requirement
         $submittedRequirement->delete();
- 
-        return redirect()->route('instructor.requirements.index')->with('success', 'Submitted Requirement deleted successfully.');
+
+        // Delete all activity logs related to the submitted requirement
+        // \App\Models\ActivityLog::where('submitted_requirement_id', $id)->delete();
+
+        return redirect()->route('instructor.requirements.index')->with('success', 'Submitted Requirement and related logs deleted successfully.');
     }
 
     public function requestEdit($id)
